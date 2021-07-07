@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -51,7 +53,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget>
 
   AnimationController _animationFadedFadedController;
   Animation<double> _animationFaded;
-
+  int rdTime = new Random().nextInt(1000 - 700);
   @override
   void initState() {
     signinMineLoopForm = SigninMineLoopForm();
@@ -69,6 +71,13 @@ class _LoginFormWidgetState extends State<LoginFormWidget>
     super.initState();
   }
 
+  Future<bool> fetchLoginForm() => Future.delayed(
+        Duration(milliseconds: rdTime),
+        () {
+          LoginFormWidget();
+          return true;
+        },
+      );
   @override
   void dispose() {
     _animationFadedFadedController.dispose();
@@ -109,9 +118,18 @@ class _LoginFormWidgetState extends State<LoginFormWidget>
             ),
           )
         : _loginFormWidgetProvider.loginMethods == LoginMethods.MineLoop
-            ? FadeTransition(
-                opacity: _animationFaded,
-                child: SigninMineLoopForm(),
+            ? FutureBuilder(
+                future: fetchLoginForm(),
+                builder: (context, snapshot) {
+                  return !snapshot.hasData
+                      ? Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : FadeTransition(
+                          opacity: _animationFaded,
+                          child: SigninMineLoopForm(),
+                        );
+                },
               )
             : SigninGoogleForm();
   }
@@ -142,9 +160,16 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
     _obscureText = true;
     _isUsernameControllerEmpty = true;
     _isPasswordControllerEmpty = true;
-    _usernameFocusNode.addListener(() {});
-    _passwordFocusNode.addListener(() {});
+    _usernameFocusNode.addListener(() {
+      setState(() {});
+    });
+    _passwordFocusNode.addListener(() {
+      setState(() {});
+    });
     _rememberMeCheckBox = false;
+    _loginFormWidgetProvider =
+        Provider.of<LoginFormWidgetProvider>(context, listen: false);
+
     super.initState();
   }
 
@@ -177,8 +202,6 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
   @override
   Widget build(BuildContext context) {
     final _deviceSize = MediaQuery.of(context).size;
-    _loginFormWidgetProvider =
-        Provider.of<LoginFormWidgetProvider>(context, listen: false);
     return Container(
       height: _deviceSize.height * 0.6,
       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
@@ -201,7 +224,8 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
                 shadowColor: Colors.black45,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Color.fromRGBO(230, 248, 255, 1),
+                    color: const Color.fromRGBO(230, 248, 255, 1),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                   child: ListTile(
                     leading: CircleAvatar(
@@ -288,7 +312,8 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
                 shadowColor: Colors.black45,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Color.fromRGBO(230, 248, 255, 1),
+                    color: const Color.fromRGBO(230, 248, 255, 1),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                   child: ListTile(
                     leading: CircleAvatar(
@@ -397,6 +422,7 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
                 ],
               ),
             ),
+            ////// Sign in Button ////////
             Container(
               alignment: Alignment.center,
               child: AuthButton(

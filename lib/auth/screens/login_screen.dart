@@ -137,14 +137,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Consumer<LoginFormWidgetProvider>(
                         builder: (ctx, _loginFormWidgetProvider, _) =>
                             AnimatedContainer(
-                                duration: _loginFormWidgetProvider
-                                    .containerExpandAnimationDuration,
-                                height: _loginFormWidgetProvider
-                                        .isTapExpandedContainerForm
-                                    ? 300
-                                    : 100,
-                                curve: Curves.decelerate,
-                                child: LoginFormWidget()),
+                          duration: _loginFormWidgetProvider
+                              .containerExpandAnimationDuration,
+                          height: _loginFormWidgetProvider
+                                  .isTapExpandedContainerForm
+                              ? 300
+                              : 100,
+                          curve: Curves.decelerate,
+                          child: LoginFormWidget(),
+                        ),
                       )),
                   Flexible(
                     flex: flexibleNumber[LoginScreenFlexible.createAccount] +
