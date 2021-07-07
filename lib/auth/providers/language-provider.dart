@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class Language with ChangeNotifier {
+class LanguageProvider with ChangeNotifier {
   List<Map<String, String>> _dropdownListInfo = [
     {
       'countryCode': 'VN',

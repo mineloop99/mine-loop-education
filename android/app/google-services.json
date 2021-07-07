@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "880906674635",
+    "project_id": "mineloopeducation",
+    "storage_bucket": "mineloopeducation.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:880906674635:android:9ede270467085af621564e",
+        "android_client_info": {
+          "package_name": "com.example.mine_loop_education"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "880906674635-ofl8kbuarqfq4sepv7s087k26ghqi3um.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAInXCDBjEMSENLzBgHXh9H682PAbv46sI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "880906674635-ofl8kbuarqfq4sepv7s087k26ghqi3um.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

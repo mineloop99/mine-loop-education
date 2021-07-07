@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'auth_button.dart';
+import './auth_button.dart';
+import '../../models/routes.dart';
+import '../screens/create-account-screen.dart';
+import '../animation/page-route-transiction.dart';
 
 class CreateFromWidget extends StatelessWidget {
   const CreateFromWidget({Key key}) : super(key: key);
@@ -18,7 +21,9 @@ class CreateFromWidget extends StatelessWidget {
                 fontStyle: FontStyle.italic,
               ),
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(createRoute(CreateAccountScreen()));
+            },
           ),
           Text('Or'),
           AuthButton(
