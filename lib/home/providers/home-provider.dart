@@ -1,19 +1,13 @@
 import 'package:flutter/cupertino.dart';
 
 class HomeProvider with ChangeNotifier {
-  bool _pinned = true;
-  bool _snap = false;
-  bool _floating = true;
+  int _currentIndexPage = 0;
 
-  get pinned {
-    return _pinned;
+  int get currentIndexPage {
+    return _currentIndexPage;
   }
 
-  get snap {
-    return _snap;
-  }
-
-  get floating {
-    return _floating;
+  void setCurrentIndexPage(int index) {
+    _currentIndexPage = index;
   }
 }

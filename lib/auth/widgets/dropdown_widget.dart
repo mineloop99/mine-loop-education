@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/language.dart';
+import '../providers/language-provider.dart';
 
 class DropDownWidget extends StatefulWidget {
   const DropDownWidget({Key key}) : super(key: key);
@@ -14,7 +14,7 @@ class _DropDownWidgetState extends State<DropDownWidget> {
   String _languageSelected;
   @override
   Widget build(BuildContext context) {
-    return Consumer<Language>(
+    return Consumer<LanguageProvider>(
       builder: (context, language, child) => DropdownButton(
         hint: Row(children: [
           Icon(

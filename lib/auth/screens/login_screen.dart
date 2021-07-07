@@ -16,6 +16,7 @@ enum LoginScreenFlexible {
 }
 
 class LoginScreen extends StatefulWidget {
+  static const routeName = '/login';
   const LoginScreen({Key key}) : super(key: key);
 
   @override
@@ -24,7 +25,6 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   var flexibleNumber = Map<LoginScreenFlexible, int>();
-
   void _launchUrl() async => await launch('https://flutter.dev');
 
   @override
@@ -47,17 +47,17 @@ class _LoginScreenState extends State<LoginScreen> {
         children: [
           Container(
             decoration: BoxDecoration(
-              // gradient: LinearGradient(
-              //   begin: Alignment.topRight,
-              //   end: Alignment.bottomLeft,
-              //   stops: [0.0, 0.2, 0.9],
-              //   colors: [
-              //     const Color(0xFFc2e9fb),
-              //     const Color(0xFFa3bded),
-              //     const Color(0xFFc2e9fb),
-              //   ],
-              //),
-              color: Color.fromRGBO(240, 248, 255, 1),
+              gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                stops: [0.0, 0.2, 0.9],
+                colors: [
+                  const Color(0xFFc2e9fb),
+                  const Color(0xFFa3bded),
+                  const Color(0xFFc2e9fb),
+                ],
+              ),
+              //color: Color.fromRGBO(240, 248, 255, 1),
             ),
             child: Align(
               alignment: Alignment.topRight,
