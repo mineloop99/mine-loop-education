@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mine_loop_education/home/screens/menu-screen.dart';
+import 'package:mine_loop_education/home/screens/my-account-screen.dart';
 
-import './auth/screens/login_screen.dart';
-import './models/routes.dart';
+import 'auth/screens/login-screen.dart';
+import 'models/routes.dart';
 
 class AndroidPlatformTarget extends StatelessWidget {
   const AndroidPlatformTarget({Key key}) : super(key: key);
@@ -33,14 +35,43 @@ class AndroidPlatformTarget extends StatelessWidget {
         - Disabled text uses an opacity of 38%. 
         */
         primaryColorDark: Color.fromRGBO(18, 18, 18, 1),
+        appBarTheme: AppBarTheme.of(context).copyWith(
+          color: Colors.white,
+        ),
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
             backgroundColor: Colors.blue,
             unselectedItemColor: Colors.blue[200],
             selectedItemColor: Colors.white),
         errorColor: Colors.red,
+        bannerTheme: MaterialBannerTheme.of(context).copyWith(
+          backgroundColor: Colors.white,
+        ),
+
+        ///Format Text
+        textTheme: TextTheme(
+          headline6: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w500,
+            fontSize: 18,
+          ),
+          headline5: TextStyle(
+            color: Colors.blue,
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+
+          ///For light mode
+          subtitle1: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.normal,
+          ),
+          subtitle2: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.normal,
+          ),
+        ),
       ),
-      home: LoginScreen() //LoginScreen(),
-      ,
+      home: MyAccountScreen(),
       routes: Routes.routes,
     );
   }

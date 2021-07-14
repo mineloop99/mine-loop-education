@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
 class MeetingPage extends StatefulWidget {
-  static const routeName = './search';
-  const MeetingPage({Key key}) : super(key: key);
 
   @override
   _MeetingPageState createState() => _MeetingPageState();

@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../auth/widgets/auth_button.dart';
+import 'auth-button.dart';
 
 class CreateAccountForm extends StatefulWidget {
   const CreateAccountForm({Key key}) : super(key: key);
@@ -24,6 +24,8 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
 
   bool _agreeTermsUses = false;
 
+  bool _canSignUp = false;
+
   @override
   void initState() {
     _usernameController.text = '';
@@ -32,6 +34,7 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
     _isUsernameControllerEmpty = true;
     _isPasswordControllerEmpty = true;
     _usernameFocusNode.addListener(() {
+      print('f');
       setState(() {});
     });
     _passwordFocusNode.addListener(() {
@@ -41,17 +44,31 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
   }
 
   void _trySubmit() {
-    final isValid = _formKey.currentState.validate();
     FocusScope.of(context).unfocus();
+    final isValid = _formKey.currentState.validate();
+    setState(() {});
     if (isValid) {
       _formKey.currentState.save();
     }
   }
 
+  void _createAccountButtonHighlight() {
+    if (!_isUsernameControllerEmpty &&
+        !_isPasswordControllerEmpty &&
+        _agreeTermsUses)
+      setState(() {
+        _canSignUp = true;
+      });
+    else
+      setState(() {
+        _canSignUp = false;
+      });
+  }
+
   @override
   void didChangeDependencies() {
-    _isUsernameControllerEmpty = true;
-    _isPasswordControllerEmpty = true;
+    if (_passwordController.text.isEmpty) _isUsernameControllerEmpty = true;
+    if (_usernameController.text.isEmpty) _isPasswordControllerEmpty = true;
     super.didChangeDependencies();
   }
 
@@ -144,10 +161,8 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
                                           ? null
                                           : () {
                                               _usernameController.clear();
-                                              setState(() {
-                                                _isUsernameControllerEmpty =
-                                                    true;
-                                              });
+                                              _isUsernameControllerEmpty = true;
+                                              _createAccountButtonHighlight();
                                             },
                                       disabledColor: Colors.black54,
                                     )
@@ -162,6 +177,7 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
                                 setState(() {
                                   _isUsernameControllerEmpty = false;
                                 });
+                              _createAccountButtonHighlight();
                             },
                             onFieldSubmitted: (_) {
                               FocusScope.of(context)
@@ -223,9 +239,8 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
                                       icon: Icon(Icons.clear),
                                       onPressed: () {
                                         _passwordController.clear();
-                                        setState(() {
-                                          _isPasswordControllerEmpty = true;
-                                        });
+                                        _isPasswordControllerEmpty = true;
+                                        _createAccountButtonHighlight();
                                       },
                                       color: _isPasswordControllerEmpty
                                           ? Colors.black54
@@ -242,9 +257,8 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
                                 setState(() {
                                   _isPasswordControllerEmpty = false;
                                 });
-                            },
-                            onSaved: (value) {
-                              print(_usernameController.text);
+
+                              _createAccountButtonHighlight();
                             },
                             // onFieldSubmitted: (_) {
                             //   if (_usernameController.text == '' ||
@@ -310,9 +324,8 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
                           Checkbox(
                             value: _agreeTermsUses,
                             onChanged: (value) {
-                              setState(() {
-                                _agreeTermsUses = value;
-                              });
+                              _agreeTermsUses = value;
+                              _createAccountButtonHighlight();
                             },
                           ),
                           Text('I Agree!')
@@ -325,7 +338,7 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
                   alignment: Alignment.center,
                   child: AuthButton(
                     path: null,
-                    onPressed: _trySubmit,
+                    onPressed: _canSignUp ? _trySubmit : null,
                     textButton: 'Create Account',
                     isNotElevatedButtonIcon: true,
                   ),

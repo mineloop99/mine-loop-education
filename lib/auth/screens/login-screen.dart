@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../widgets/login_form_widget.dart';
-import '../../auth/widgets/dropdown_widget.dart';
-import '../widgets/create_form_widget.dart';
+import '../widgets/login-form-widget.dart';
+import '../widgets/dropdown-widget.dart';
+import '../widgets/create-form_widget.dart';
+import '../../models/routes.dart';
 
 enum LoginScreenFlexible {
   notch,
@@ -88,8 +89,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         ////Notch/////
                         Expanded(
-                            flex: flexibleNumber[LoginScreenFlexible.notch],
-                            child: Container()),
+                          flex: flexibleNumber[LoginScreenFlexible.notch],
+                          child: IconButton(
+                            icon: Icon(Icons.dangerous),
+                            color: Colors.red,
+                            onPressed: () {
+                              Navigator.of(context).pushReplacementNamed(
+                                  Routes.routeName[RouteNamesEnum.Home]);
+                            },
+                          ),
+                        ),
                         /////Logo/////
                         Flexible(
                           flex: flexibleNumber[LoginScreenFlexible.logo],

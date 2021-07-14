@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import './auth_button.dart';
+import 'auth-button.dart';
 
 enum LoginMethods {
   MineLoop,
@@ -153,6 +153,8 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
 
   bool _rememberMeCheckBox;
 
+  bool _canSignUp = false;
+
   @override
   void initState() {
     _usernameController.text = '';
@@ -160,13 +162,13 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
     _obscureText = true;
     _isUsernameControllerEmpty = true;
     _isPasswordControllerEmpty = true;
+    _rememberMeCheckBox = false;
     _usernameFocusNode.addListener(() {
       setState(() {});
     });
     _passwordFocusNode.addListener(() {
       setState(() {});
     });
-    _rememberMeCheckBox = false;
     _loginFormWidgetProvider =
         Provider.of<LoginFormWidgetProvider>(context, listen: false);
 
@@ -175,16 +177,30 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
 
   void _trySubmit() {
     final isValid = _formKey.currentState.validate();
-    FocusScope.of(context).unfocus();
+    setState(() {
+      FocusScope.of(context).unfocus();
+    });
     if (isValid) {
       _formKey.currentState.save();
     }
   }
 
+  void _createAccountButtonHighlight() {
+    if (!_isUsernameControllerEmpty && !_isPasswordControllerEmpty)
+      setState(() {
+        _canSignUp = true;
+      });
+    else
+      setState(() {
+        _canSignUp = false;
+      });
+  }
+
   @override
   void didChangeDependencies() {
-    _isUsernameControllerEmpty = true;
-    _isPasswordControllerEmpty = true;
+    if (_passwordController.text.isEmpty) _isUsernameControllerEmpty = true;
+    if (_usernameController.text.isEmpty) _isPasswordControllerEmpty = true;
+
     super.didChangeDependencies();
   }
 
@@ -264,9 +280,8 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
                                       ? null
                                       : () {
                                           _usernameController.clear();
-                                          setState(() {
-                                            _isUsernameControllerEmpty = true;
-                                          });
+                                          _isUsernameControllerEmpty = true;
+                                          _createAccountButtonHighlight();
                                         },
                                   disabledColor: Colors.black54,
                                 )
@@ -281,6 +296,7 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
                             setState(() {
                               _isUsernameControllerEmpty = false;
                             });
+                          _createAccountButtonHighlight();
                         },
                         onFieldSubmitted: (_) {
                           FocusScope.of(context)
@@ -350,9 +366,8 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
                                   icon: Icon(Icons.clear),
                                   onPressed: () {
                                     _passwordController.clear();
-                                    setState(() {
-                                      _isPasswordControllerEmpty = true;
-                                    });
+                                    _isPasswordControllerEmpty = true;
+                                    _createAccountButtonHighlight();
                                   },
                                   color: _isPasswordControllerEmpty
                                       ? Colors.black54
@@ -369,9 +384,7 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
                             setState(() {
                               _isPasswordControllerEmpty = false;
                             });
-                        },
-                        onSaved: (value) {
-                          print(_usernameController.text);
+                          _createAccountButtonHighlight();
                         },
                         // onFieldSubmitted: (_) {
                         //   if (_usernameController.text == '' ||
@@ -427,7 +440,7 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
               alignment: Alignment.center,
               child: AuthButton(
                 path: null,
-                onPressed: _trySubmit,
+                onPressed: _canSignUp ? _trySubmit : null,
                 textButton: 'Sign In',
                 isNotElevatedButtonIcon: true,
               ),

@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -6,10 +5,9 @@ import 'package:provider/provider.dart';
 import '../widgets/pages/class-page.dart' show ClassPage;
 import '../widgets/pages/meeting-page.dart';
 import '../widgets/pages/events-page.dart';
-import '../widgets/pages/home-page.dart';
-import '../../home/providers/home-provider.dart';
+import '../widgets/pages/home-page/home-page-body.dart';
+import '../providers/home-provider.dart';
 
-StreamController<int> streamController = StreamController<int>();
 
 class HomeScreen extends StatefulWidget {
   static const routeName = './';
@@ -19,112 +17,103 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  HomeProvider _homeProvider;
 
-  Stream<int> stream = streamController.stream;
   PageController pageController;
-
+ 
   @override
   void initState() {
     pageController = PageController(
       initialPage: 0,
       keepPage: true,
     );
-    super.initState();
-    _homeProvider = Provider.of<HomeProvider>(context, listen: false);
-    try {
-      stream.listen((index) {
-        bottomTapped(index);
-      });
-    } catch (error) {}
-  }
+    super.initState(); 
+ }
 
-  void pageChanged(int index) {
-    _homeProvider.setCurrentIndexPage(index);
-    setState(() {});
-  }
 
-  Widget buildPageView() {
+  Widget buildPageView(HomeProvider _homeProvider) {
     return PageView(
-      controller: pageController,
-      onPageChanged: (index) {
-        pageChanged(index);
-      },
-      children: [
-        HomePage(),
-        MeetingPage(),
-        ClassPage(),
-        EventsPage(),
-      ],
-    );
+          controller: pageController,
+          onPageChanged: (index) {
+            _homeProvider.setCurrentIndexPage(index);
+            setState(() {
+              
+            });
+                      },
+          children: [
+            HomePage(),
+            MeetingPage(),
+            ClassPage(),
+            EventsPage(),
+          ],
+      );
   }
 
-  void bottomTapped(int index) {
-    setState(() {
-      _homeProvider.setCurrentIndexPage(index);
-      pageController.animateToPage(index,
-          duration: Duration(milliseconds: 500), curve: Curves.ease);
-    });
-  }
+  // void bottomTapped(int index) {
+  //     _homeProvider.setCurrentIndexPage(index);
+      
+        //   pageController.animateToPage(index,
+        //     duration: Duration(milliseconds: 500), curve: Curves.ease);
+        // }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     pageController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: buildPageView(),
-      bottomNavigationBar: MybottomNavigationBar(),
-    );
+    return Consumer<HomeProvider>(
+      builder: (ctx, _homeProvider, _) => Scaffold(
+        body: buildPageView(_homeProvider),
+        bottomNavigationBar: MybottomNavigationBar(pageController),
+    ),);
   }
 }
 
 class MybottomNavigationBar extends StatefulWidget {
-  const MybottomNavigationBar({Key key}) : super(key: key);
+  final PageController pageController;
+  
+  const MybottomNavigationBar (this.pageController);
 
   @override
   _MybottomNavigationBarState createState() => _MybottomNavigationBarState();
 }
 
-class _MybottomNavigationBarState extends State<MybottomNavigationBar> {
-  HomeProvider _homeProvider;
-  @override
-  void initState() {
-    super.initState();
-    _homeProvider = Provider.of<HomeProvider>(context, listen: false);
-  }
 
+class _MybottomNavigationBarState extends State<MybottomNavigationBar> {
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      selectedItemColor: Colors.blue,
-      backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-      currentIndex: _homeProvider.currentIndexPage,
-      onTap: (index) {
-        streamController.add(index);
-      },
-      items: [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: 'Home',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.video_call),
-          label: 'Meeting',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.group),
-          label: 'Class',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.event_available),
-          label: 'Events',
-        ),
-      ],
+    return Consumer<HomeProvider>(
+      builder: (ctx, _homeProvider, _) => BottomNavigationBar(
+        
+          selectedItemColor: Colors.blue,
+          backgroundColor: Theme.of(ctx).appBarTheme.backgroundColor,
+          currentIndex: _homeProvider.currentIndexPage,
+          onTap: (index) {
+            _homeProvider.setCurrentIndexPage(index);
+            widget.pageController.animateToPage(index,
+            duration: Duration(milliseconds: 500), curve: Curves.ease);
+           },
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.video_call),
+              label: 'Meeting',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.group),
+              label: 'Class',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.event_available),
+              label: 'Events',
+            ),
+          ],
+      ),
     );
   }
 }

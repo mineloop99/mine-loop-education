@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../auth/screens/login_screen.dart';
+import 'login-screen.dart';
 import '../animation/page-route-transiction.dart';
 import '../widgets/create-account-form.dart';
 

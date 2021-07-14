@@ -1,9 +1,7 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 
-import '../../screens/home-screen.dart';
-import '../../../models/routes.dart';
-import '../pages/class-page.dart';
+import '../../../../models/routes.dart';
 
 class PageViewBuilder extends StatefulWidget {
   final Widget widget;
@@ -14,11 +12,15 @@ class PageViewBuilder extends StatefulWidget {
 
 const double _maxExtent = 200;
 const double _minExtent = 50;
-const double paddingInsets = 0.30;
-const double marginInsetsRight = 0.40;
+const double paddingInsets = 0.32;
+const double marginInsetsRight = 0.38;
 const double iconResizeSpeed = 0.03;
 const double fontSizeResizeSpeed = 0.05;
 double marginEdge;
+double numberTempToCheckDropdownOrNot = 0;
+bool isDropdown;
+
+//AppBar Icon Builder
 InkWell _inkWellBuilder(
   int index,
   double shrinkOffset,
@@ -69,7 +71,7 @@ class _PageViewBuilderState extends State<PageViewBuilder> {
   Widget build(BuildContext context) {
     return SafeArea(
       top: false,
-      minimum: EdgeInsets.only(top: 50),
+      minimum: EdgeInsets.only(top: _minExtent),
       child: CustomScrollView(
         slivers: [
           ///// Image and 4 Buttons /////
@@ -99,6 +101,7 @@ class _PageViewBuilderState extends State<PageViewBuilder> {
   }
 }
 
+/// 4 Center-Icons Builder
 class BuildDelegate extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
@@ -118,21 +121,21 @@ class BuildDelegate extends SliverPersistentHeaderDelegate {
       _inkWellBuilder(
           1,
           shrinkOffset,
-          Icons.menu_book,
-          'Menu',
+          Icons.backup_table,
+          'Forum',
           iconColorOpacity,
           textColorOpacity,
           context,
-          Routes.routeName[RouteNamesEnum.Menu]),
+          Routes.routeName[RouteNamesEnum.Search]),
       _inkWellBuilder(
           2,
           shrinkOffset,
-          Icons.chat_bubble,
-          'Chat',
+          Icons.category_outlined,
+          'My Course',
           iconColorOpacity,
           textColorOpacity,
           context,
-          Routes.routeName[RouteNamesEnum.ChatScreen]),
+          Routes.routeName[RouteNamesEnum.MyCourse]),
       _inkWellBuilder(
           3,
           shrinkOffset,
@@ -141,16 +144,16 @@ class BuildDelegate extends SliverPersistentHeaderDelegate {
           iconColorOpacity,
           textColorOpacity,
           context,
-          Routes.routeName[RouteNamesEnum.MyAccountScreen]),
+          Routes.routeName[RouteNamesEnum.MyAccount]),
       _inkWellBuilder(
           4,
           shrinkOffset,
-          Icons.settings,
-          'Settings',
+          Icons.menu_book,
+          'Menu',
           iconColorOpacity,
           textColorOpacity,
           context,
-          Routes.routeName[RouteNamesEnum.SearchScreen]),
+          Routes.routeName[RouteNamesEnum.Menu]),
     ];
     return Stack(
       fit: StackFit.expand,
@@ -159,10 +162,7 @@ class BuildDelegate extends SliverPersistentHeaderDelegate {
             ? SizedBox()
             : Opacity(
                 opacity: colorOpacity,
-                child: Image.network(
-                  'https://i.pinimg.com/564x/d3/4c/ef/d34cefdd877969788453a9c98f4b4bd5.jpg',
-                  fit: BoxFit.cover,
-                ),
+                child: BackGroundImageBuilder(),
               ),
         Container(
           //alignment: Alignment.topCenter,
@@ -200,12 +200,25 @@ class BuildDelegate extends SliverPersistentHeaderDelegate {
   }
 }
 
+//// 1 Left 2 Right Icons: 1-Self, 2-Chat, 3-Search
 class BuildDelegate2 extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    var colorOpacity = 1 - shrinkOffset / maxExtent;
-    return shrinkOffset <= minExtent - 45
+
+    
+    if (numberTempToCheckDropdownOrNot > shrinkOffset && !overlapsContent)
+    {
+      isDropdown = true;
+    }
+    else 
+    {
+      isDropdown = false;
+    }
+    double colorOpacity = 1 - shrinkOffset / maxExtent;
+    return 
+    shrinkOffset <= minExtent - 45
+    ///Search Icon DropDown
         ? Stack(
             children: [
               Positioned(
@@ -213,7 +226,7 @@ class BuildDelegate2 extends SliverPersistentHeaderDelegate {
                 bottom: 8,
                 height: minExtent,
                 child: Opacity(
-                  opacity: shrinkOffset == 0 ? 1 : 1 - colorOpacity,
+                  opacity: shrinkOffset == 0 && !overlapsContent? 1 : isDropdown ? 1 - colorOpacity : 0,
                   child: _inkWellBuilder(
                       0,
                       minExtent,
@@ -222,17 +235,19 @@ class BuildDelegate2 extends SliverPersistentHeaderDelegate {
                       Colors.blue,
                       Colors.black,
                       context,
-                      Routes.routeName[RouteNamesEnum.SearchScreen]),
+                      Routes.routeName[RouteNamesEnum.Search]),
                 ),
               ),
             ],
           )
-        : Opacity(
+        :
+          // 4 Appear Animation
+         Opacity(
             opacity: 1 - colorOpacity,
             child: Stack(
               children: [
                 Positioned(
-                  left: 12,
+                  left: 15,
                   top: 8,
                   child: _inkWellBuilder(
                       0,
@@ -242,10 +257,10 @@ class BuildDelegate2 extends SliverPersistentHeaderDelegate {
                       Colors.blue,
                       Colors.black,
                       context,
-                      Routes.routeName[RouteNamesEnum.MyAccountScreen]),
+                      Routes.routeName[RouteNamesEnum.MyAccount]),
                 ),
                 Positioned(
-                  right: 12,
+                  right: 15,
                   top: 8,
                   child: Row(
                     children: [
@@ -257,7 +272,7 @@ class BuildDelegate2 extends SliverPersistentHeaderDelegate {
                           Colors.blue,
                           Colors.black,
                           context,
-                          Routes.routeName[RouteNamesEnum.ChatScreen]),
+                          Routes.routeName[RouteNamesEnum.Chat]),
                       SizedBox(
                         width: 15,
                       ),
@@ -269,7 +284,7 @@ class BuildDelegate2 extends SliverPersistentHeaderDelegate {
                           Colors.blue,
                           Colors.black,
                           context,
-                          Routes.routeName[RouteNamesEnum.SearchScreen]),
+                          Routes.routeName[RouteNamesEnum.Search]),
                     ],
                   ),
                 )
@@ -287,5 +302,20 @@ class BuildDelegate2 extends SliverPersistentHeaderDelegate {
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
     return true;
+  }
+}
+
+///Background Image asset
+class BackGroundImageBuilder extends StatelessWidget {
+  const BackGroundImageBuilder({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Image.network(
+      'https://i.pinimg.com/564x/d3/4c/ef/d34cefdd877969788453a9c98f4b4bd5.jpg',
+      fit: BoxFit.cover,
+    );
   }
 }
