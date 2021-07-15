@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../widgets/login_form_widget.dart';
-import '../../auth/widgets/dropdown_widget.dart';
-import '../widgets/create_form_widget.dart';
+import '../widgets/login-form-widget.dart';
+import '../widgets/dropdown-widget.dart';
+import '../widgets/create-form_widget.dart';
+import '../../models/routes.dart';
 
 enum LoginScreenFlexible {
   notch,
@@ -88,8 +89,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         ////Notch/////
                         Expanded(
-                            flex: flexibleNumber[LoginScreenFlexible.notch],
-                            child: Container()),
+                          flex: flexibleNumber[LoginScreenFlexible.notch],
+                          child: IconButton(
+                            icon: Icon(Icons.dangerous),
+                            color: Colors.red,
+                            onPressed: () {
+                              Navigator.of(context).pushReplacementNamed(
+                                  Routes.routeName[RouteNamesEnum.Home]);
+                            },
+                          ),
+                        ),
                         /////Logo/////
                         Flexible(
                           flex: flexibleNumber[LoginScreenFlexible.logo],
@@ -137,14 +146,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Consumer<LoginFormWidgetProvider>(
                         builder: (ctx, _loginFormWidgetProvider, _) =>
                             AnimatedContainer(
-                                duration: _loginFormWidgetProvider
-                                    .containerExpandAnimationDuration,
-                                height: _loginFormWidgetProvider
-                                        .isTapExpandedContainerForm
-                                    ? 300
-                                    : 100,
-                                curve: Curves.decelerate,
-                                child: LoginFormWidget()),
+                          duration: _loginFormWidgetProvider
+                              .containerExpandAnimationDuration,
+                          height: _loginFormWidgetProvider
+                                  .isTapExpandedContainerForm
+                              ? 300
+                              : 100,
+                          curve: Curves.decelerate,
+                          child: LoginFormWidget(),
+                        ),
                       )),
                   Flexible(
                     flex: flexibleNumber[LoginScreenFlexible.createAccount] +
@@ -152,7 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 3,
                         ),
                         Text('Don\'t have an account yet?'),
@@ -170,7 +180,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: new Text('Terms and Conditions'),
                     onTap: _launchUrl,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   )
                 ],

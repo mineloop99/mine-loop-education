@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'android_platform_target.dart';
+import 'android-platform-target.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart' as foundation;
 import 'auth/providers/language-provider.dart';
-import './auth/widgets/login_form_widget.dart';
+import 'auth/widgets/login-form-widget.dart';
 import './home/providers/home-provider.dart';
 
 void main() => runApp(App());

@@ -1,7 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import './auth_button.dart';
+import 'auth-button.dart';
 
 enum LoginMethods {
   MineLoop,
@@ -51,7 +53,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget>
 
   AnimationController _animationFadedFadedController;
   Animation<double> _animationFaded;
-
+  int rdTime = new Random().nextInt(1000 - 700);
   @override
   void initState() {
     signinMineLoopForm = SigninMineLoopForm();
@@ -69,6 +71,13 @@ class _LoginFormWidgetState extends State<LoginFormWidget>
     super.initState();
   }
 
+  Future<bool> fetchLoginForm() => Future.delayed(
+        Duration(milliseconds: rdTime),
+        () {
+          LoginFormWidget();
+          return true;
+        },
+      );
   @override
   void dispose() {
     _animationFadedFadedController.dispose();
@@ -109,9 +118,18 @@ class _LoginFormWidgetState extends State<LoginFormWidget>
             ),
           )
         : _loginFormWidgetProvider.loginMethods == LoginMethods.MineLoop
-            ? FadeTransition(
-                opacity: _animationFaded,
-                child: SigninMineLoopForm(),
+            ? FutureBuilder(
+                future: fetchLoginForm(),
+                builder: (context, snapshot) {
+                  return !snapshot.hasData
+                      ? Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : FadeTransition(
+                          opacity: _animationFaded,
+                          child: SigninMineLoopForm(),
+                        );
+                },
               )
             : SigninGoogleForm();
   }
@@ -135,6 +153,8 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
 
   bool _rememberMeCheckBox;
 
+  bool _canSignUp = false;
+
   @override
   void initState() {
     _usernameController.text = '';
@@ -142,24 +162,45 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
     _obscureText = true;
     _isUsernameControllerEmpty = true;
     _isPasswordControllerEmpty = true;
-    _usernameFocusNode.addListener(() {});
-    _passwordFocusNode.addListener(() {});
     _rememberMeCheckBox = false;
+    _usernameFocusNode.addListener(() {
+      setState(() {});
+    });
+    _passwordFocusNode.addListener(() {
+      setState(() {});
+    });
+    _loginFormWidgetProvider =
+        Provider.of<LoginFormWidgetProvider>(context, listen: false);
+
     super.initState();
   }
 
   void _trySubmit() {
     final isValid = _formKey.currentState.validate();
-    FocusScope.of(context).unfocus();
+    setState(() {
+      FocusScope.of(context).unfocus();
+    });
     if (isValid) {
       _formKey.currentState.save();
     }
   }
 
+  void _createAccountButtonHighlight() {
+    if (!_isUsernameControllerEmpty && !_isPasswordControllerEmpty)
+      setState(() {
+        _canSignUp = true;
+      });
+    else
+      setState(() {
+        _canSignUp = false;
+      });
+  }
+
   @override
   void didChangeDependencies() {
-    _isUsernameControllerEmpty = true;
-    _isPasswordControllerEmpty = true;
+    if (_passwordController.text.isEmpty) _isUsernameControllerEmpty = true;
+    if (_usernameController.text.isEmpty) _isPasswordControllerEmpty = true;
+
     super.didChangeDependencies();
   }
 
@@ -177,8 +218,6 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
   @override
   Widget build(BuildContext context) {
     final _deviceSize = MediaQuery.of(context).size;
-    _loginFormWidgetProvider =
-        Provider.of<LoginFormWidgetProvider>(context, listen: false);
     return Container(
       height: _deviceSize.height * 0.6,
       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
@@ -201,7 +240,8 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
                 shadowColor: Colors.black45,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Color.fromRGBO(230, 248, 255, 1),
+                    color: const Color.fromRGBO(230, 248, 255, 1),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                   child: ListTile(
                     leading: CircleAvatar(
@@ -240,13 +280,12 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
                                       ? null
                                       : () {
                                           _usernameController.clear();
-                                          setState(() {
-                                            _isUsernameControllerEmpty = true;
-                                          });
+                                          _isUsernameControllerEmpty = true;
+                                          _createAccountButtonHighlight();
                                         },
                                   disabledColor: Colors.black54,
                                 )
-                              : SizedBox(),
+                              : const SizedBox(),
                         ),
                         onChanged: (text) {
                           if (text == '' || text == null)
@@ -257,6 +296,7 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
                             setState(() {
                               _isUsernameControllerEmpty = false;
                             });
+                          _createAccountButtonHighlight();
                         },
                         onFieldSubmitted: (_) {
                           FocusScope.of(context)
@@ -288,7 +328,8 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
                 shadowColor: Colors.black45,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Color.fromRGBO(230, 248, 255, 1),
+                    color: const Color.fromRGBO(230, 248, 255, 1),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                   child: ListTile(
                     leading: CircleAvatar(
@@ -325,15 +366,14 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
                                   icon: Icon(Icons.clear),
                                   onPressed: () {
                                     _passwordController.clear();
-                                    setState(() {
-                                      _isPasswordControllerEmpty = true;
-                                    });
+                                    _isPasswordControllerEmpty = true;
+                                    _createAccountButtonHighlight();
                                   },
                                   color: _isPasswordControllerEmpty
                                       ? Colors.black54
                                       : Colors.blue,
                                 )
-                              : SizedBox(),
+                              : const SizedBox(),
                         ),
                         onChanged: (text) {
                           if (text == '' || text == null)
@@ -344,9 +384,7 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
                             setState(() {
                               _isPasswordControllerEmpty = false;
                             });
-                        },
-                        onSaved: (value) {
-                          print(_usernameController.text);
+                          _createAccountButtonHighlight();
                         },
                         // onFieldSubmitted: (_) {
                         //   if (_usernameController.text == '' ||
@@ -397,11 +435,12 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
                 ],
               ),
             ),
+            ////// Sign in Button ////////
             Container(
               alignment: Alignment.center,
               child: AuthButton(
                 path: null,
-                onPressed: _trySubmit,
+                onPressed: _canSignUp ? _trySubmit : null,
                 textButton: 'Sign In',
                 isNotElevatedButtonIcon: true,
               ),

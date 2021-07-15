@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
-import '../../auth/screens/login_screen.dart';
+
+import 'login-screen.dart';
 import '../animation/page-route-transiction.dart';
+import '../widgets/create-account-form.dart';
 
-import '../../models/routes.dart';
-
-class CreateAccountScreen extends StatelessWidget {
+class CreateAccountScreen extends StatefulWidget {
   static const routeName = '/create-account';
+
+  @override
+  _CreateAccountScreenState createState() => _CreateAccountScreenState();
+}
+
+class _CreateAccountScreenState extends State<CreateAccountScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,9 +26,7 @@ class CreateAccountScreen extends StatelessWidget {
           },
         ),
       ),
-      body: Center(
-        child: Text('There\'s no item yet'),
-      ),
+      body: CreateAccountForm(),
     );
   }
 }

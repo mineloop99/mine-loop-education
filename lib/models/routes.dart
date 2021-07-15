@@ -6,26 +6,29 @@ import '../home/screens/my-account-screen.dart';
 import '../home/screens/search-screen.dart';
 import '../home/screens/menu-screen.dart';
 import '../auth/screens/create-account-screen.dart';
-import '../auth/screens/login_screen.dart';
+import '../auth/screens/login-screen.dart';
+import '../home/screens/my-course-screen.dart';
 
 enum RouteNamesEnum {
-  HomeScreen,
-  ChatScreen,
-  MyAccountScreen,
-  SearchScreen,
+  Home,
+  Chat,
+  MyAccount,
+  Search,
   Menu,
   Login,
-  CreateAccount
+  CreateAccount,
+  MyCourse
 }
 
 class Routes {
   static Map<RouteNamesEnum, String> get routeName => {
         //// Routes From Home Folder ////
-        RouteNamesEnum.HomeScreen: HomeScreen.routeName,
-        RouteNamesEnum.ChatScreen: ChatScreen.routeName,
-        RouteNamesEnum.MyAccountScreen: MyAccountScreen.routeName,
-        RouteNamesEnum.SearchScreen: SearchScreen.routeName,
+        RouteNamesEnum.Home: HomeScreen.routeName,
+        RouteNamesEnum.Chat: ChatScreen.routeName,
+        RouteNamesEnum.MyAccount: MyAccountScreen.routeName,
+        RouteNamesEnum.Search: SearchScreen.routeName,
         RouteNamesEnum.Menu: MenuScreen.routeName,
+        RouteNamesEnum.MyCourse: MyCourseScreen.routeName,
         ///// Route From Auth Folder ////
         RouteNamesEnum.CreateAccount: CreateAccountScreen.routeName,
         RouteNamesEnum.Login: LoginScreen.routeName,
@@ -38,5 +41,6 @@ class Routes {
         MenuScreen.routeName: (context) => MenuScreen(),
         CreateAccountScreen.routeName: (context) => CreateAccountScreen(),
         LoginScreen.routeName: (context) => LoginScreen(),
+        MyCourseScreen.routeName: (context) => MyCourseScreen(),
       };
 }

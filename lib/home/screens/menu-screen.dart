@@ -14,7 +14,7 @@ class _MenuScreenState extends State<MenuScreen> {
         title: Text('Menu'),
       ),
       body: Center(
-        child: Text('There\'s no item yet'),
+        child: Text('This\'s my account screen'),
       ),
     );
   }
