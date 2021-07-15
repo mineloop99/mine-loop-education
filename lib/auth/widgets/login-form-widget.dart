@@ -285,7 +285,7 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
                                         },
                                   disabledColor: Colors.black54,
                                 )
-                              : SizedBox(),
+                              : const SizedBox(),
                         ),
                         onChanged: (text) {
                           if (text == '' || text == null)
@@ -373,7 +373,7 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
                                       ? Colors.black54
                                       : Colors.blue,
                                 )
-                              : SizedBox(),
+                              : const SizedBox(),
                         ),
                         onChanged: (text) {
                           if (text == '' || text == null)

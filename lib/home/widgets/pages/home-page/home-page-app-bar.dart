@@ -159,7 +159,7 @@ class BuildDelegate extends SliverPersistentHeaderDelegate {
       fit: StackFit.expand,
       children: [
         shrinkOffset == maxExtent
-            ? SizedBox()
+            ? const SizedBox()
             : Opacity(
                 opacity: colorOpacity,
                 child: BackGroundImageBuilder(),
@@ -183,7 +183,7 @@ class BuildDelegate extends SliverPersistentHeaderDelegate {
                   child: AbsorbPointer(),
                 ),
               )
-            : SizedBox(),
+            : const SizedBox(),
       ],
     );
   }
@@ -205,20 +205,15 @@ class BuildDelegate2 extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-
-    
-    if (numberTempToCheckDropdownOrNot > shrinkOffset && !overlapsContent)
-    {
+    if (numberTempToCheckDropdownOrNot > shrinkOffset && !overlapsContent) {
       isDropdown = true;
-    }
-    else 
-    {
+    } else {
       isDropdown = false;
     }
     double colorOpacity = 1 - shrinkOffset / maxExtent;
-    return 
-    shrinkOffset <= minExtent - 45
-    ///Search Icon DropDown
+    return shrinkOffset <= minExtent - 45
+
+        ///Search Icon DropDown
         ? Stack(
             children: [
               Positioned(
@@ -226,7 +221,11 @@ class BuildDelegate2 extends SliverPersistentHeaderDelegate {
                 bottom: 8,
                 height: minExtent,
                 child: Opacity(
-                  opacity: shrinkOffset == 0 && !overlapsContent? 1 : isDropdown ? 1 - colorOpacity : 0,
+                  opacity: shrinkOffset == 0 && !overlapsContent
+                      ? 1
+                      : isDropdown
+                          ? 1 - colorOpacity
+                          : 0,
                   child: _inkWellBuilder(
                       0,
                       minExtent,
@@ -241,8 +240,8 @@ class BuildDelegate2 extends SliverPersistentHeaderDelegate {
             ],
           )
         :
-          // 4 Appear Animation
-         Opacity(
+        // 4 Appear Animation
+        Opacity(
             opacity: 1 - colorOpacity,
             child: Stack(
               children: [
@@ -273,7 +272,7 @@ class BuildDelegate2 extends SliverPersistentHeaderDelegate {
                           Colors.black,
                           context,
                           Routes.routeName[RouteNamesEnum.Chat]),
-                      SizedBox(
+                      const SizedBox(
                         width: 15,
                       ),
                       _inkWellBuilder(

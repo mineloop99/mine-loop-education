@@ -6,7 +6,6 @@ import '../widgets/my-account-card-widgets/dark-screen-mode-button.dart';
 
 class MyAccountScreen extends StatelessWidget {
   static const routeName = './my-account';
-  const MyAccountScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +22,7 @@ class MyAccountScreen extends StatelessWidget {
           children: [
             AccountCardWidget(),
             DarkScreenModeButton(),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ///// General
             AccountGeneralSettingWidget(),
           ],

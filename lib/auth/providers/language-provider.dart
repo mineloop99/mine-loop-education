@@ -36,7 +36,7 @@ class LanguageProvider with ChangeNotifier {
             width: 20,
             height: 15,
           ),
-          SizedBox(
+          const SizedBox(
             width: 10,
             height: 5,
           ),

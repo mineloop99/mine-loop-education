@@ -102,7 +102,7 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Form(
@@ -166,7 +166,7 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
                                             },
                                       disabledColor: Colors.black54,
                                     )
-                                  : SizedBox(),
+                                  : const SizedBox(),
                             ),
                             onChanged: (text) {
                               if (text == '' || text == null)
@@ -246,7 +246,7 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
                                           ? Colors.black54
                                           : Colors.blue,
                                     )
-                                  : SizedBox(),
+                                  : const SizedBox(),
                             ),
                             onChanged: (text) {
                               if (text == '' || text == null)
@@ -284,7 +284,7 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
 

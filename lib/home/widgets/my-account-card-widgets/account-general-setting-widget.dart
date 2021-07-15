@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 import './general-setting-button.dart';
+import '../../screens/my-account-screens/notifications-setting-screen.dart';
+import '../../screens/my-account-screens/language-setting-screen.dart';
+import '../../screens/my-account-screens/help-support-screen.dart';
 
 class AccountGeneralSettingWidget extends StatefulWidget {
   @override
@@ -10,35 +13,52 @@ class AccountGeneralSettingWidget extends StatefulWidget {
 
 class _AccountGeneralSettingWidgetState
     extends State<AccountGeneralSettingWidget> {
-  final List<Widget> _generalButtonList = [
-    GeneralSettingButton(
-      title: "Notifications",
-      subTitle: "News Course, App Updates",
-      imageLeading: Icon(Icons.account_circle_outlined, size: 50),
-      onTap: () {},
-    ),
-    GeneralSettingButton(
-      title: "Language",
-      subTitle: "Change Application Language",
-      imageLeading: Icon(Icons.language_outlined, size: 50),
-      onTap: () {},
-    ),
-    GeneralSettingButton(
-      title: "Help & Support",
-      subTitle: "FAQ & Help center",
-      imageLeading: Icon(Icons.help_outline_outlined, size: 50),
-      onTap: () {},
-    ),
-    GeneralSettingButton(
-      title: "Log Out",
-      subTitle: "",
-      imageLeading: Icon(Icons.logout, size: 30),
-      onTap: () {},
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final List<Widget> _generalButtonList = [
+      GeneralSettingButton(
+        title: "Notifications",
+        subTitle: "News Course, App Updates",
+        imageLeading: Icon(Icons.account_circle_outlined, size: 50),
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (ctx) => NotificationsSettingScreen(),
+            ),
+          );
+        },
+      ),
+      GeneralSettingButton(
+        title: "Language",
+        subTitle: "Change Application Language",
+        imageLeading: Icon(Icons.language_outlined, size: 50),
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (ctx) => LanguageSettingScreen(),
+            ),
+          );
+        },
+      ),
+      GeneralSettingButton(
+        title: "Help & Support",
+        subTitle: "FAQ & Help center",
+        imageLeading: Icon(Icons.help_outline_outlined, size: 50),
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (ctx) => HelpSupportScreen(),
+            ),
+          );
+        },
+      ),
+      GeneralSettingButton(
+        title: "Log Out",
+        subTitle: "Return to Login Screen",
+        imageLeading: Icon(Icons.logout, size: 30),
+        onTap: () {},
+      ),
+    ];
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

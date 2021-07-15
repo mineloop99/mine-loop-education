@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+
 import 'package:mine_loop_education/home/screens/menu-screen.dart';
 import 'package:mine_loop_education/home/screens/my-account-screen.dart';
-
-import 'auth/screens/login-screen.dart';
+import 'package:mine_loop_education/home/screens/my-account-screens/edit-profile-screen.dart';
+import './auth/screens/login-screen.dart';
+import './home/screens/home-screen.dart';
 import 'models/routes.dart';
 
 class AndroidPlatformTarget extends StatelessWidget {
@@ -37,6 +39,7 @@ class AndroidPlatformTarget extends StatelessWidget {
         primaryColorDark: Color.fromRGBO(18, 18, 18, 1),
         appBarTheme: AppBarTheme.of(context).copyWith(
           color: Colors.white,
+          centerTitle: true,
         ),
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
             backgroundColor: Colors.blue,
@@ -71,7 +74,7 @@ class AndroidPlatformTarget extends StatelessWidget {
           ),
         ),
       ),
-      home: MyAccountScreen(),
+      home: HomeScreen(),
       routes: Routes.routes,
     );
   }

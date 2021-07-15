@@ -11,11 +11,24 @@ class ChangePasswordScreen extends StatefulWidget {
 }
 
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
-  GlobalKey _formKey = GlobalKey();
-  InputDecoration buildInputDecoration(IconData icons, String hinttext) {
+  final _formKey = GlobalKey<FormState>();
+
+  bool _isHidePassword = true;
+  bool _isHideNewPassword = true;
+  bool _isHideConfirmNewPassword = true;
+
+  final _newPasswordFocusNode = FocusNode();
+  final _confirmNewPasswordFocusNode = FocusNode();
+
+  InputDecoration buildInputDecoration(
+      String hinttext, bool isHidePassword, Function onPressed) {
     return InputDecoration(
       hintText: hinttext,
-      prefixIcon: Icon(icons),
+      suffixIcon: IconButton(
+        icon: Icon(
+            isHidePassword ? Icons.lock_outline : Icons.lock_open_outlined),
+        onPressed: onPressed,
+      ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(25.0),
         borderSide: BorderSide(color: Colors.purple, width: 1.5),
@@ -37,9 +50,25 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     );
   }
 
+  void _trySubmit() {
+    FocusScope.of(context).unfocus();
+    bool _isValid = _formKey.currentState.validate();
+    if (_isValid) {
+      _formKey.currentState.save();
+    }
+  }
+
   final password = TextEditingController();
   final newPassword = TextEditingController();
   final confirmNewPassword = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _newPasswordFocusNode.addListener(() {});
+
+    _confirmNewPasswordFocusNode.addListener(() {});
+  }
 
   @override
   void dispose() {
@@ -47,6 +76,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     password.dispose();
     newPassword.dispose();
     confirmNewPassword.dispose();
+    _newPasswordFocusNode.dispose();
+    _confirmNewPasswordFocusNode.dispose();
   }
 
   @override
@@ -61,34 +92,58 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 15, left: 10, right: 10),
                 child: TextFormField(
                   controller: password,
+                  obscureText: _isHidePassword,
                   keyboardType: TextInputType.text,
-                  decoration: buildInputDecoration(Icons.lock, "Password"),
-                  validator: (String value) {
-                    if (value.isEmpty) {
-                      return 'Please a Enter Password';
-                    }
+                  decoration: buildInputDecoration(
+                    "Password",
+                    _isHidePassword,
+                    () {
+                      setState(() {
+                        _isHidePassword = !_isHidePassword;
+                      });
+                    },
+                  ),
+                  validator: (value) {
+                    if (value.isEmpty) return 'Please Enter a valid Password';
+
+                    if (value.length < 6)
+                      return 'Password must be at least 6 characters long';
                     return null;
+                  },
+                  onFieldSubmitted: (_) {
+                    FocusScope.of(context).requestFocus(_newPasswordFocusNode);
                   },
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 15, left: 10, right: 10),
                 child: TextFormField(
-                  controller: password,
+                  controller: newPassword,
+                  focusNode: _newPasswordFocusNode,
+                  obscureText: _isHideNewPassword,
                   keyboardType: TextInputType.text,
-                  decoration: buildInputDecoration(Icons.lock, "New Password"),
+                  decoration: buildInputDecoration(
+                      "New Password", _isHideNewPassword, () {
+                    setState(() {
+                      _isHideNewPassword = !_isHideNewPassword;
+                    });
+                  }),
                   validator: (String value) {
-                    if (value.isEmpty) {
-                      return 'Please a Enter new Password';
-                    }
+                    if (value.isEmpty) return 'Please a Enter new Password';
+                    if (value.length < 6)
+                      return 'New password must be at least 6 characters long';
                     return null;
+                  },
+                  onFieldSubmitted: (_) {
+                    FocusScope.of(context)
+                        .requestFocus(_confirmNewPasswordFocusNode);
                   },
                 ),
               ),
@@ -96,18 +151,19 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 padding: const EdgeInsets.only(bottom: 15, left: 10, right: 10),
                 child: TextFormField(
                   controller: confirmNewPassword,
-                  obscureText: true,
+                  focusNode: _confirmNewPasswordFocusNode,
+                  obscureText: _isHideConfirmNewPassword,
                   keyboardType: TextInputType.text,
-                  decoration:
-                      buildInputDecoration(Icons.lock, "Confirm New Password"),
+                  decoration: buildInputDecoration(
+                      "Confirm New Password", _isHideConfirmNewPassword, () {
+                    setState(() {
+                      _isHideConfirmNewPassword = !_isHideConfirmNewPassword;
+                    });
+                  }),
                   validator: (String value) {
-                    if (value.isEmpty) {
-                      return 'Please re-enter new password';
-                    }
-                    print(password.text);
-                    print(confirmNewPassword.text);
+                    if (value.isEmpty) return 'Please re-enter new password';
                     if (password.text != confirmNewPassword.text) {
-                      return "new Password does not match";
+                      return "New password does not match";
                     }
                     return null;
                   },
@@ -126,7 +182,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         borderRadius: BorderRadius.circular(50.0),
                         side: BorderSide(color: Colors.blue, width: 2)),
                   ),
-                  onPressed: () {},
+                  onPressed: _trySubmit,
                   child: Text("Submit"),
                 ),
               )

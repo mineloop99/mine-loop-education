@@ -162,7 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 3,
                         ),
                         Text('Don\'t have an account yet?'),
@@ -180,7 +180,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: new Text('Terms and Conditions'),
                     onTap: _launchUrl,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   )
                 ],

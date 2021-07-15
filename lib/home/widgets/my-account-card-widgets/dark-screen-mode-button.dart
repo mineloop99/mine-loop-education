@@ -15,7 +15,7 @@ class DarkScreenModeButton extends StatelessWidget {
             title: Row(
               children: [
                 Icon(Icons.nights_stay),
-                SizedBox(width: 5),
+                const SizedBox(width: 5),
                 Text("Dark Mode"),
               ],
             ),
