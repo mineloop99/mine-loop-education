@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:grpc/grpc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:mine_loop_education/grpc/authentication/authenticationpb/authentication.pbgrpc.dart';
 import 'package:crypto/crypto.dart' as hash;
 
@@ -27,18 +26,36 @@ class AuthenticationAPI {
 
   Future<void> callLogin() async {
     try {
-      final respone = await client.authenticate(AuthenticateRequest()
-        ..authenticationInformation = AuthenticationInformation(
+      final respone = await client.login(LoginRequest()
+        ..accountInformation = AccountInformation(
           userEmail: "email",
           password: _hashFunction("sance"),
         ));
       final sharedPrefs = await SharedPreferences.getInstance();
       final userData = json.encode({
         'token': respone.token,
-        'expiryDate':
-            DateTime.now().add(Duration(seconds: respone.expiryTimeSeconds)),
+        'expiryDate': DateTime.now()
+            .add(Duration(seconds: respone.expiryTimeSeconds))
+            .toIso8601String(),
       });
       sharedPrefs.setString('userData', userData);
+    } on GrpcError catch (err) {
+      print("Code: \"${err.codeName}\" & Message: ${err.message}");
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  Future<void> createAccount() async {
+    try {
+      final respone = await client.createAccount(CreateAccountRequest()
+        ..accountInformation = AccountInformation(
+          userEmail: "email",
+          password: _hashFunction("sance"),
+        ));
+      print("Reuslt Status: ${respone.createStatus}");
+    } on GrpcError catch (err) {
+      print("Code: \"${err.codeName}\" & Message: ${err.message}");
     } catch (err) {
       throw err;
     }
@@ -57,10 +74,9 @@ class AuthenticationAPI {
       return false;
     }
     print(
-      "My token local: " +
+      "\nMy token local: " +
           extractedUserData['token'] +
-          "My token local: " +
-          extractedUserData['token'] +
+          '\n' +
           expiryDate.toString(),
     );
     return true;

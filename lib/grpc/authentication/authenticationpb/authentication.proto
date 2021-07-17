@@ -5,32 +5,31 @@ option go_package = "/authenticationpb";
 
 
 service Authentication {
-    rpc SayHello (HelloRequest) returns (HelloRespone);
-    
-    rpc Authenticate (AuthenticateRequest) returns (AuthenticateRespone);
+    rpc Login (LoginRequest) returns (LoginRespone);
+
+    rpc CreateAccount (CreateAccountRequest) returns (CreateAccountRespone);
 }
 
-message AuthenticationInformation {
+message AccountInformation {
     string user_email = 1;
     string password = 2;
 }
 
-message AuthenticateRequest {
-    AuthenticationInformation authentication_information = 1;
+
+message LoginRequest {
+    AccountInformation account_information = 1;
 }   
 
-message AuthenticateRespone {
+
+message LoginRespone {
     string token = 1;
     int32 expiry_time_seconds = 2;
 }
 
-/// Contain string with Id user 
-message HelloRequest {
-    string name = 1;
+message CreateAccountRequest {
+    AccountInformation account_information = 1;
 }
 
-/// Hello respone to client
-message HelloRespone {
-    string message = 1;
+message CreateAccountRespone {
+    bool create_status = 1;
 }
-

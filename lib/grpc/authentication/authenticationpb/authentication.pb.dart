@@ -9,15 +9,15 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-class AuthenticationInformation extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'AuthenticationInformation', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'authentication'), createEmptyInstance: create)
+class AccountInformation extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'AccountInformation', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'authentication'), createEmptyInstance: create)
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userEmail')
     ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'password')
     ..hasRequiredFields = false
   ;
 
-  AuthenticationInformation._() : super();
-  factory AuthenticationInformation({
+  AccountInformation._() : super();
+  factory AccountInformation({
     $core.String? userEmail,
     $core.String? password,
   }) {
@@ -30,26 +30,26 @@ class AuthenticationInformation extends $pb.GeneratedMessage {
     }
     return _result;
   }
-  factory AuthenticationInformation.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory AuthenticationInformation.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory AccountInformation.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory AccountInformation.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  AuthenticationInformation clone() => AuthenticationInformation()..mergeFromMessage(this);
+  AccountInformation clone() => AccountInformation()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  AuthenticationInformation copyWith(void Function(AuthenticationInformation) updates) => super.copyWith((message) => updates(message as AuthenticationInformation)) as AuthenticationInformation; // ignore: deprecated_member_use
+  AccountInformation copyWith(void Function(AccountInformation) updates) => super.copyWith((message) => updates(message as AccountInformation)) as AccountInformation; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
-  static AuthenticationInformation create() => AuthenticationInformation._();
-  AuthenticationInformation createEmptyInstance() => create();
-  static $pb.PbList<AuthenticationInformation> createRepeated() => $pb.PbList<AuthenticationInformation>();
+  static AccountInformation create() => AccountInformation._();
+  AccountInformation createEmptyInstance() => create();
+  static $pb.PbList<AccountInformation> createRepeated() => $pb.PbList<AccountInformation>();
   @$core.pragma('dart2js:noInline')
-  static AuthenticationInformation getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AuthenticationInformation>(create);
-  static AuthenticationInformation? _defaultInstance;
+  static AccountInformation getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AccountInformation>(create);
+  static AccountInformation? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get userEmail => $_getSZ(0);
@@ -70,64 +70,64 @@ class AuthenticationInformation extends $pb.GeneratedMessage {
   void clearPassword() => clearField(2);
 }
 
-class AuthenticateRequest extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'AuthenticateRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'authentication'), createEmptyInstance: create)
-    ..aOM<AuthenticationInformation>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'authenticationInformation', subBuilder: AuthenticationInformation.create)
+class LoginRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'LoginRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'authentication'), createEmptyInstance: create)
+    ..aOM<AccountInformation>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'accountInformation', subBuilder: AccountInformation.create)
     ..hasRequiredFields = false
   ;
 
-  AuthenticateRequest._() : super();
-  factory AuthenticateRequest({
-    AuthenticationInformation? authenticationInformation,
+  LoginRequest._() : super();
+  factory LoginRequest({
+    AccountInformation? accountInformation,
   }) {
     final _result = create();
-    if (authenticationInformation != null) {
-      _result.authenticationInformation = authenticationInformation;
+    if (accountInformation != null) {
+      _result.accountInformation = accountInformation;
     }
     return _result;
   }
-  factory AuthenticateRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory AuthenticateRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory LoginRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory LoginRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  AuthenticateRequest clone() => AuthenticateRequest()..mergeFromMessage(this);
+  LoginRequest clone() => LoginRequest()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  AuthenticateRequest copyWith(void Function(AuthenticateRequest) updates) => super.copyWith((message) => updates(message as AuthenticateRequest)) as AuthenticateRequest; // ignore: deprecated_member_use
+  LoginRequest copyWith(void Function(LoginRequest) updates) => super.copyWith((message) => updates(message as LoginRequest)) as LoginRequest; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
-  static AuthenticateRequest create() => AuthenticateRequest._();
-  AuthenticateRequest createEmptyInstance() => create();
-  static $pb.PbList<AuthenticateRequest> createRepeated() => $pb.PbList<AuthenticateRequest>();
+  static LoginRequest create() => LoginRequest._();
+  LoginRequest createEmptyInstance() => create();
+  static $pb.PbList<LoginRequest> createRepeated() => $pb.PbList<LoginRequest>();
   @$core.pragma('dart2js:noInline')
-  static AuthenticateRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AuthenticateRequest>(create);
-  static AuthenticateRequest? _defaultInstance;
+  static LoginRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<LoginRequest>(create);
+  static LoginRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
-  AuthenticationInformation get authenticationInformation => $_getN(0);
+  AccountInformation get accountInformation => $_getN(0);
   @$pb.TagNumber(1)
-  set authenticationInformation(AuthenticationInformation v) { setField(1, v); }
+  set accountInformation(AccountInformation v) { setField(1, v); }
   @$pb.TagNumber(1)
-  $core.bool hasAuthenticationInformation() => $_has(0);
+  $core.bool hasAccountInformation() => $_has(0);
   @$pb.TagNumber(1)
-  void clearAuthenticationInformation() => clearField(1);
+  void clearAccountInformation() => clearField(1);
   @$pb.TagNumber(1)
-  AuthenticationInformation ensureAuthenticationInformation() => $_ensure(0);
+  AccountInformation ensureAccountInformation() => $_ensure(0);
 }
 
-class AuthenticateRespone extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'AuthenticateRespone', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'authentication'), createEmptyInstance: create)
+class LoginRespone extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'LoginRespone', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'authentication'), createEmptyInstance: create)
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'token')
     ..a<$core.int>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'expiryTimeSeconds', $pb.PbFieldType.O3)
     ..hasRequiredFields = false
   ;
 
-  AuthenticateRespone._() : super();
-  factory AuthenticateRespone({
+  LoginRespone._() : super();
+  factory LoginRespone({
     $core.String? token,
     $core.int? expiryTimeSeconds,
   }) {
@@ -140,26 +140,26 @@ class AuthenticateRespone extends $pb.GeneratedMessage {
     }
     return _result;
   }
-  factory AuthenticateRespone.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory AuthenticateRespone.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory LoginRespone.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory LoginRespone.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  AuthenticateRespone clone() => AuthenticateRespone()..mergeFromMessage(this);
+  LoginRespone clone() => LoginRespone()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  AuthenticateRespone copyWith(void Function(AuthenticateRespone) updates) => super.copyWith((message) => updates(message as AuthenticateRespone)) as AuthenticateRespone; // ignore: deprecated_member_use
+  LoginRespone copyWith(void Function(LoginRespone) updates) => super.copyWith((message) => updates(message as LoginRespone)) as LoginRespone; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
-  static AuthenticateRespone create() => AuthenticateRespone._();
-  AuthenticateRespone createEmptyInstance() => create();
-  static $pb.PbList<AuthenticateRespone> createRepeated() => $pb.PbList<AuthenticateRespone>();
+  static LoginRespone create() => LoginRespone._();
+  LoginRespone createEmptyInstance() => create();
+  static $pb.PbList<LoginRespone> createRepeated() => $pb.PbList<LoginRespone>();
   @$core.pragma('dart2js:noInline')
-  static AuthenticateRespone getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AuthenticateRespone>(create);
-  static AuthenticateRespone? _defaultInstance;
+  static LoginRespone getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<LoginRespone>(create);
+  static LoginRespone? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get token => $_getSZ(0);
@@ -180,97 +180,99 @@ class AuthenticateRespone extends $pb.GeneratedMessage {
   void clearExpiryTimeSeconds() => clearField(2);
 }
 
-class HelloRequest extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'HelloRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'authentication'), createEmptyInstance: create)
-    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'name')
+class CreateAccountRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'CreateAccountRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'authentication'), createEmptyInstance: create)
+    ..aOM<AccountInformation>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'accountInformation', subBuilder: AccountInformation.create)
     ..hasRequiredFields = false
   ;
 
-  HelloRequest._() : super();
-  factory HelloRequest({
-    $core.String? name,
+  CreateAccountRequest._() : super();
+  factory CreateAccountRequest({
+    AccountInformation? accountInformation,
   }) {
     final _result = create();
-    if (name != null) {
-      _result.name = name;
+    if (accountInformation != null) {
+      _result.accountInformation = accountInformation;
     }
     return _result;
   }
-  factory HelloRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory HelloRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory CreateAccountRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory CreateAccountRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  HelloRequest clone() => HelloRequest()..mergeFromMessage(this);
+  CreateAccountRequest clone() => CreateAccountRequest()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  HelloRequest copyWith(void Function(HelloRequest) updates) => super.copyWith((message) => updates(message as HelloRequest)) as HelloRequest; // ignore: deprecated_member_use
+  CreateAccountRequest copyWith(void Function(CreateAccountRequest) updates) => super.copyWith((message) => updates(message as CreateAccountRequest)) as CreateAccountRequest; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
-  static HelloRequest create() => HelloRequest._();
-  HelloRequest createEmptyInstance() => create();
-  static $pb.PbList<HelloRequest> createRepeated() => $pb.PbList<HelloRequest>();
+  static CreateAccountRequest create() => CreateAccountRequest._();
+  CreateAccountRequest createEmptyInstance() => create();
+  static $pb.PbList<CreateAccountRequest> createRepeated() => $pb.PbList<CreateAccountRequest>();
   @$core.pragma('dart2js:noInline')
-  static HelloRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<HelloRequest>(create);
-  static HelloRequest? _defaultInstance;
+  static CreateAccountRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<CreateAccountRequest>(create);
+  static CreateAccountRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get name => $_getSZ(0);
+  AccountInformation get accountInformation => $_getN(0);
   @$pb.TagNumber(1)
-  set name($core.String v) { $_setString(0, v); }
+  set accountInformation(AccountInformation v) { setField(1, v); }
   @$pb.TagNumber(1)
-  $core.bool hasName() => $_has(0);
+  $core.bool hasAccountInformation() => $_has(0);
   @$pb.TagNumber(1)
-  void clearName() => clearField(1);
+  void clearAccountInformation() => clearField(1);
+  @$pb.TagNumber(1)
+  AccountInformation ensureAccountInformation() => $_ensure(0);
 }
 
-class HelloRespone extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'HelloRespone', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'authentication'), createEmptyInstance: create)
-    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'message')
+class CreateAccountRespone extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'CreateAccountRespone', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'authentication'), createEmptyInstance: create)
+    ..aOB(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'createStatus')
     ..hasRequiredFields = false
   ;
 
-  HelloRespone._() : super();
-  factory HelloRespone({
-    $core.String? message,
+  CreateAccountRespone._() : super();
+  factory CreateAccountRespone({
+    $core.bool? createStatus,
   }) {
     final _result = create();
-    if (message != null) {
-      _result.message = message;
+    if (createStatus != null) {
+      _result.createStatus = createStatus;
     }
     return _result;
   }
-  factory HelloRespone.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory HelloRespone.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory CreateAccountRespone.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory CreateAccountRespone.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  HelloRespone clone() => HelloRespone()..mergeFromMessage(this);
+  CreateAccountRespone clone() => CreateAccountRespone()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  HelloRespone copyWith(void Function(HelloRespone) updates) => super.copyWith((message) => updates(message as HelloRespone)) as HelloRespone; // ignore: deprecated_member_use
+  CreateAccountRespone copyWith(void Function(CreateAccountRespone) updates) => super.copyWith((message) => updates(message as CreateAccountRespone)) as CreateAccountRespone; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
-  static HelloRespone create() => HelloRespone._();
-  HelloRespone createEmptyInstance() => create();
-  static $pb.PbList<HelloRespone> createRepeated() => $pb.PbList<HelloRespone>();
+  static CreateAccountRespone create() => CreateAccountRespone._();
+  CreateAccountRespone createEmptyInstance() => create();
+  static $pb.PbList<CreateAccountRespone> createRepeated() => $pb.PbList<CreateAccountRespone>();
   @$core.pragma('dart2js:noInline')
-  static HelloRespone getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<HelloRespone>(create);
-  static HelloRespone? _defaultInstance;
+  static CreateAccountRespone getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<CreateAccountRespone>(create);
+  static CreateAccountRespone? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get message => $_getSZ(0);
+  $core.bool get createStatus => $_getBF(0);
   @$pb.TagNumber(1)
-  set message($core.String v) { $_setString(0, v); }
+  set createStatus($core.bool v) { $_setBool(0, v); }
   @$pb.TagNumber(1)
-  $core.bool hasMessage() => $_has(0);
+  $core.bool hasCreateStatus() => $_has(0);
   @$pb.TagNumber(1)
-  void clearMessage() => clearField(1);
+  void clearCreateStatus() => clearField(1);
 }
 
