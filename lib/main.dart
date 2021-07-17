@@ -14,19 +14,21 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        providers: [
-          ChangeNotifierProvider(
-            create: (_) => LanguageProvider(),
-          ),
-          ChangeNotifierProvider(
-            create: (_) => LoginFormWidgetProvider(),
-          ),
-          ChangeNotifierProvider(
-            create: (_) => HomeProvider(),
-          ),
-        ],
-        child: foundation.defaultTargetPlatform == TargetPlatform.android
-            ? AndroidPlatformTarget()
-            : null);
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => LanguageProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => LoginFormWidgetProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => HomeProvider(),
+        ),
+      ],
+      child: AndroidPlatformTarget(),
+    );
+    // foundation.defaultTargetPlatform == TargetPlatform.android
+    //     ? AndroidPlatformTarget()
+    //     : null);
   }
 }

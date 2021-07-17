@@ -174,7 +174,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 height: 50,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.purple,
+                    primary: Colors.blue,
                     textStyle: TextStyle(
                       color: Colors.white,
                     ),

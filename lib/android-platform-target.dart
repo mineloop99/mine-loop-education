@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:mine_loop_education/home/screens/menu-screen.dart';
+import 'package:mine_loop_education/home/screens/chat-screen.dart';
+
+import 'package:mine_loop_education/home/screens/events-screen.dart';
 import 'package:mine_loop_education/home/screens/my-account-screen.dart';
 import 'package:mine_loop_education/home/screens/my-account-screens/edit-profile-screen.dart';
 import './auth/screens/login-screen.dart';
@@ -17,7 +19,7 @@ class AndroidPlatformTarget extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.lightBlue,
         backgroundColor: Colors.lightBlue,
-        accentColor: Colors.deepPurple,
+        accentColor: Colors.blue,
         accentColorBrightness: Brightness.dark,
         disabledColor: Colors.black54,
         iconTheme: IconThemeData(
@@ -74,7 +76,7 @@ class AndroidPlatformTarget extends StatelessWidget {
           ),
         ),
       ),
-      home: HomeScreen(),
+      home: ChatScreen(),
       routes: Routes.routes,
     );
   }

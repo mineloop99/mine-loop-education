@@ -4,7 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../widgets/login-form-widget.dart';
 import '../widgets/dropdown-widget.dart';
-import '../widgets/create-form_widget.dart';
+import '../widgets/create-form-widget.dart';
 import '../../models/routes.dart';
 
 enum LoginScreenFlexible {
@@ -33,8 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
     flexibleNumber[LoginScreenFlexible.notch] = 1;
     flexibleNumber[LoginScreenFlexible.logo] = 2;
     flexibleNumber[LoginScreenFlexible.welcomeText] = 1;
-    flexibleNumber[LoginScreenFlexible.loginForm] = 5;
-    flexibleNumber[LoginScreenFlexible.createAccount] = 1;
+    flexibleNumber[LoginScreenFlexible.createAccount] = 2;
     flexibleNumber[LoginScreenFlexible.termsAndConditions] = 1;
 
     super.initState();
@@ -46,34 +45,31 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                stops: [0.0, 0.2, 0.9],
-                colors: [
-                  const Color(0xFFc2e9fb),
-                  const Color(0xFFa3bded),
-                  const Color(0xFFc2e9fb),
-                ],
-              ),
-              //color: Color.fromRGBO(240, 248, 255, 1),
-            ),
-            child: Align(
-              alignment: Alignment.topRight,
-              child: Container(
-                height: deviceSize.height * 0.6,
-                width: deviceSize.width * 0.35,
-                padding:
-                    EdgeInsets.only(top: 50, right: deviceSize.width * 0.03),
-              ),
+          Align(
+            alignment: Alignment.topRight,
+            child: Container(
+              height: deviceSize.height * 0.6,
+              width: deviceSize.width * 0.35,
+              padding: EdgeInsets.only(top: 50, right: deviceSize.width * 0.03),
             ),
           ),
           SingleChildScrollView(
             child: Container(
               height: deviceSize.height,
               width: deviceSize.width,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  stops: [0.0, 0.2, 0.9],
+                  colors: [
+                    const Color(0xFFc2e9fb),
+                    const Color(0xFFa3bded),
+                    const Color(0xFFc2e9fb),
+                  ],
+                ),
+                //color: Color.fromRGBO(240, 248, 255, 1),
+              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -104,10 +100,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           flex: flexibleNumber[LoginScreenFlexible.logo],
                           child: Container(
                             alignment: Alignment.bottomCenter,
-                            child: ClipRRect(
+                            width: 200,
+                            decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
-                              child: Image.network(
-                                'https://i.pinimg.com/564x/11/f8/f0/11f8f0a243fc9214d2a9879fbae4a27d.jpg',
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                    'https://i.pinimg.com/originals/73/ed/e2/73ede2610b35468be26a77f04092535c.png'),
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -127,36 +125,25 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                         ),
-                        /////Signin Text/////
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20.0, vertical: 5),
-                          child: Text(
-                            'sign in to continue.',
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
                       ],
                     ),
                   ),
                   //////Login Form//////
-                  Flexible(
-                      flex: flexibleNumber[LoginScreenFlexible.loginForm],
-                      child: Consumer<LoginFormWidgetProvider>(
-                        builder: (ctx, _loginFormWidgetProvider, _) =>
-                            AnimatedContainer(
-                          duration: _loginFormWidgetProvider
-                              .containerExpandAnimationDuration,
-                          height: _loginFormWidgetProvider
-                                  .isTapExpandedContainerForm
-                              ? 300
+                  Consumer<LoginFormWidgetProvider>(
+                    builder: (ctx, _loginFormWidgetProvider, _) =>
+                        AnimatedContainer(
+                      alignment: Alignment.bottomCenter,
+                      duration: _loginFormWidgetProvider
+                          .containerExpandAnimationDuration,
+                      height:
+                          _loginFormWidgetProvider.isTapExpandedContainerForm
+                              ? 350
                               : 100,
-                          curve: Curves.decelerate,
-                          child: LoginFormWidget(),
-                        ),
-                      )),
-                  Flexible(
+                      curve: Curves.decelerate,
+                      child: LoginFormWidget(),
+                    ),
+                  ),
+                  Expanded(
                     flex: flexibleNumber[LoginScreenFlexible.createAccount] +
                         flexibleNumber[LoginScreenFlexible.createAccount],
                     child: Column(

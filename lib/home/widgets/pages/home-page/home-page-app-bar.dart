@@ -92,7 +92,7 @@ class _PageViewBuilderState extends State<PageViewBuilder> {
               (BuildContext context, int index) {
                 return widget.widget;
               },
-              childCount: 20,
+              childCount: 9,
             ),
           ),
         ],
@@ -148,12 +148,12 @@ class BuildDelegate extends SliverPersistentHeaderDelegate {
       _inkWellBuilder(
           4,
           shrinkOffset,
-          Icons.menu_book,
-          'Menu',
+          Icons.event_available,
+          'Events',
           iconColorOpacity,
           textColorOpacity,
           context,
-          Routes.routeName[RouteNamesEnum.Menu]),
+          Routes.routeName[RouteNamesEnum.Events]),
     ];
     return Stack(
       fit: StackFit.expand,
@@ -162,7 +162,16 @@ class BuildDelegate extends SliverPersistentHeaderDelegate {
             ? const SizedBox()
             : Opacity(
                 opacity: colorOpacity,
-                child: BackGroundImageBuilder(),
+                child: Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(
+                        'https://i.pinimg.com/564x/d3/4c/ef/d34cefdd877969788453a9c98f4b4bd5.jpg',
+                      ),
+                    ),
+                  ),
+                ),
               ),
         Container(
           //alignment: Alignment.topCenter,
@@ -301,20 +310,5 @@ class BuildDelegate2 extends SliverPersistentHeaderDelegate {
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
     return true;
-  }
-}
-
-///Background Image asset
-class BackGroundImageBuilder extends StatelessWidget {
-  const BackGroundImageBuilder({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Image.network(
-      'https://i.pinimg.com/564x/d3/4c/ef/d34cefdd877969788453a9c98f4b4bd5.jpg',
-      fit: BoxFit.cover,
-    );
   }
 }

@@ -24,7 +24,7 @@ class CreateFromWidget extends StatelessWidget {
               Navigator.of(context).push(createRoute(CreateAccountScreen()));
             },
           ),
-          Text('Or'),
+          const Text('Or'),
           AuthButton(
             path: 'assets/images/google_signin_logo.png',
             textButton: 'Sign up with Google',
