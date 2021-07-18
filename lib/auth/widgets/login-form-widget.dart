@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'auth-button.dart';
+import '../../grpc/authentication/client.dart';
+import '../../dialog-pop-up/authentication-screen-dialog.dart';
 
 enum LoginMethods {
   MineLoop,
@@ -54,6 +56,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget>
   AnimationController _animationFadedFadedController;
   Animation<double> _animationFaded;
   int rdTime = new Random().nextInt(1000 - 700);
+
   @override
   void initState() {
     signinMineLoopForm = SigninMineLoopForm();
@@ -68,6 +71,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget>
     _animationFadedFadedController.forward(from: 0.0);
     _loginFormWidgetProvider =
         Provider.of<LoginFormWidgetProvider>(context, listen: false);
+
     super.initState();
   }
 
@@ -99,11 +103,9 @@ class _LoginFormWidgetState extends State<LoginFormWidget>
                     path: 'assets/images/google_signin_logo.png',
                     textButton: 'Sign in with MineLoop',
                     onPressed: () {
-                      setState(() {
-                        _loginFormWidgetProvider.chooseLoginMethods();
-                        _loginFormWidgetProvider.animationTapCallBack();
-                        _animationFadedFadedController.forward(from: 0.0);
-                      });
+                      _loginFormWidgetProvider.chooseLoginMethods();
+                      _loginFormWidgetProvider.animationTapCallBack();
+                      _animationFadedFadedController.forward(from: 0.0);
                     },
                     isNotElevatedButtonIcon: false,
                   ),
@@ -118,18 +120,9 @@ class _LoginFormWidgetState extends State<LoginFormWidget>
             ),
           )
         : _loginFormWidgetProvider.loginMethods == LoginMethods.MineLoop
-            ? FutureBuilder(
-                future: fetchLoginForm(),
-                builder: (context, snapshot) {
-                  return !snapshot.hasData
-                      ? Center(
-                          child: CircularProgressIndicator(),
-                        )
-                      : FadeTransition(
-                          opacity: _animationFaded,
-                          child: SigninMineLoopForm(),
-                        );
-                },
+            ? FadeTransition(
+                opacity: _animationFaded,
+                child: SigninMineLoopForm(),
               )
             : SigninGoogleForm();
   }
@@ -153,7 +146,7 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
 
   bool _rememberMeCheckBox;
 
-  bool _canSignUp = false;
+  bool _canSignIn = false;
 
   @override
   void initState() {
@@ -163,12 +156,8 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
     _isUsernameControllerEmpty = true;
     _isPasswordControllerEmpty = true;
     _rememberMeCheckBox = false;
-    _usernameFocusNode.addListener(() {
-      setState(() {});
-    });
-    _passwordFocusNode.addListener(() {
-      setState(() {});
-    });
+    _usernameFocusNode.addListener(() {});
+    _passwordFocusNode.addListener(() {});
     _loginFormWidgetProvider =
         Provider.of<LoginFormWidgetProvider>(context, listen: false);
 
@@ -183,16 +172,21 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
     if (isValid) {
       _formKey.currentState.save();
     }
+    showDialog(
+        context: context,
+        builder: (_) {
+          return AuthenticationScreenDialog();
+        });
   }
 
   void _createAccountButtonHighlight() {
     if (!_isUsernameControllerEmpty && !_isPasswordControllerEmpty)
       setState(() {
-        _canSignUp = true;
+        _canSignIn = true;
       });
     else
       setState(() {
-        _canSignUp = false;
+        _canSignIn = false;
       });
   }
 
@@ -435,12 +429,13 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
                 ],
               ),
             ),
+            SizedBox(height: 20),
             ////// Sign in Button ////////
             Container(
               alignment: Alignment.center,
               child: AuthButton(
                 path: null,
-                onPressed: _canSignUp ? _trySubmit : null,
+                onPressed: _canSignIn ? _trySubmit : null,
                 textButton: 'Sign In',
                 isNotElevatedButtonIcon: true,
               ),

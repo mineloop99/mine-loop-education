@@ -10,7 +10,9 @@ const port = 50010;
 
 class AuthenticationAPI {
   static AuthenticationAPI instance = AuthenticationAPI();
-  static AuthenticationClient client;
+  AuthenticationClient client;
+
+  final Duration _clientTimeOut = Duration(seconds: 5);
 
   void clientChatInit() {
     final channel = ClientChannel(
@@ -24,13 +26,17 @@ class AuthenticationAPI {
     client = AuthenticationClient(channel);
   }
 
-  Future<void> callLogin() async {
+  Future<String> callLogin(String email, String password) async {
+    clientChatInit();
     try {
-      final respone = await client.login(LoginRequest()
-        ..accountInformation = AccountInformation(
-          userEmail: "email",
-          password: _hashFunction("sance"),
-        ));
+      final respone = await client.login(
+        LoginRequest()
+          ..accountInformation = AccountInformation(
+            userEmail: email,
+            password: _hashFunction(password),
+          ),
+        options: CallOptions(timeout: _clientTimeOut),
+      );
       final sharedPrefs = await SharedPreferences.getInstance();
       final userData = json.encode({
         'token': respone.token,
@@ -39,25 +45,30 @@ class AuthenticationAPI {
             .toIso8601String(),
       });
       sharedPrefs.setString('userData', userData);
+      return "OK";
     } on GrpcError catch (err) {
       print("Code: \"${err.codeName}\" & Message: ${err.message}");
+      return err.message;
     } catch (err) {
-      throw err;
+      return err.message;
     }
   }
 
-  Future<void> createAccount() async {
+  Future<String> createAccount(String email, String password) async {
     try {
       final respone = await client.createAccount(CreateAccountRequest()
         ..accountInformation = AccountInformation(
-          userEmail: "email",
-          password: _hashFunction("sance"),
+          userEmail: email,
+          password: _hashFunction(password),
         ));
-      print("Reuslt Status: ${respone.createStatus}");
+      print("Result Status: ${respone.createStatus}");
+      return "OK";
     } on GrpcError catch (err) {
       print("Code: \"${err.codeName}\" & Message: ${err.message}");
+
+      return err.message;
     } catch (err) {
-      throw err;
+      return err.message;
     }
   }
 

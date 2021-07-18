@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -28,6 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
   var flexibleNumber = Map<LoginScreenFlexible, int>();
   void _launchUrl() async => await launch('https://flutter.dev');
 
+  Future<void> _fetchLoginForm;
   @override
   void initState() {
     flexibleNumber[LoginScreenFlexible.notch] = 1;
@@ -35,12 +38,16 @@ class _LoginScreenState extends State<LoginScreen> {
     flexibleNumber[LoginScreenFlexible.welcomeText] = 1;
     flexibleNumber[LoginScreenFlexible.createAccount] = 2;
     flexibleNumber[LoginScreenFlexible.termsAndConditions] = 1;
-
+    _fetchLoginForm = fetchLoginForm();
     super.initState();
   }
 
-  @override
+  Future<void> fetchLoginForm() {
+    return Future.delayed(Duration(milliseconds: 700), () {});
+  }
+
   Widget build(BuildContext context) {
+    @override
     final deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(
@@ -129,20 +136,29 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   //////Login Form//////
-                  Consumer<LoginFormWidgetProvider>(
-                    builder: (ctx, _loginFormWidgetProvider, _) =>
-                        AnimatedContainer(
-                      alignment: Alignment.bottomCenter,
-                      duration: _loginFormWidgetProvider
-                          .containerExpandAnimationDuration,
-                      height:
-                          _loginFormWidgetProvider.isTapExpandedContainerForm
-                              ? 350
-                              : 100,
-                      curve: Curves.decelerate,
-                      child: LoginFormWidget(),
-                    ),
-                  ),
+                  FutureBuilder(
+                      future: _fetchLoginForm,
+                      builder: (context, snapshot) {
+                        return snapshot.connectionState ==
+                                ConnectionState.waiting
+                            ? Center(
+                                child: CircularProgressIndicator(),
+                              )
+                            : Consumer<LoginFormWidgetProvider>(
+                                builder: (ctx, _loginFormWidgetProvider, _) =>
+                                    AnimatedContainer(
+                                  alignment: Alignment.bottomCenter,
+                                  duration: _loginFormWidgetProvider
+                                      .containerExpandAnimationDuration,
+                                  height: _loginFormWidgetProvider
+                                          .isTapExpandedContainerForm
+                                      ? 350
+                                      : 100,
+                                  curve: Curves.decelerate,
+                                  child: LoginFormWidget(),
+                                ),
+                              );
+                      }),
                   Expanded(
                     flex: flexibleNumber[LoginScreenFlexible.createAccount] +
                         flexibleNumber[LoginScreenFlexible.createAccount],
