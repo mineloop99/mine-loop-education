@@ -17,7 +17,7 @@ const double marginInsetsRight = 0.38;
 const double iconResizeSpeed = 0.03;
 const double fontSizeResizeSpeed = 0.05;
 double marginEdge;
-double numberTempToCheckDropdownOrNot = 0;
+const double numberTempToCheckDropdownOrNot = 0;
 bool isDropdown;
 
 //AppBar Icon Builder
@@ -71,7 +71,7 @@ class _PageViewBuilderState extends State<PageViewBuilder> {
   Widget build(BuildContext context) {
     return SafeArea(
       top: false,
-      minimum: EdgeInsets.only(top: _minExtent),
+      minimum: const EdgeInsets.only(top: _minExtent),
       child: CustomScrollView(
         slivers: [
           ///// Image and 4 Buttons /////
@@ -163,7 +163,7 @@ class BuildDelegate extends SliverPersistentHeaderDelegate {
             : Opacity(
                 opacity: colorOpacity,
                 child: Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     image: DecorationImage(
                       fit: BoxFit.cover,
                       image: NetworkImage(
@@ -188,7 +188,7 @@ class BuildDelegate extends SliverPersistentHeaderDelegate {
                 top: 0,
                 height: maxExtent - minExtent - 10,
                 width: deviceSize.width,
-                child: InkWell(
+                child: const InkWell(
                   child: AbsorbPointer(),
                 ),
               )

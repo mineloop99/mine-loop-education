@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:mine_loop_education/dialog-pop-up/authentication-screen-dialog.dart';
+import 'package:mine_loop_education/home/providers/home-provider.dart';
 
 import 'package:mine_loop_education/home/screens/chat-screen.dart';
 
 import 'package:mine_loop_education/home/screens/events-screen.dart';
 import 'package:mine_loop_education/home/screens/my-account-screen.dart';
 import 'package:mine_loop_education/home/screens/my-account-screens/edit-profile-screen.dart';
+import 'package:provider/provider.dart';
 import './auth/screens/login-screen.dart';
 import './home/screens/home-screen.dart';
+import './auth/screens/confirm-account-screen.dart';
 import 'models/routes.dart';
 
 class AndroidPlatformTarget extends StatelessWidget {
@@ -76,7 +80,7 @@ class AndroidPlatformTarget extends StatelessWidget {
           ),
         ),
       ),
-      home: ChatScreen(),
+      home: ConfirmAccountScreen(),
       routes: Routes.routes,
     );
   }

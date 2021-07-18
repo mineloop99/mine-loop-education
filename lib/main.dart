@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'android-platform-target.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter/foundation.dart' as foundation;
 import 'auth/providers/language-provider.dart';
 import 'auth/widgets/login-form-widget.dart';
 import './home/providers/home-provider.dart';
+import './auth/providers/account-provider.dart';
 
 void main() => runApp(App());
 
@@ -24,6 +24,9 @@ class App extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => HomeProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => AccountProvider(),
+        )
       ],
       child: AndroidPlatformTarget(),
     );

@@ -1,12 +1,24 @@
 import 'package:flutter/foundation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AccountProvider with ChangeNotifier {
-  AccountProvider({
-    @required this.authInformation,
-    this.accountInformation,
-  });
-  final AuthInformation authInformation;
-  AccountInformation accountInformation;
+  AuthInformation _authInformation;
+  AccountInformation _accountInformation;
+
+  AuthInformation get authInformation {
+    return _authInformation;
+  }
+
+  AccountInformation get accountInformation {
+    return _accountInformation;
+  }
+
+  Future<void> logout() async {
+    _authInformation = new AuthInformation(token: '', expiryDate: null);
+    notifyListeners();
+    final sharedPrefs = await SharedPreferences.getInstance();
+    sharedPrefs.clear();
+  }
 }
 
 enum StudentClasses {

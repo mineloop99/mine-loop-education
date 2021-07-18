@@ -1,5 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:mine_loop_education/dialog-pop-up/authentication-screen-dialog.dart';
+import 'package:mine_loop_education/grpc/authentication/client.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'auth-button.dart';
@@ -14,8 +16,8 @@ class CreateAccountForm extends StatefulWidget {
 class _CreateAccountFormState extends State<CreateAccountForm> {
   final _formKey = GlobalKey<FormState>();
 
-  TextEditingController _usernameController = new TextEditingController();
-  TextEditingController _passwordController = new TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
   bool _obscureText;
   final _usernameFocusNode = FocusNode();
   final _passwordFocusNode = FocusNode();
@@ -28,13 +30,12 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
 
   @override
   void initState() {
-    _usernameController.text = '';
+    _emailController.text = '';
     _passwordController.text = '';
     _obscureText = true;
     _isUsernameControllerEmpty = true;
     _isPasswordControllerEmpty = true;
     _usernameFocusNode.addListener(() {
-      print('f');
       setState(() {});
     });
     _passwordFocusNode.addListener(() {
@@ -49,6 +50,17 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
     setState(() {});
     if (isValid) {
       _formKey.currentState.save();
+      showDialog(
+          context: context,
+          builder: (_) {
+            return AuthenticationScreenDialog(
+              methodCall: AuthenticationAPI.instance.createAccount(
+                _emailController.text,
+                _passwordController.text,
+              ),
+              isLoginMethod: false,
+            );
+          });
     }
   }
 
@@ -68,13 +80,13 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
   @override
   void didChangeDependencies() {
     if (_passwordController.text.isEmpty) _isUsernameControllerEmpty = true;
-    if (_usernameController.text.isEmpty) _isPasswordControllerEmpty = true;
+    if (_emailController.text.isEmpty) _isPasswordControllerEmpty = true;
     super.didChangeDependencies();
   }
 
   @override
   void dispose() {
-    _usernameController.dispose();
+    _emailController.dispose();
     _passwordController.dispose();
     _usernameFocusNode.dispose();
     _passwordFocusNode.dispose();
@@ -111,7 +123,7 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
               key: _formKey,
               child: Column(
                 children: [
-                  //////Username & Email Field//////
+                  //////Email Field//////
                   Container(
                     alignment: Alignment.topCenter,
                     padding: const EdgeInsets.only(right: 2.0, left: 2.0),
@@ -145,7 +157,7 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
                             height: 60,
                             child: TextFormField(
                               keyboardType: TextInputType.emailAddress,
-                              controller: _usernameController,
+                              controller: _emailController,
                               focusNode: _usernameFocusNode,
                               validator: (value) {
                                 if (value.isEmpty || !value.contains('@'))
@@ -162,7 +174,7 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
                                         onPressed: _isUsernameControllerEmpty
                                             ? null
                                             : () {
-                                                _usernameController.clear();
+                                                _emailController.clear();
                                                 _isUsernameControllerEmpty =
                                                     true;
                                                 _createAccountButtonHighlight();
@@ -188,10 +200,18 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
                               },
                             ),
                           ),
+                          trailing: IconButton(
+                            alignment: Alignment.bottomCenter,
+                            icon: Icon(Icons.lock_open),
+                            color: Colors.transparent,
+                            onPressed: () {},
+                          ),
                         ),
                       ),
                     ),
                   ),
+
+                  /// Password ////
                   Container(
                     alignment: Alignment.center,
                     padding: const EdgeInsets.only(right: 2.0, left: 2.0),
@@ -263,11 +283,6 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
 
                                 _createAccountButtonHighlight();
                               },
-                              // onFieldSubmitted: (_) {
-                              //   if (_usernameController.text == '' ||
-                              //       _usernameController.text == null)
-                              //     FocusScope.of(context).requestFocus(_usernameFocusNode);
-                              // },
                             ),
                           ),
                           trailing: IconButton(

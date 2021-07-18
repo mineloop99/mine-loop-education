@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -92,16 +90,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         ////Notch/////
                         Expanded(
-                          flex: flexibleNumber[LoginScreenFlexible.notch],
-                          child: IconButton(
-                            icon: Icon(Icons.dangerous),
-                            color: Colors.red,
-                            onPressed: () {
-                              Navigator.of(context).pushReplacementNamed(
-                                  Routes.routeName[RouteNamesEnum.Home]);
-                            },
-                          ),
-                        ),
+                            flex: flexibleNumber[LoginScreenFlexible.notch],
+                            child: SizedBox()),
                         /////Logo/////
                         Flexible(
                           flex: flexibleNumber[LoginScreenFlexible.logo],
@@ -159,6 +149,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               );
                       }),
+
+                  /// Form Register
                   Expanded(
                     flex: flexibleNumber[LoginScreenFlexible.createAccount] +
                         flexibleNumber[LoginScreenFlexible.createAccount],

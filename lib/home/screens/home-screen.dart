@@ -7,6 +7,33 @@ import '../widgets/pages/events-page.dart';
 import '../widgets/pages/home-page/home-page-body.dart';
 import '../providers/home-provider.dart';
 
+/// Save cache for Page View
+class CachePageView extends StatefulWidget {
+  CachePageView({
+    @required this.child,
+  });
+
+  final Widget child;
+
+  @override
+  _CachePageViewState createState() => _CachePageViewState();
+}
+
+/// Save cache for Page View
+class _CachePageViewState extends State<CachePageView>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  Widget build(BuildContext context) {
+    /// Must use with superbuild
+    super.build(context);
+
+    return widget.child;
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+}
+
 class HomeScreen extends StatefulWidget {
   static const routeName = './';
 
@@ -21,10 +48,25 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     pageController = PageController(
       initialPage: 0,
-      keepPage: true,
+      keepPage: false,
     );
     super.initState();
   }
+
+  final List<Widget> _cacheListPage = [
+    CachePageView(
+      child: HomePage(),
+    ),
+    CachePageView(
+      child: MeetingPage(),
+    ),
+    CachePageView(
+      child: ClassPage(),
+    ),
+    CachePageView(
+      child: EventsPage(),
+    ),
+  ];
 
   Widget buildPageView(HomeProvider _homeProvider) {
     return PageView(
@@ -33,12 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
         _homeProvider.setCurrentIndexPage(index);
         setState(() {});
       },
-      children: [
-        HomePage(),
-        MeetingPage(),
-        ClassPage(),
-        EventsPage(),
-      ],
+      children: _cacheListPage,
     );
   }
 

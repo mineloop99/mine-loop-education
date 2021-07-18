@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../grpc/authentication/client.dart';
-import '../widgets/dialog-pop-up/authentication-screen-dialog.dart';
 
 class ChatScreen extends StatefulWidget {
   static const routeName = './chat';
@@ -26,15 +25,7 @@ class _ChatScreenState extends State<ChatScreen> {
       body: Center(
         child: IconButton(
           icon: Icon(Icons.add),
-          onPressed: () {
-            showDialog(
-                context: context,
-                builder: (_) {
-                  return AuthenticationScreenDialog(
-                    methodCall: AuthenticationAPI.instance.callLogin("1", "2"),
-                  );
-                });
-          },
+          onPressed: () {},
         ),
       ),
     );

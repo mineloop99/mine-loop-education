@@ -10,7 +10,7 @@ const port = 50010;
 
 class AuthenticationAPI {
   static AuthenticationAPI instance = AuthenticationAPI();
-  AuthenticationClient client;
+  AuthenticationClient _client;
 
   final Duration _clientTimeOut = Duration(seconds: 5);
 
@@ -23,13 +23,14 @@ class AuthenticationAPI {
         idleTimeout: Duration(seconds: 10),
       ),
     );
-    client = AuthenticationClient(channel);
+    _client = AuthenticationClient(channel);
   }
 
-  Future<String> callLogin(String email, String password) async {
-    clientChatInit();
+  Future<String> callLogin(
+      String email, String password, bool checkedRememberMe) async {
+    if (_client == null) clientChatInit();
     try {
-      final respone = await client.login(
+      final respone = await _client.login(
         LoginRequest()
           ..accountInformation = AccountInformation(
             userEmail: email,
@@ -38,13 +39,17 @@ class AuthenticationAPI {
         options: CallOptions(timeout: _clientTimeOut),
       );
       final sharedPrefs = await SharedPreferences.getInstance();
-      final userData = json.encode({
-        'token': respone.token,
-        'expiryDate': DateTime.now()
-            .add(Duration(seconds: respone.expiryTimeSeconds))
-            .toIso8601String(),
-      });
-      sharedPrefs.setString('userData', userData);
+      if (checkedRememberMe) {
+        final userData = json.encode({
+          'token': respone.token,
+          'expiryDate': DateTime.now()
+              .add(Duration(seconds: respone.expiryTimeSeconds))
+              .toIso8601String(),
+        });
+        sharedPrefs.setString('userData', userData);
+      } else {
+        sharedPrefs.clear();
+      }
       return "OK";
     } on GrpcError catch (err) {
       print("Code: \"${err.codeName}\" & Message: ${err.message}");
@@ -55,8 +60,9 @@ class AuthenticationAPI {
   }
 
   Future<String> createAccount(String email, String password) async {
+    if (_client == null) clientChatInit();
     try {
-      final respone = await client.createAccount(CreateAccountRequest()
+      final respone = await _client.createAccount(CreateAccountRequest()
         ..accountInformation = AccountInformation(
           userEmail: email,
           password: _hashFunction(password),
@@ -65,7 +71,6 @@ class AuthenticationAPI {
       return "OK";
     } on GrpcError catch (err) {
       print("Code: \"${err.codeName}\" & Message: ${err.message}");
-
       return err.message;
     } catch (err) {
       return err.message;

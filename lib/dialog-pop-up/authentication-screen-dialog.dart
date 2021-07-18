@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../grpc/authentication/client.dart';
+import '../models/routes.dart';
+import '../auth/screens/confirm-account-screen.dart';
 
 class Constants {
   static const double padding = 20;
@@ -12,12 +13,21 @@ enum TypeOfDialog {
   SucceedDialog,
 }
 
-class AuthenticationScreenDialog extends StatelessWidget {
+class AuthenticationScreenDialog extends StatefulWidget {
   final Future<dynamic> methodCall;
-  AuthenticationScreenDialog({@required this.methodCall});
+  final bool isLoginMethod;
+  AuthenticationScreenDialog(
+      {@required this.methodCall, this.isLoginMethod = false});
 
+  @override
+  _AuthenticationScreenDialogState createState() =>
+      _AuthenticationScreenDialogState();
+}
+
+class _AuthenticationScreenDialogState
+    extends State<AuthenticationScreenDialog> {
   ////General Dialog
-  _errorDialog(BuildContext context, String title, String description,
+  _dialog(BuildContext context, String title, String description,
           TypeOfDialog typeOfDialog) =>
       Dialog(
         shape: RoundedRectangleBorder(
@@ -54,26 +64,32 @@ class AuthenticationScreenDialog extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                         color: typeOfDialog == TypeOfDialog.ErrorDialog
                             ? Theme.of(context).errorColor
-                            : Theme.of(context).textTheme),
+                            : Colors.green),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   Text(
                     description,
-                    style: TextStyle(fontSize: 14),
+                    style: const TextStyle(fontSize: 14),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 22,
                   ),
                   Align(
                     alignment: Alignment.bottomRight,
                     child: TextButton(
                         onPressed: () {
-                          Navigator.of(context).pop();
+                          typeOfDialog == TypeOfDialog.ErrorDialog
+                              ? Navigator.of(context).pop()
+                              : Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (ctx) => ConfirmAccountScreen(),
+                                  ),
+                                );
                         },
-                        child: Text(
+                        child: const Text(
                           "OK",
                           style: TextStyle(fontSize: 18),
                         )),
@@ -81,6 +97,7 @@ class AuthenticationScreenDialog extends StatelessWidget {
                 ],
               ),
             ), // bottom part
+            //Circle Icon
             Positioned(
               left: Constants.padding,
               right: Constants.padding,
@@ -89,27 +106,41 @@ class AuthenticationScreenDialog extends StatelessWidget {
                   radius: Constants.avatarRadius,
                   child: ClipRRect(
                       borderRadius: BorderRadius.all(
-                          Radius.circular(Constants.avatarRadius)),
+                          const Radius.circular(Constants.avatarRadius)),
                       child: Image.network(
                           "https://i.pinimg.com/originals/09/88/4d/09884d0cb7ccb1bbd23ad16acdba3ffe.jpg"))), // top part
             )
           ],
         ),
       );
+
+  //// Login if is login method and call create if create account method
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: methodCall,
+        future: widget.methodCall,
         builder: (ctx, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting)
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return IgnorePointer(
                 child: Center(child: CircularProgressIndicator()));
-          else if (snapshot.hasData) {
+          } else if (snapshot.hasData) {
             if (snapshot.data == "OK") {
-              Navigator.of(context).pop();
+              // Navigator to Home if Login method succeed.//
+              if (widget.isLoginMethod) {
+                Future.delayed(Duration(seconds: 1), () {
+                  Navigator.of(context)
+                      .popAndPushNamed(Routes.routeName[RouteNamesEnum.Home]);
+                });
+              } else {
+                return _dialog(
+                    context,
+                    "Create Account Succeed",
+                    "Confirm email now to continue",
+                    TypeOfDialog.SucceedDialog);
+              }
             } else {
-              return _errorDialog(context, "error occurred during progress",
-                  snapshot.data, TypeOfDialog.ErrorDialog);
+              return _dialog(context, "An error Occured!", snapshot.data,
+                  TypeOfDialog.ErrorDialog);
             }
           }
           return SizedBox();
