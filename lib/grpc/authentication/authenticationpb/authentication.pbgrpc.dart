@@ -24,6 +24,18 @@ class AuthenticationClient extends $grpc.Client {
           ($0.CreateAccountRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
               $0.CreateAccountRespone.fromBuffer(value));
+  static final _$emailVerification = $grpc.ClientMethod<
+          $0.EmailVerificationRequest, $0.EmailVerificationRespone>(
+      '/authentication.Authentication/EmailVerification',
+      ($0.EmailVerificationRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) =>
+          $0.EmailVerificationRespone.fromBuffer(value));
+  static final _$emailVerificationCode = $grpc.ClientMethod<
+          $0.EmailVerificationCodeRequest, $0.EmailVerificationCodeRespone>(
+      '/authentication.Authentication/EmailVerificationCode',
+      ($0.EmailVerificationCodeRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) =>
+          $0.EmailVerificationCodeRespone.fromBuffer(value));
 
   AuthenticationClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -39,6 +51,18 @@ class AuthenticationClient extends $grpc.Client {
       $0.CreateAccountRequest request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$createAccount, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.EmailVerificationRespone> emailVerification(
+      $0.EmailVerificationRequest request,
+      {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$emailVerification, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.EmailVerificationCodeRespone> emailVerificationCode(
+      $0.EmailVerificationCodeRequest request,
+      {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$emailVerificationCode, request, options: options);
   }
 }
 
@@ -62,6 +86,24 @@ abstract class AuthenticationServiceBase extends $grpc.Service {
             ($core.List<$core.int> value) =>
                 $0.CreateAccountRequest.fromBuffer(value),
             ($0.CreateAccountRespone value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.EmailVerificationRequest,
+            $0.EmailVerificationRespone>(
+        'EmailVerification',
+        emailVerification_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $0.EmailVerificationRequest.fromBuffer(value),
+        ($0.EmailVerificationRespone value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.EmailVerificationCodeRequest,
+            $0.EmailVerificationCodeRespone>(
+        'EmailVerificationCode',
+        emailVerificationCode_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $0.EmailVerificationCodeRequest.fromBuffer(value),
+        ($0.EmailVerificationCodeRespone value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.LoginRespone> login_Pre(
@@ -75,8 +117,24 @@ abstract class AuthenticationServiceBase extends $grpc.Service {
     return createAccount(call, await request);
   }
 
+  $async.Future<$0.EmailVerificationRespone> emailVerification_Pre(
+      $grpc.ServiceCall call,
+      $async.Future<$0.EmailVerificationRequest> request) async {
+    return emailVerification(call, await request);
+  }
+
+  $async.Future<$0.EmailVerificationCodeRespone> emailVerificationCode_Pre(
+      $grpc.ServiceCall call,
+      $async.Future<$0.EmailVerificationCodeRequest> request) async {
+    return emailVerificationCode(call, await request);
+  }
+
   $async.Future<$0.LoginRespone> login(
       $grpc.ServiceCall call, $0.LoginRequest request);
   $async.Future<$0.CreateAccountRespone> createAccount(
       $grpc.ServiceCall call, $0.CreateAccountRequest request);
+  $async.Future<$0.EmailVerificationRespone> emailVerification(
+      $grpc.ServiceCall call, $0.EmailVerificationRequest request);
+  $async.Future<$0.EmailVerificationCodeRespone> emailVerificationCode(
+      $grpc.ServiceCall call, $0.EmailVerificationCodeRequest request);
 }

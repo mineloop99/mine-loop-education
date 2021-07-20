@@ -1,34 +1,22 @@
 import 'package:flutter/material.dart';
 
-import '../models/routes.dart';
-import '../auth/screens/verify-account-screen.dart';
-
 class Constants {
   static const double padding = 20;
   static const double avatarRadius = 45;
 }
 
-enum TypeOfDialog {
-  ErrorDialog,
-  SucceedDialog,
-}
-
-class AuthenticationScreenDialog extends StatefulWidget {
+class NormalDialogPopup extends StatefulWidget {
   final Future<dynamic> methodCall;
-  final bool isLoginMethod;
-  AuthenticationScreenDialog(
-      {@required this.methodCall, this.isLoginMethod = false});
-
+  final Function methodCallWhenPressOk;
+  const NormalDialogPopup(
+      {@required this.methodCall, @required this.methodCallWhenPressOk});
   @override
-  _AuthenticationScreenDialogState createState() =>
-      _AuthenticationScreenDialogState();
+  _NormalDialogPopupState createState() => _NormalDialogPopupState();
 }
 
-class _AuthenticationScreenDialogState
-    extends State<AuthenticationScreenDialog> {
-  ////General Dialog
-  _dialog(BuildContext context, String title, String description,
-          TypeOfDialog typeOfDialog) =>
+class _NormalDialogPopupState extends State<NormalDialogPopup> {
+  _dialog(BuildContext context,
+          {bool errorPop, String title, String description}) =>
       Dialog(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(Constants.padding),
@@ -62,7 +50,7 @@ class _AuthenticationScreenDialogState
                     style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w600,
-                        color: typeOfDialog == TypeOfDialog.ErrorDialog
+                        color: errorPop
                             ? Theme.of(context).errorColor
                             : Colors.green),
                   ),
@@ -80,20 +68,14 @@ class _AuthenticationScreenDialogState
                   Align(
                     alignment: Alignment.bottomRight,
                     child: TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                          if (typeOfDialog == TypeOfDialog.ErrorDialog)
-                            return null;
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (ctx) => ConfirmAccountScreen(),
-                            ),
-                          );
-                        },
-                        child: const Text(
-                          "OK",
-                          style: TextStyle(fontSize: 18),
-                        )),
+                      onPressed: () {
+                        widget.methodCallWhenPressOk();
+                      },
+                      child: const Text(
+                        "OK",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -115,7 +97,6 @@ class _AuthenticationScreenDialogState
         ),
       );
 
-  //// Login if is login method and call create if create account method
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -126,22 +107,14 @@ class _AuthenticationScreenDialogState
                 child: Center(child: CircularProgressIndicator()));
           } else if (snapshot.hasData) {
             if (snapshot.data == "OK") {
-              // Navigator to Home if Login method succeed.//
-              if (widget.isLoginMethod) {
-                Future.delayed(Duration(seconds: 1), () {
-                  Navigator.of(context)
-                      .popAndPushNamed(Routes.routeName[RouteNamesEnum.Home]);
-                });
-              } else {
-                return _dialog(
-                    context,
-                    "Create Account Succeed",
-                    "Confirm email now to continue",
-                    TypeOfDialog.SucceedDialog);
-              }
+              Navigator.of(context).pop();
             } else {
-              return _dialog(context, "An error Occured!", snapshot.data,
-                  TypeOfDialog.ErrorDialog);
+              return _dialog(
+                context,
+                errorPop: true,
+                title: "An error Occured!",
+                description: snapshot.data,
+              );
             }
           }
           return SizedBox();

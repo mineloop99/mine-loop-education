@@ -60,3 +60,41 @@ const CreateAccountRespone$json = const {
 
 /// Descriptor for `CreateAccountRespone`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List createAccountResponeDescriptor = $convert.base64Decode('ChRDcmVhdGVBY2NvdW50UmVzcG9uZRIjCg1jcmVhdGVfc3RhdHVzGAEgASgIUgxjcmVhdGVTdGF0dXM=');
+@$core.Deprecated('Use emailVerificationRequestDescriptor instead')
+const EmailVerificationRequest$json = const {
+  '1': 'EmailVerificationRequest',
+  '2': const [
+    const {'1': 'email', '3': 1, '4': 1, '5': 9, '10': 'email'},
+  ],
+};
+
+/// Descriptor for `EmailVerificationRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List emailVerificationRequestDescriptor = $convert.base64Decode('ChhFbWFpbFZlcmlmaWNhdGlvblJlcXVlc3QSFAoFZW1haWwYASABKAlSBWVtYWls');
+@$core.Deprecated('Use emailVerificationResponeDescriptor instead')
+const EmailVerificationRespone$json = const {
+  '1': 'EmailVerificationRespone',
+};
+
+/// Descriptor for `EmailVerificationRespone`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List emailVerificationResponeDescriptor = $convert.base64Decode('ChhFbWFpbFZlcmlmaWNhdGlvblJlc3BvbmU=');
+@$core.Deprecated('Use emailVerificationCodeRequestDescriptor instead')
+const EmailVerificationCodeRequest$json = const {
+  '1': 'EmailVerificationCodeRequest',
+  '2': const [
+    const {'1': 'email', '3': 1, '4': 1, '5': 9, '10': 'email'},
+    const {'1': 'code', '3': 2, '4': 1, '5': 5, '10': 'code'},
+  ],
+};
+
+/// Descriptor for `EmailVerificationCodeRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List emailVerificationCodeRequestDescriptor = $convert.base64Decode('ChxFbWFpbFZlcmlmaWNhdGlvbkNvZGVSZXF1ZXN0EhQKBWVtYWlsGAEgASgJUgVlbWFpbBISCgRjb2RlGAIgASgFUgRjb2Rl');
+@$core.Deprecated('Use emailVerificationCodeResponeDescriptor instead')
+const EmailVerificationCodeRespone$json = const {
+  '1': 'EmailVerificationCodeRespone',
+  '2': const [
+    const {'1': 'verify_status', '3': 1, '4': 1, '5': 8, '10': 'verifyStatus'},
+  ],
+};
+
+/// Descriptor for `EmailVerificationCodeRespone`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List emailVerificationCodeResponeDescriptor = $convert.base64Decode('ChxFbWFpbFZlcmlmaWNhdGlvbkNvZGVSZXNwb25lEiMKDXZlcmlmeV9zdGF0dXMYASABKAhSDHZlcmlmeVN0YXR1cw==');

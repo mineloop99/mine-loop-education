@@ -10,7 +10,7 @@ import 'package:mine_loop_education/home/screens/my-account-screens/edit-profile
 import 'package:provider/provider.dart';
 import './auth/screens/login-screen.dart';
 import './home/screens/home-screen.dart';
-import './auth/screens/confirm-account-screen.dart';
+import 'auth/screens/verify-account-screen.dart';
 import 'models/routes.dart';
 
 class AndroidPlatformTarget extends StatelessWidget {
@@ -80,7 +80,7 @@ class AndroidPlatformTarget extends StatelessWidget {
           ),
         ),
       ),
-      home: ConfirmAccountScreen(),
+      home: LoginScreen(),
       routes: Routes.routes,
     );
   }

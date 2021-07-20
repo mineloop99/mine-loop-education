@@ -1,10 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:mine_loop_education/dialog-pop-up/authentication-screen-dialog.dart';
-import 'package:mine_loop_education/grpc/authentication/client.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'auth-button.dart';
+import '../../dialog-pop-up/authentication-screen-dialog.dart';
+import '../../grpc/authentication/client.dart';
+import './auth-button.dart';
 
 class CreateAccountForm extends StatefulWidget {
   const CreateAccountForm({Key key}) : super(key: key);
@@ -61,6 +62,9 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
               isLoginMethod: false,
             );
           });
+      //Set email provider
+      Provider.of<AuthenticationClientProvider>(context, listen: false)
+          .setEmail(_emailController.text);
     }
   }
 
