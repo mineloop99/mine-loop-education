@@ -8,16 +8,13 @@ class Constants {
   static const double avatarRadius = 45;
 }
 
-enum TypeOfDialog {
-  ErrorDialog,
-  SucceedDialog,
-}
-
 class AuthenticationScreenDialog extends StatefulWidget {
   final Future<dynamic> methodCall;
   final bool isLoginMethod;
-  AuthenticationScreenDialog(
-      {@required this.methodCall, this.isLoginMethod = false});
+  AuthenticationScreenDialog({
+    @required this.methodCall,
+    this.isLoginMethod = false,
+  });
 
   @override
   _AuthenticationScreenDialogState createState() =>
@@ -27,8 +24,8 @@ class AuthenticationScreenDialog extends StatefulWidget {
 class _AuthenticationScreenDialogState
     extends State<AuthenticationScreenDialog> {
   ////General Dialog
-  _dialog(BuildContext context, String title, String description,
-          TypeOfDialog typeOfDialog) =>
+  _dialog(BuildContext context,
+          {String title, String description, bool errorPop}) =>
       Dialog(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(Constants.padding),
@@ -62,7 +59,7 @@ class _AuthenticationScreenDialogState
                     style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w600,
-                        color: typeOfDialog == TypeOfDialog.ErrorDialog
+                        color: errorPop
                             ? Theme.of(context).errorColor
                             : Colors.green),
                   ),
@@ -82,8 +79,7 @@ class _AuthenticationScreenDialogState
                     child: TextButton(
                         onPressed: () {
                           Navigator.of(context).pop();
-                          if (typeOfDialog == TypeOfDialog.ErrorDialog)
-                            return null;
+                          if (errorPop) return null;
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (ctx) => ConfirmAccountScreen(),
@@ -122,8 +118,7 @@ class _AuthenticationScreenDialogState
         future: widget.methodCall,
         builder: (ctx, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return IgnorePointer(
-                child: Center(child: CircularProgressIndicator()));
+            return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasData) {
             if (snapshot.data == "OK") {
               // Navigator to Home if Login method succeed.//
@@ -133,15 +128,16 @@ class _AuthenticationScreenDialogState
                       .popAndPushNamed(Routes.routeName[RouteNamesEnum.Home]);
                 });
               } else {
-                return _dialog(
-                    context,
-                    "Create Account Succeed",
-                    "Confirm email now to continue",
-                    TypeOfDialog.SucceedDialog);
+                return _dialog(context,
+                    title: "Create Account Succeed",
+                    description: "Confirm email now to continue",
+                    errorPop: false);
               }
             } else {
-              return _dialog(context, "An error Occured!", snapshot.data,
-                  TypeOfDialog.ErrorDialog);
+              return _dialog(context,
+                  title: "An error Occured!",
+                  description: snapshot.data,
+                  errorPop: true);
             }
           }
           return SizedBox();

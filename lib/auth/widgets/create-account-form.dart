@@ -53,6 +53,7 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
       _formKey.currentState.save();
       showDialog(
           context: context,
+          barrierDismissible: false,
           builder: (_) {
             return AuthenticationScreenDialog(
               methodCall: AuthenticationAPI.instance.createAccount(

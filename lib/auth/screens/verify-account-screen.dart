@@ -53,6 +53,7 @@ class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
     });
     showDialog(
         context: context,
+        barrierDismissible: false,
         builder: (_) {
           return NormalDialogPopup(
             methodCall: AuthenticationAPI.instance.sendEmailVerificationRequest(
@@ -73,6 +74,7 @@ class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
     }
     showDialog(
         context: context,
+        barrierDismissible: false,
         builder: (_) {
           return NormalDialogPopup(
             methodCall:

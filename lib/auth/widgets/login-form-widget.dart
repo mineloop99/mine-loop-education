@@ -103,10 +103,9 @@ class _LoginFormWidgetState extends State<LoginFormWidget>
                         });
                         showDialog(
                           context: context,
+                          barrierDismissible: false,
                           builder: (ctx) {
-                            return IgnorePointer(
-                                child:
-                                    Center(child: CircularProgressIndicator()));
+                            return Center(child: CircularProgressIndicator());
                           },
                         );
                       }
@@ -184,6 +183,7 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
       _formKey.currentState.save();
       showDialog(
           context: context,
+          barrierDismissible: false,
           builder: (_) {
             return AuthenticationScreenDialog(
               methodCall: AuthenticationAPI.instance.callLogin(
@@ -246,13 +246,13 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
               child: Card(
                 elevation: 5,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5.0),
+                  borderRadius: BorderRadius.circular(15.0),
                 ),
                 shadowColor: Colors.black45,
                 child: Container(
                   decoration: BoxDecoration(
                     color: const Color.fromRGBO(230, 248, 255, 1),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(15.0),
                   ),
                   child: ListTile(
                     leading: CircleAvatar(
@@ -263,7 +263,7 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
                       backgroundColor: Colors.white,
                       foregroundColor: Colors.blue,
                     ),
-                    title: Text(
+                    title: const Text(
                       'Email',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -316,7 +316,7 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
                       ),
                     ),
                     trailing: IconButton(
-                        icon: Icon(Icons.subdirectory_arrow_left),
+                        icon: const Icon(Icons.subdirectory_arrow_left),
                         tooltip: 'Back to Login methods',
                         onPressed: () {
                           _loginFormWidgetProvider.animationTapCallBack(
@@ -334,16 +334,16 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
               child: Card(
                 elevation: 5,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+                  borderRadius: BorderRadius.circular(15.0),
                 ),
                 shadowColor: Colors.black45,
                 child: Container(
                   decoration: BoxDecoration(
                     color: const Color.fromRGBO(230, 248, 255, 1),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(15.0),
                   ),
                   child: ListTile(
-                    leading: CircleAvatar(
+                    leading: const CircleAvatar(
                       radius: 15.0,
                       child: Icon(
                         Icons.vpn_key,
@@ -351,7 +351,7 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
                       backgroundColor: Colors.white,
                       foregroundColor: Colors.blue,
                     ),
-                    title: Text(
+                    title: const Text(
                       'Password',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -374,7 +374,7 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
                           hintText: 'Enter password...',
                           suffixIcon: _passwordFocusNode.hasFocus
                               ? IconButton(
-                                  icon: Icon(Icons.clear),
+                                  icon: const Icon(Icons.clear),
                                   onPressed: () {
                                     _passwordController.clear();
                                     _isPasswordControllerEmpty = true;
@@ -407,8 +407,8 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
                     trailing: IconButton(
                       alignment: Alignment.bottomCenter,
                       icon: _obscureText
-                          ? Icon(Icons.lock)
-                          : Icon(Icons.lock_open),
+                          ? const Icon(Icons.lock)
+                          : const Icon(Icons.lock_open),
                       tooltip: _obscureText ? 'Show password' : 'Hide password',
                       onPressed: () {
                         setState(() {
@@ -436,12 +436,12 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
                           });
                         },
                       ),
-                      Text('Auto Login'),
+                      const Text('Auto Login'),
                     ],
                   ),
                   TextButton(
                     onPressed: () {},
-                    child: Text('Forgot Password?'),
+                    child: const Text('Forgot Password?'),
                   ),
                 ],
               ),

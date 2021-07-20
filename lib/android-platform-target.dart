@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mine_loop_education/dialog-pop-up/authentication-screen-dialog.dart';
+import 'package:mine_loop_education/grpc/authentication/client.dart';
 import 'package:mine_loop_education/home/providers/home-provider.dart';
 
 import 'package:mine_loop_education/home/screens/chat-screen.dart';
@@ -8,10 +9,13 @@ import 'package:mine_loop_education/home/screens/events-screen.dart';
 import 'package:mine_loop_education/home/screens/my-account-screen.dart';
 import 'package:mine_loop_education/home/screens/my-account-screens/edit-profile-screen.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import './auth/screens/login-screen.dart';
 import './home/screens/home-screen.dart';
+import 'auth/providers/account-provider.dart';
 import 'auth/screens/verify-account-screen.dart';
 import 'models/routes.dart';
+import './home/screens/splash_screen.dart';
 
 class AndroidPlatformTarget extends StatelessWidget {
   const AndroidPlatformTarget({Key key}) : super(key: key);
@@ -80,7 +84,18 @@ class AndroidPlatformTarget extends StatelessWidget {
           ),
         ),
       ),
-      home: LoginScreen(),
+      home: Consumer<AccountProvider>(
+        builder: (_, _accountProvider, __) {
+          return FutureBuilder(
+            future: AuthenticationAPI.instance.tryAutoLogin(),
+            builder: (_, snapshot) =>
+                snapshot.connectionState == ConnectionState.waiting
+                    ? SplashScreen()
+                    : LoginScreen(),
+          );
+        },
+        child: LoginScreen(),
+      ),
       routes: Routes.routes,
     );
   }

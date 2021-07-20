@@ -6,13 +6,24 @@ option go_package = "/authenticationpb";
 
 service Authentication {
 
+    // for test purpose only
+    rpc Testing (TestingRequest) returns (TestingRespone);
+
     rpc Login (LoginRequest) returns (LoginRespone);
+
+    rpc AutoLogin (AutoLoginRequest) returns (AutoLoginRespone);
 
     rpc CreateAccount (CreateAccountRequest) returns (CreateAccountRespone);
 
     rpc EmailVerification (EmailVerificationRequest) returns (EmailVerificationRespone);
 
     rpc EmailVerificationCode (EmailVerificationCodeRequest) returns (EmailVerificationCodeRespone);
+
+}
+
+message TestingRequest {
+}
+message TestingRespone {
 }
 
 message AccountInformation {
@@ -20,6 +31,14 @@ message AccountInformation {
     string password = 2;
 }
 
+message AutoLoginRequest {
+    string device_unique_id = 1;
+}
+
+message AutoLoginRespone {
+    string token = 1;
+    int32 expiry_time_seconds = 2;
+}
 
 message LoginRequest {
     AccountInformation account_information = 1;

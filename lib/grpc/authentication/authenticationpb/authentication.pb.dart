@@ -9,6 +9,64 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
+class TestingRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'TestingRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'authentication'), createEmptyInstance: create)
+    ..hasRequiredFields = false
+  ;
+
+  TestingRequest._() : super();
+  factory TestingRequest() => create();
+  factory TestingRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory TestingRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  TestingRequest clone() => TestingRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  TestingRequest copyWith(void Function(TestingRequest) updates) => super.copyWith((message) => updates(message as TestingRequest)) as TestingRequest; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static TestingRequest create() => TestingRequest._();
+  TestingRequest createEmptyInstance() => create();
+  static $pb.PbList<TestingRequest> createRepeated() => $pb.PbList<TestingRequest>();
+  @$core.pragma('dart2js:noInline')
+  static TestingRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<TestingRequest>(create);
+  static TestingRequest? _defaultInstance;
+}
+
+class TestingRespone extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'TestingRespone', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'authentication'), createEmptyInstance: create)
+    ..hasRequiredFields = false
+  ;
+
+  TestingRespone._() : super();
+  factory TestingRespone() => create();
+  factory TestingRespone.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory TestingRespone.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  TestingRespone clone() => TestingRespone()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  TestingRespone copyWith(void Function(TestingRespone) updates) => super.copyWith((message) => updates(message as TestingRespone)) as TestingRespone; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static TestingRespone create() => TestingRespone._();
+  TestingRespone createEmptyInstance() => create();
+  static $pb.PbList<TestingRespone> createRepeated() => $pb.PbList<TestingRespone>();
+  @$core.pragma('dart2js:noInline')
+  static TestingRespone getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<TestingRespone>(create);
+  static TestingRespone? _defaultInstance;
+}
+
 class AccountInformation extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'AccountInformation', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'authentication'), createEmptyInstance: create)
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userEmail')
@@ -68,6 +126,114 @@ class AccountInformation extends $pb.GeneratedMessage {
   $core.bool hasPassword() => $_has(1);
   @$pb.TagNumber(2)
   void clearPassword() => clearField(2);
+}
+
+class AutoLoginRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'AutoLoginRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'authentication'), createEmptyInstance: create)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'deviceUniqueId')
+    ..hasRequiredFields = false
+  ;
+
+  AutoLoginRequest._() : super();
+  factory AutoLoginRequest({
+    $core.String? deviceUniqueId,
+  }) {
+    final _result = create();
+    if (deviceUniqueId != null) {
+      _result.deviceUniqueId = deviceUniqueId;
+    }
+    return _result;
+  }
+  factory AutoLoginRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory AutoLoginRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  AutoLoginRequest clone() => AutoLoginRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  AutoLoginRequest copyWith(void Function(AutoLoginRequest) updates) => super.copyWith((message) => updates(message as AutoLoginRequest)) as AutoLoginRequest; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static AutoLoginRequest create() => AutoLoginRequest._();
+  AutoLoginRequest createEmptyInstance() => create();
+  static $pb.PbList<AutoLoginRequest> createRepeated() => $pb.PbList<AutoLoginRequest>();
+  @$core.pragma('dart2js:noInline')
+  static AutoLoginRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AutoLoginRequest>(create);
+  static AutoLoginRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get deviceUniqueId => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set deviceUniqueId($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasDeviceUniqueId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearDeviceUniqueId() => clearField(1);
+}
+
+class AutoLoginRespone extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'AutoLoginRespone', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'authentication'), createEmptyInstance: create)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'token')
+    ..a<$core.int>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'expiryTimeSeconds', $pb.PbFieldType.O3)
+    ..hasRequiredFields = false
+  ;
+
+  AutoLoginRespone._() : super();
+  factory AutoLoginRespone({
+    $core.String? token,
+    $core.int? expiryTimeSeconds,
+  }) {
+    final _result = create();
+    if (token != null) {
+      _result.token = token;
+    }
+    if (expiryTimeSeconds != null) {
+      _result.expiryTimeSeconds = expiryTimeSeconds;
+    }
+    return _result;
+  }
+  factory AutoLoginRespone.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory AutoLoginRespone.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  AutoLoginRespone clone() => AutoLoginRespone()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  AutoLoginRespone copyWith(void Function(AutoLoginRespone) updates) => super.copyWith((message) => updates(message as AutoLoginRespone)) as AutoLoginRespone; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static AutoLoginRespone create() => AutoLoginRespone._();
+  AutoLoginRespone createEmptyInstance() => create();
+  static $pb.PbList<AutoLoginRespone> createRepeated() => $pb.PbList<AutoLoginRespone>();
+  @$core.pragma('dart2js:noInline')
+  static AutoLoginRespone getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AutoLoginRespone>(create);
+  static AutoLoginRespone? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get token => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set token($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasToken() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearToken() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.int get expiryTimeSeconds => $_getIZ(1);
+  @$pb.TagNumber(2)
+  set expiryTimeSeconds($core.int v) { $_setSignedInt32(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasExpiryTimeSeconds() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearExpiryTimeSeconds() => clearField(2);
 }
 
 class LoginRequest extends $pb.GeneratedMessage {

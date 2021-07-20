@@ -8,6 +8,20 @@
 import 'dart:core' as $core;
 import 'dart:convert' as $convert;
 import 'dart:typed_data' as $typed_data;
+@$core.Deprecated('Use testingRequestDescriptor instead')
+const TestingRequest$json = const {
+  '1': 'TestingRequest',
+};
+
+/// Descriptor for `TestingRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List testingRequestDescriptor = $convert.base64Decode('Cg5UZXN0aW5nUmVxdWVzdA==');
+@$core.Deprecated('Use testingResponeDescriptor instead')
+const TestingRespone$json = const {
+  '1': 'TestingRespone',
+};
+
+/// Descriptor for `TestingRespone`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List testingResponeDescriptor = $convert.base64Decode('Cg5UZXN0aW5nUmVzcG9uZQ==');
 @$core.Deprecated('Use accountInformationDescriptor instead')
 const AccountInformation$json = const {
   '1': 'AccountInformation',
@@ -19,6 +33,27 @@ const AccountInformation$json = const {
 
 /// Descriptor for `AccountInformation`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List accountInformationDescriptor = $convert.base64Decode('ChJBY2NvdW50SW5mb3JtYXRpb24SHQoKdXNlcl9lbWFpbBgBIAEoCVIJdXNlckVtYWlsEhoKCHBhc3N3b3JkGAIgASgJUghwYXNzd29yZA==');
+@$core.Deprecated('Use autoLoginRequestDescriptor instead')
+const AutoLoginRequest$json = const {
+  '1': 'AutoLoginRequest',
+  '2': const [
+    const {'1': 'device_unique_id', '3': 1, '4': 1, '5': 9, '10': 'deviceUniqueId'},
+  ],
+};
+
+/// Descriptor for `AutoLoginRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List autoLoginRequestDescriptor = $convert.base64Decode('ChBBdXRvTG9naW5SZXF1ZXN0EigKEGRldmljZV91bmlxdWVfaWQYASABKAlSDmRldmljZVVuaXF1ZUlk');
+@$core.Deprecated('Use autoLoginResponeDescriptor instead')
+const AutoLoginRespone$json = const {
+  '1': 'AutoLoginRespone',
+  '2': const [
+    const {'1': 'token', '3': 1, '4': 1, '5': 9, '10': 'token'},
+    const {'1': 'expiry_time_seconds', '3': 2, '4': 1, '5': 5, '10': 'expiryTimeSeconds'},
+  ],
+};
+
+/// Descriptor for `AutoLoginRespone`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List autoLoginResponeDescriptor = $convert.base64Decode('ChBBdXRvTG9naW5SZXNwb25lEhQKBXRva2VuGAEgASgJUgV0b2tlbhIuChNleHBpcnlfdGltZV9zZWNvbmRzGAIgASgFUhFleHBpcnlUaW1lU2Vjb25kcw==');
 @$core.Deprecated('Use loginRequestDescriptor instead')
 const LoginRequest$json = const {
   '1': 'LoginRequest',
