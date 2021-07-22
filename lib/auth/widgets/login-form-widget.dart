@@ -1,6 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:mine_loop_education/auth/providers/account-provider.dart';
 import 'package:provider/provider.dart';
 
 import 'auth-button.dart';
@@ -26,7 +25,6 @@ class LoginFormWidgetProvider with ChangeNotifier {
   void chooseLoginMethods() {
     loginMethods = LoginMethods.MineLoop;
     isChosingLogin = false;
-    notifyListeners();
   }
 
   void animationTapCallBack({bool isBackButton = false}) {
@@ -71,6 +69,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget>
     _loginFormWidgetProvider =
         Provider.of<LoginFormWidgetProvider>(context, listen: false);
     _loginFormWidgetProvider.isChosingLogin = true;
+
     super.initState();
   }
 
@@ -81,6 +80,11 @@ class _LoginFormWidgetState extends State<LoginFormWidget>
           return true;
         },
       );
+  @override
+  void dispose() {
+    _animationFadedController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -179,6 +183,7 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
     setState(() {
       FocusScope.of(context).unfocus();
     });
+
     if (isValid) {
       _formKey.currentState.save();
       showDialog(
@@ -192,7 +197,11 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
                   _autoLoginCheckBox),
               isLoginMethod: true,
             );
-          });
+          }).then((value) {
+        Provider.of<AccountProvider>(context, listen: false).setLogged(true);
+        Provider.of<LoginFormWidgetProvider>(context, listen: false)
+            .chooseLoginMethods();
+      });
     }
   }
 
@@ -274,6 +283,7 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
                       child: TextFormField(
                         keyboardType: TextInputType.emailAddress,
                         controller: _emailController,
+                        textInputAction: TextInputAction.next,
                         focusNode: _usernameFocusNode,
                         validator: (value) {
                           if (value.isEmpty || !value.contains('@'))

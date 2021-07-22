@@ -29,6 +29,11 @@ class AuthenticationClient extends $grpc.Client {
           ($0.AutoLoginRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
               $0.AutoLoginRespone.fromBuffer(value));
+  static final _$logout =
+      $grpc.ClientMethod<$0.LogoutRequest, $0.LougoutRespone>(
+          '/authentication.Authentication/Logout',
+          ($0.LogoutRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $0.LougoutRespone.fromBuffer(value));
   static final _$createAccount =
       $grpc.ClientMethod<$0.CreateAccountRequest, $0.CreateAccountRespone>(
           '/authentication.Authentication/CreateAccount',
@@ -67,6 +72,11 @@ class AuthenticationClient extends $grpc.Client {
       $0.AutoLoginRequest request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$autoLogin, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.LougoutRespone> logout($0.LogoutRequest request,
+      {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$logout, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.CreateAccountRespone> createAccount(
@@ -113,6 +123,13 @@ abstract class AuthenticationServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.AutoLoginRequest.fromBuffer(value),
         ($0.AutoLoginRespone value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.LogoutRequest, $0.LougoutRespone>(
+        'Logout',
+        logout_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.LogoutRequest.fromBuffer(value),
+        ($0.LougoutRespone value) => value.writeToBuffer()));
     $addMethod(
         $grpc.ServiceMethod<$0.CreateAccountRequest, $0.CreateAccountRespone>(
             'CreateAccount',
@@ -157,6 +174,11 @@ abstract class AuthenticationServiceBase extends $grpc.Service {
     return autoLogin(call, await request);
   }
 
+  $async.Future<$0.LougoutRespone> logout_Pre(
+      $grpc.ServiceCall call, $async.Future<$0.LogoutRequest> request) async {
+    return logout(call, await request);
+  }
+
   $async.Future<$0.CreateAccountRespone> createAccount_Pre(
       $grpc.ServiceCall call,
       $async.Future<$0.CreateAccountRequest> request) async {
@@ -181,6 +203,8 @@ abstract class AuthenticationServiceBase extends $grpc.Service {
       $grpc.ServiceCall call, $0.LoginRequest request);
   $async.Future<$0.AutoLoginRespone> autoLogin(
       $grpc.ServiceCall call, $0.AutoLoginRequest request);
+  $async.Future<$0.LougoutRespone> logout(
+      $grpc.ServiceCall call, $0.LogoutRequest request);
   $async.Future<$0.CreateAccountRespone> createAccount(
       $grpc.ServiceCall call, $0.CreateAccountRequest request);
   $async.Future<$0.EmailVerificationRespone> emailVerification(

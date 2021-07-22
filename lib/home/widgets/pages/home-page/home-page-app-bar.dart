@@ -1,6 +1,5 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
-import 'package:mine_loop_education/grpc/authentication/client.dart';
 
 import '../../../../models/routes.dart';
 
@@ -63,7 +62,6 @@ InkWell _inkWellBuilder(
     ),
     onTap: () {
       Navigator.of(context).pushNamed(urlPath);
-      AuthenticationAPI.instance.testing();
     },
   );
 }

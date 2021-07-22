@@ -239,16 +239,21 @@ class AutoLoginRespone extends $pb.GeneratedMessage {
 class LoginRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'LoginRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'authentication'), createEmptyInstance: create)
     ..aOM<AccountInformation>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'accountInformation', subBuilder: AccountInformation.create)
+    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'deviceUniqueId')
     ..hasRequiredFields = false
   ;
 
   LoginRequest._() : super();
   factory LoginRequest({
     AccountInformation? accountInformation,
+    $core.String? deviceUniqueId,
   }) {
     final _result = create();
     if (accountInformation != null) {
       _result.accountInformation = accountInformation;
+    }
+    if (deviceUniqueId != null) {
+      _result.deviceUniqueId = deviceUniqueId;
     }
     return _result;
   }
@@ -283,6 +288,15 @@ class LoginRequest extends $pb.GeneratedMessage {
   void clearAccountInformation() => clearField(1);
   @$pb.TagNumber(1)
   AccountInformation ensureAccountInformation() => $_ensure(0);
+
+  @$pb.TagNumber(2)
+  $core.String get deviceUniqueId => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set deviceUniqueId($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasDeviceUniqueId() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearDeviceUniqueId() => clearField(2);
 }
 
 class LoginRespone extends $pb.GeneratedMessage {
@@ -344,6 +358,128 @@ class LoginRespone extends $pb.GeneratedMessage {
   $core.bool hasExpiryTimeSeconds() => $_has(1);
   @$pb.TagNumber(2)
   void clearExpiryTimeSeconds() => clearField(2);
+}
+
+class LogoutRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'LogoutRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'authentication'), createEmptyInstance: create)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userEmail')
+    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'deviceUniqueId')
+    ..hasRequiredFields = false
+  ;
+
+  LogoutRequest._() : super();
+  factory LogoutRequest({
+    $core.String? userEmail,
+    $core.String? deviceUniqueId,
+  }) {
+    final _result = create();
+    if (userEmail != null) {
+      _result.userEmail = userEmail;
+    }
+    if (deviceUniqueId != null) {
+      _result.deviceUniqueId = deviceUniqueId;
+    }
+    return _result;
+  }
+  factory LogoutRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory LogoutRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  LogoutRequest clone() => LogoutRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  LogoutRequest copyWith(void Function(LogoutRequest) updates) => super.copyWith((message) => updates(message as LogoutRequest)) as LogoutRequest; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static LogoutRequest create() => LogoutRequest._();
+  LogoutRequest createEmptyInstance() => create();
+  static $pb.PbList<LogoutRequest> createRepeated() => $pb.PbList<LogoutRequest>();
+  @$core.pragma('dart2js:noInline')
+  static LogoutRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<LogoutRequest>(create);
+  static LogoutRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get userEmail => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set userEmail($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasUserEmail() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearUserEmail() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get deviceUniqueId => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set deviceUniqueId($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasDeviceUniqueId() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearDeviceUniqueId() => clearField(2);
+}
+
+class LougoutRespone extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'LougoutRespone', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'authentication'), createEmptyInstance: create)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userEmail')
+    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'deviceUniqueId')
+    ..hasRequiredFields = false
+  ;
+
+  LougoutRespone._() : super();
+  factory LougoutRespone({
+    $core.String? userEmail,
+    $core.String? deviceUniqueId,
+  }) {
+    final _result = create();
+    if (userEmail != null) {
+      _result.userEmail = userEmail;
+    }
+    if (deviceUniqueId != null) {
+      _result.deviceUniqueId = deviceUniqueId;
+    }
+    return _result;
+  }
+  factory LougoutRespone.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory LougoutRespone.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  LougoutRespone clone() => LougoutRespone()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  LougoutRespone copyWith(void Function(LougoutRespone) updates) => super.copyWith((message) => updates(message as LougoutRespone)) as LougoutRespone; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static LougoutRespone create() => LougoutRespone._();
+  LougoutRespone createEmptyInstance() => create();
+  static $pb.PbList<LougoutRespone> createRepeated() => $pb.PbList<LougoutRespone>();
+  @$core.pragma('dart2js:noInline')
+  static LougoutRespone getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<LougoutRespone>(create);
+  static LougoutRespone? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get userEmail => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set userEmail($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasUserEmail() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearUserEmail() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get deviceUniqueId => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set deviceUniqueId($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasDeviceUniqueId() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearDeviceUniqueId() => clearField(2);
 }
 
 class CreateAccountRequest extends $pb.GeneratedMessage {

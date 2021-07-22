@@ -1,20 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mine_loop_education/grpc/authentication/client.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../widgets/login-form-widget.dart';
 import '../widgets/dropdown-widget.dart';
 import '../widgets/create-form-widget.dart';
-
-enum LoginScreenFlexible {
-  notch,
-  logo,
-  welcomeText,
-  loginForm,
-  createAccount,
-  termsAndConditions
-}
 
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login';
@@ -25,24 +15,14 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  var flexibleNumber = Map<LoginScreenFlexible, int>();
+  final flexibleNumber = {
+    'notch': 1,
+    'logo': 2,
+    'welcomeText': 1,
+    'createAccount': 2,
+    'termsAndConditions': 1,
+  };
   void _launchUrl() async => await launch('https://flutter.dev');
-
-  Future<void> _fetchLoginForm;
-  @override
-  void initState() {
-    flexibleNumber[LoginScreenFlexible.notch] = 1;
-    flexibleNumber[LoginScreenFlexible.logo] = 2;
-    flexibleNumber[LoginScreenFlexible.welcomeText] = 1;
-    flexibleNumber[LoginScreenFlexible.createAccount] = 2;
-    flexibleNumber[LoginScreenFlexible.termsAndConditions] = 1;
-    _fetchLoginForm = fetchLoginForm();
-    super.initState();
-  }
-
-  Future<void> fetchLoginForm() {
-    return Future.delayed(Duration(milliseconds: 700), () {});
-  }
 
   Widget build(BuildContext context) {
     @override
@@ -81,27 +61,27 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   ///////Headers/////
                   Flexible(
-                    flex: flexibleNumber[LoginScreenFlexible.logo] +
-                        flexibleNumber[LoginScreenFlexible.welcomeText] +
-                        flexibleNumber[LoginScreenFlexible.notch],
+                    flex: flexibleNumber['logo'] +
+                        flexibleNumber['welcomeText'] +
+                        flexibleNumber['notch'],
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         ////Notch/////
                         Expanded(
-                            flex: flexibleNumber[LoginScreenFlexible.notch],
-                            child: SizedBox()),
+                            flex: flexibleNumber['notch'],
+                            child: const SizedBox()),
                         /////Logo/////
                         Flexible(
-                          flex: flexibleNumber[LoginScreenFlexible.logo],
+                          flex: flexibleNumber['logo'],
                           child: Container(
                             alignment: Alignment.bottomCenter,
                             width: 200,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
                               image: DecorationImage(
-                                image: NetworkImage(
+                                image: const NetworkImage(
                                     'https://i.pinimg.com/originals/73/ed/e2/73ede2610b35468be26a77f04092535c.png'),
                                 fit: BoxFit.cover,
                               ),
@@ -110,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         /////Welcome Sign/////
                         Flexible(
-                          flex: flexibleNumber[LoginScreenFlexible.welcomeText],
+                          flex: flexibleNumber['welcomeText'],
                           child: Container(
                             alignment: Alignment.centerLeft,
                             padding: const EdgeInsets.only(left: 15.0),
@@ -126,53 +106,42 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   //////Login Form//////
-                  FutureBuilder(
-                      future: _fetchLoginForm,
-                      builder: (context, snapshot) {
-                        return snapshot.connectionState ==
-                                ConnectionState.waiting
-                            ? Center(
-                                child: CircularProgressIndicator(),
-                              )
-                            : Consumer<LoginFormWidgetProvider>(
-                                builder: (ctx, _loginFormWidgetProvider, _) =>
-                                    AnimatedContainer(
-                                  alignment: Alignment.bottomCenter,
-                                  duration: _loginFormWidgetProvider
-                                      .containerExpandAnimationDuration,
-                                  height: _loginFormWidgetProvider
-                                          .isTapExpandedContainerForm
-                                      ? 350
-                                      : 100,
-                                  curve: Curves.decelerate,
-                                  child: LoginFormWidget(),
-                                ),
-                              );
-                      }),
+                  Consumer<LoginFormWidgetProvider>(
+                    builder: (ctx, _loginFormWidgetProvider, _) =>
+                        AnimatedContainer(
+                      alignment: Alignment.bottomCenter,
+                      duration: _loginFormWidgetProvider
+                          .containerExpandAnimationDuration,
+                      height:
+                          _loginFormWidgetProvider.isTapExpandedContainerForm
+                              ? 350
+                              : 100,
+                      curve: Curves.linearToEaseOut,
+                      child: LoginFormWidget(),
+                    ),
+                  ),
 
                   /// Form Register
                   Expanded(
-                    flex: flexibleNumber[LoginScreenFlexible.createAccount] +
-                        flexibleNumber[LoginScreenFlexible.createAccount],
+                    flex: flexibleNumber['createAccount'] +
+                        flexibleNumber['createAccount'],
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const SizedBox(
                           height: 3,
                         ),
-                        Text('Don\'t have an account yet?'),
+                        const Text('Don\'t have an account yet?'),
                         Expanded(
-                            flex: flexibleNumber[
-                                    LoginScreenFlexible.createAccount] +
-                                flexibleNumber[
-                                    LoginScreenFlexible.createAccount],
+                            flex: flexibleNumber['createAccount'] +
+                                flexibleNumber['createAccount'],
                             child: CreateFromWidget()),
                       ],
                     ),
                   ),
                   DropDownWidget(),
                   InkWell(
-                    child: new Text('Terms and Conditions'),
+                    child: const Text('Terms and Conditions'),
                     onTap: _launchUrl,
                   ),
                   const SizedBox(

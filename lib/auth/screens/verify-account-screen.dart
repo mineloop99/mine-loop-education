@@ -94,6 +94,7 @@ class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
         height: 60,
         child: TextField(
           focusNode: focusNodes[index],
+          autofocus: index == 0 ? true : false,
           controller: textControllers[index],
           decoration: const InputDecoration(
             counterText: '',

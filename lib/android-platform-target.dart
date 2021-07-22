@@ -17,8 +17,13 @@ import 'auth/screens/verify-account-screen.dart';
 import 'models/routes.dart';
 import './home/screens/splash_screen.dart';
 
-class AndroidPlatformTarget extends StatelessWidget {
-  const AndroidPlatformTarget({Key key}) : super(key: key);
+class AndroidPlatformTarget extends StatefulWidget {
+  @override
+  _AndroidPlatformTargetState createState() => _AndroidPlatformTargetState();
+}
+
+class _AndroidPlatformTargetState extends State<AndroidPlatformTarget> {
+  final _tryLogin = AuthenticationAPI.instance.tryAutoLogin();
 
   @override
   Widget build(BuildContext context) {
@@ -87,14 +92,15 @@ class AndroidPlatformTarget extends StatelessWidget {
       home: Consumer<AccountProvider>(
         builder: (_, _accountProvider, __) {
           return FutureBuilder(
-            future: AuthenticationAPI.instance.tryAutoLogin(),
+            future: _tryLogin,
             builder: (_, snapshot) =>
                 snapshot.connectionState == ConnectionState.waiting
                     ? SplashScreen()
-                    : LoginScreen(),
+                    : _accountProvider.isLogged
+                        ? HomeScreen()
+                        : LoginScreen(),
           );
         },
-        child: LoginScreen(),
       ),
       routes: Routes.routes,
     );

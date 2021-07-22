@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:mine_loop_education/models/routes.dart';
+
 import 'package:provider/provider.dart';
 
 import './general-setting-button.dart';
-import '../../../models/routes.dart';
 import '../../screens/my-account-screens/notifications-setting-screen.dart';
 import '../../screens/my-account-screens/language-setting-screen.dart';
 import '../../screens/my-account-screens/help-support-screen.dart';
 import '../../../auth/providers/account-provider.dart';
 import '../../../auth/widgets/login-form-widget.dart';
+import '../../../grpc/authentication/client.dart';
+import 'package:mine_loop_education/dialog-pop-up/normal-dialog-popup.dart';
 
 class AccountGeneralSettingWidget extends StatefulWidget {
   @override
@@ -17,6 +20,31 @@ class AccountGeneralSettingWidget extends StatefulWidget {
 
 class _AccountGeneralSettingWidgetState
     extends State<AccountGeneralSettingWidget> {
+  void _tryLogout() async {
+    print("Logout revoke");
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) {
+          return NormalDialogPopup(
+            methodCall: AuthenticationAPI.instance.callLogout(),
+            methodCallWhenPressOk: () {},
+          );
+        });
+    //Call animation for login screen
+    // final _loginFormWidgetProvider =
+    //     Provider.of<LoginFormWidgetProvider>(context, listen: false);
+    // _loginFormWidgetProvider.animationTapCallBack();
+
+    Future.delayed(
+        Duration(milliseconds: 700),
+        () => Provider.of<AccountProvider>(context, listen: false)
+            .setLogged(false));
+    // Navigator.of(context).pushNamedAndRemoveUntil(
+    // Routes.routeName[RouteNamesEnum.Login],
+    // (Route<dynamic> route) => false)
+  }
+
   @override
   Widget build(BuildContext context) {
     final List<Widget> _generalButtonList = [
@@ -60,13 +88,7 @@ class _AccountGeneralSettingWidgetState
         title: "Log Out",
         subTitle: "Return to Login Screen",
         imageLeading: Icon(Icons.logout, size: 30),
-        onTap: () {
-          Navigator.popAndPushNamed(
-              context, Routes.routeName[RouteNamesEnum.Login]);
-          Provider.of<AccountProvider>(context, listen: false).logout();
-          Provider.of<LoginFormWidgetProvider>(context, listen: false)
-              .animationTapCallBack();
-        },
+        onTap: _tryLogout,
       ),
     ];
     return SingleChildScrollView(

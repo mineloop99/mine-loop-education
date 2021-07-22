@@ -15,9 +15,4 @@ class HomeProvider with ChangeNotifier {
   bool get isLogged {
     return _isLogged;
   }
-
-  void setLogged() {
-    _isLogged = true;
-    notifyListeners();
-  }
 }

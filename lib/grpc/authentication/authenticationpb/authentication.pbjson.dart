@@ -59,11 +59,12 @@ const LoginRequest$json = const {
   '1': 'LoginRequest',
   '2': const [
     const {'1': 'account_information', '3': 1, '4': 1, '5': 11, '6': '.authentication.AccountInformation', '10': 'accountInformation'},
+    const {'1': 'device_unique_id', '3': 2, '4': 1, '5': 9, '10': 'deviceUniqueId'},
   ],
 };
 
 /// Descriptor for `LoginRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List loginRequestDescriptor = $convert.base64Decode('CgxMb2dpblJlcXVlc3QSUwoTYWNjb3VudF9pbmZvcm1hdGlvbhgBIAEoCzIiLmF1dGhlbnRpY2F0aW9uLkFjY291bnRJbmZvcm1hdGlvblISYWNjb3VudEluZm9ybWF0aW9u');
+final $typed_data.Uint8List loginRequestDescriptor = $convert.base64Decode('CgxMb2dpblJlcXVlc3QSUwoTYWNjb3VudF9pbmZvcm1hdGlvbhgBIAEoCzIiLmF1dGhlbnRpY2F0aW9uLkFjY291bnRJbmZvcm1hdGlvblISYWNjb3VudEluZm9ybWF0aW9uEigKEGRldmljZV91bmlxdWVfaWQYAiABKAlSDmRldmljZVVuaXF1ZUlk');
 @$core.Deprecated('Use loginResponeDescriptor instead')
 const LoginRespone$json = const {
   '1': 'LoginRespone',
@@ -75,6 +76,28 @@ const LoginRespone$json = const {
 
 /// Descriptor for `LoginRespone`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List loginResponeDescriptor = $convert.base64Decode('CgxMb2dpblJlc3BvbmUSFAoFdG9rZW4YASABKAlSBXRva2VuEi4KE2V4cGlyeV90aW1lX3NlY29uZHMYAiABKAVSEWV4cGlyeVRpbWVTZWNvbmRz');
+@$core.Deprecated('Use logoutRequestDescriptor instead')
+const LogoutRequest$json = const {
+  '1': 'LogoutRequest',
+  '2': const [
+    const {'1': 'user_email', '3': 1, '4': 1, '5': 9, '10': 'userEmail'},
+    const {'1': 'device_unique_id', '3': 2, '4': 1, '5': 9, '10': 'deviceUniqueId'},
+  ],
+};
+
+/// Descriptor for `LogoutRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List logoutRequestDescriptor = $convert.base64Decode('Cg1Mb2dvdXRSZXF1ZXN0Eh0KCnVzZXJfZW1haWwYASABKAlSCXVzZXJFbWFpbBIoChBkZXZpY2VfdW5pcXVlX2lkGAIgASgJUg5kZXZpY2VVbmlxdWVJZA==');
+@$core.Deprecated('Use lougoutResponeDescriptor instead')
+const LougoutRespone$json = const {
+  '1': 'LougoutRespone',
+  '2': const [
+    const {'1': 'user_email', '3': 1, '4': 1, '5': 9, '10': 'userEmail'},
+    const {'1': 'device_unique_id', '3': 2, '4': 1, '5': 9, '10': 'deviceUniqueId'},
+  ],
+};
+
+/// Descriptor for `LougoutRespone`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List lougoutResponeDescriptor = $convert.base64Decode('Cg5Mb3Vnb3V0UmVzcG9uZRIdCgp1c2VyX2VtYWlsGAEgASgJUgl1c2VyRW1haWwSKAoQZGV2aWNlX3VuaXF1ZV9pZBgCIAEoCVIOZGV2aWNlVW5pcXVlSWQ=');
 @$core.Deprecated('Use createAccountRequestDescriptor instead')
 const CreateAccountRequest$json = const {
   '1': 'CreateAccountRequest',

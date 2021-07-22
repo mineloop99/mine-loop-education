@@ -34,16 +34,16 @@ class AuthInformation {
   final DateTime expiryDate;
 }
 
-class AccountInformation {
-  AccountInformation({
-    this.accountName,
+class UserInformation {
+  UserInformation({
+    this.userName,
     this.phoneNumber,
     this.accountEmail,
     this.birthDay,
     this.gender,
     this.subjects,
   });
-  String accountName;
+  String userName;
   Gender gender;
   DateTime birthDay;
   List<StudentSubjects> subjects;

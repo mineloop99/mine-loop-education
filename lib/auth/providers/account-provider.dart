@@ -1,10 +1,9 @@
 import 'package:flutter/foundation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../models/account.dart';
 
 class AccountProvider with ChangeNotifier {
   AuthInformation _authInformation;
-  AccountInformation _accountInformation;
+  UserInformation _userInformation;
 
   bool _isLogged = false;
 
@@ -12,8 +11,8 @@ class AccountProvider with ChangeNotifier {
     return _isLogged;
   }
 
-  void setLogged() {
-    _isLogged = !isLogged;
+  void setLogged(bool setLogged) {
+    _isLogged = setLogged;
     notifyListeners();
   }
 
@@ -23,8 +22,8 @@ class AccountProvider with ChangeNotifier {
     return _authInformation;
   }
 
-  AccountInformation get accountInformation {
-    return _accountInformation;
+  UserInformation get userInformation {
+    return _userInformation;
   }
 
   void setToken(String token, DateTime expiryDate) {
@@ -32,12 +31,5 @@ class AccountProvider with ChangeNotifier {
       token: token,
       expiryDate: expiryDate,
     );
-  }
-
-  Future<void> logout() async {
-    _authInformation = new AuthInformation(token: '', expiryDate: null);
-    notifyListeners();
-    final sharedPrefs = await SharedPreferences.getInstance();
-    sharedPrefs.remove('userData');
   }
 }

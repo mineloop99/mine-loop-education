@@ -124,8 +124,12 @@ class _AuthenticationScreenDialogState
               // Navigator to Home if Login method succeed.//
               if (widget.isLoginMethod) {
                 Future.delayed(Duration(seconds: 1), () {
-                  Navigator.of(context)
-                      .popAndPushNamed(Routes.routeName[RouteNamesEnum.Home]);
+                  Future.delayed(
+                      Duration(milliseconds: 700),
+                      () => Navigator.of(context).pushNamedAndRemoveUntil(
+                          Routes.routeName[RouteNamesEnum.Home],
+                          (Route<dynamic> route) => false));
+                  ;
                 });
               } else {
                 return _dialog(context,
