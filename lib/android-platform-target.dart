@@ -96,7 +96,7 @@ class _AndroidPlatformTargetState extends State<AndroidPlatformTarget> {
             builder: (_, snapshot) =>
                 snapshot.connectionState == ConnectionState.waiting
                     ? SplashScreen()
-                    : _accountProvider.isLogged
+                    : snapshot.hasData && snapshot.data == "OK"
                         ? HomeScreen()
                         : LoginScreen(),
           );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mine_loop_education/auth/widgets/login-form-widget.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/pages/class-page.dart' show ClassPage;
@@ -50,6 +51,11 @@ class _HomeScreenState extends State<HomeScreen> {
       initialPage: 0,
       keepPage: false,
     );
+    final _loginFormWidgetProvider =
+        Provider.of<LoginFormWidgetProvider>(context, listen: false);
+    _loginFormWidgetProvider.chooseLoginMethods();
+    _loginFormWidgetProvider.isTapExpandedContainerForm = false;
+
     super.initState();
   }
 
@@ -85,7 +91,6 @@ class _HomeScreenState extends State<HomeScreen> {
   //   pageController.animateToPage(index,
   //     duration: Duration(milliseconds: 500), curve: Curves.ease);
   // }
-
   @override
   void dispose() {
     super.dispose();

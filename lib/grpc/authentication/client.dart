@@ -1,8 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:grpc/grpc.dart';
 import 'package:mine_loop_education/auth/models/account.dart';
+import 'package:mine_loop_education/auth/widgets/login-form-widget.dart';
+import 'package:mine_loop_education/dialog-pop-up/normal-dialog-popup.dart';
+import 'package:mine_loop_education/models/routes.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:crypto/crypto.dart' as hash;
 
@@ -26,6 +31,19 @@ class AuthenticationClientProvider with ChangeNotifier {
 }
 
 class AuthenticationAPI {
+  void tryLogout(BuildContext context) async {
+    print("Logout revoke");
+    callLogout();
+    Provider.of<AccountProvider>(context, listen: false).setLogged(false);
+    Navigator.of(context).restorablePushNamedAndRemoveUntil(
+        Routes.routeName[RouteNamesEnum.Login],
+        (Route<dynamic> route) => false);
+
+    // Navigator.of(context).pushNamedAndRemoveUntil(
+    // Routes.routeName[RouteNamesEnum.Login],
+    // (Route<dynamic> route) => false)
+  }
+
   static AuthenticationAPI instance = AuthenticationAPI();
   AuthenticationClient _client;
 
@@ -71,8 +89,8 @@ class AuthenticationAPI {
   //   }
   // }
 
-  Future<String> callLogin(
-      String email, String password, bool checkedRememberMe) async {
+  Future<String> callLogin(String email, String password,
+      bool checkedRememberMe, BuildContext context) async {
     if (_client == null) clientAuthInit();
     try {
       /// Make Login Request
@@ -86,7 +104,6 @@ class AuthenticationAPI {
           ..deviceUniqueId = deviceUniqueId,
         options: CallOptions(timeout: _clientTimeOut),
       );
-
       //Get Storage Prefs
       final sharedPrefs = await SharedPreferences.getInstance();
       if (checkedRememberMe) {
@@ -105,6 +122,7 @@ class AuthenticationAPI {
       AccountProvider.instance.setToken(respone.token,
           DateTime.now().add(Duration(seconds: respone.expiryTimeSeconds)));
 
+      Provider.of<AccountProvider>(context, listen: false).setLogged(true);
       return "OK";
     } on GrpcError catch (err) {
       print("Code: \"${err.codeName}\" & Message: ${err.message}");
@@ -156,8 +174,12 @@ class AuthenticationAPI {
             expiryDate.toString(),
       );
       //Check date expired
+
       if (expiryDate.isBefore(DateTime.now())) {
         return "Time Expired! Please Login Again.";
+      }
+      if (extractedUserData['token'] == null) {
+        return '';
       }
       final deviceUniqueId = await deviceHelper.getDeviceInfor();
 

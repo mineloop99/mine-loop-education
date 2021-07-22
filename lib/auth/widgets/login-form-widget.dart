@@ -69,7 +69,8 @@ class _LoginFormWidgetState extends State<LoginFormWidget>
     _loginFormWidgetProvider =
         Provider.of<LoginFormWidgetProvider>(context, listen: false);
     _loginFormWidgetProvider.isChosingLogin = true;
-
+    _loginFormWidgetProvider.loginMethods = LoginMethods.None;
+    _loginFormWidgetProvider.isTapFadeFormLogin = true;
     super.initState();
   }
 
@@ -183,7 +184,6 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
     setState(() {
       FocusScope.of(context).unfocus();
     });
-
     if (isValid) {
       _formKey.currentState.save();
       showDialog(
@@ -194,14 +194,11 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
               methodCall: AuthenticationAPI.instance.callLogin(
                   _emailController.text,
                   _passwordController.text,
-                  _autoLoginCheckBox),
+                  _autoLoginCheckBox,
+                  context),
               isLoginMethod: true,
             );
-          }).then((value) {
-        Provider.of<AccountProvider>(context, listen: false).setLogged(true);
-        Provider.of<LoginFormWidgetProvider>(context, listen: false)
-            .chooseLoginMethods();
-      });
+          });
     }
   }
 

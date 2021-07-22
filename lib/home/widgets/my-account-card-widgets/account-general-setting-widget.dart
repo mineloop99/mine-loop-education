@@ -20,31 +20,6 @@ class AccountGeneralSettingWidget extends StatefulWidget {
 
 class _AccountGeneralSettingWidgetState
     extends State<AccountGeneralSettingWidget> {
-  void _tryLogout() async {
-    print("Logout revoke");
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (_) {
-          return NormalDialogPopup(
-            methodCall: AuthenticationAPI.instance.callLogout(),
-            methodCallWhenPressOk: () {},
-          );
-        });
-    //Call animation for login screen
-    // final _loginFormWidgetProvider =
-    //     Provider.of<LoginFormWidgetProvider>(context, listen: false);
-    // _loginFormWidgetProvider.animationTapCallBack();
-
-    Future.delayed(
-        Duration(milliseconds: 700),
-        () => Provider.of<AccountProvider>(context, listen: false)
-            .setLogged(false));
-    // Navigator.of(context).pushNamedAndRemoveUntil(
-    // Routes.routeName[RouteNamesEnum.Login],
-    // (Route<dynamic> route) => false)
-  }
-
   @override
   Widget build(BuildContext context) {
     final List<Widget> _generalButtonList = [
@@ -88,7 +63,7 @@ class _AccountGeneralSettingWidgetState
         title: "Log Out",
         subTitle: "Return to Login Screen",
         imageLeading: Icon(Icons.logout, size: 30),
-        onTap: _tryLogout,
+        onTap: () => AuthenticationAPI.instance.tryLogout(context),
       ),
     ];
     return SingleChildScrollView(
