@@ -7,14 +7,14 @@ import '../../dialog-pop-up/authentication-screen-dialog.dart';
 import '../../grpc/authentication/client.dart';
 import './auth-button.dart';
 
-class CreateAccountForm extends StatefulWidget {
-  const CreateAccountForm({Key key}) : super(key: key);
+class ForgotPasswordScreen extends StatefulWidget {
+  const ForgotPasswordScreen({Key key}) : super(key: key);
 
   @override
-  _CreateAccountFormState createState() => _CreateAccountFormState();
+  _ForgotPasswordScreenState createState() => _ForgotPasswordScreenState();
 }
 
-class _CreateAccountFormState extends State<CreateAccountForm> {
+class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController _emailController = TextEditingController();

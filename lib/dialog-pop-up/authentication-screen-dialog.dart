@@ -24,8 +24,12 @@ class AuthenticationScreenDialog extends StatefulWidget {
 class _AuthenticationScreenDialogState
     extends State<AuthenticationScreenDialog> {
   ////General Dialog
-  _dialog(BuildContext context,
-          {String title, String description, bool errorPop}) =>
+  _dialog(
+    BuildContext context, {
+    String title,
+    String description,
+    bool errorPop,
+  }) =>
       Dialog(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(Constants.padding),
@@ -82,7 +86,7 @@ class _AuthenticationScreenDialogState
                           if (errorPop) return null;
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (ctx) => ConfirmAccountScreen(),
+                              builder: (ctx) => VerifyAccountScreen(),
                             ),
                           );
                         },
@@ -114,7 +118,7 @@ class _AuthenticationScreenDialogState
   //// Login if is login method and call create if create account method
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
+    return FutureBuilder<String>(
         future: widget.methodCall,
         builder: (ctx, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -129,7 +133,6 @@ class _AuthenticationScreenDialogState
                       () => Navigator.of(context).pushNamedAndRemoveUntil(
                           Routes.routeName[RouteNamesEnum.Home],
                           (Route<dynamic> route) => false));
-                  ;
                 });
               } else {
                 return _dialog(context,
@@ -137,6 +140,11 @@ class _AuthenticationScreenDialogState
                     description: "Confirm email now to continue",
                     errorPop: false);
               }
+            } else if (snapshot.data.contains('@')) {
+              return _dialog(context,
+                  title: "Login Succeed",
+                  description: "You need verify to continue",
+                  errorPop: false);
             } else {
               return _dialog(context,
                   title: "An error Occured!",

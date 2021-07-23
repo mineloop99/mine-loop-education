@@ -82,7 +82,9 @@ message EmailVerificationRespone {}
 message EmailVerificationCodeRequest {
     string email = 1;
     int32 code = 2;
+    string device_unique_id = 3;
 }
 message EmailVerificationCodeRespone {
     bool verify_status = 1;
+    string token = 2;
 }

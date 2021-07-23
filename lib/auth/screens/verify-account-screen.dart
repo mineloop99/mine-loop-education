@@ -2,16 +2,17 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import '../../dialog-pop-up/normal-dialog-popup.dart';
+import 'package:mine_loop_education/models/routes.dart';
 import 'package:provider/provider.dart';
+import '../../dialog-pop-up/normal-dialog-popup.dart';
 import '../../auth/widgets/auth-button.dart';
 import '../../grpc/authentication/client.dart';
 
-class ConfirmAccountScreen extends StatefulWidget {
-  _ConfirmAccountScreenState createState() => _ConfirmAccountScreenState();
+class VerifyAccountScreen extends StatefulWidget {
+  _VerifyAccountScreenState createState() => _VerifyAccountScreenState();
 }
 
-class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
+class _VerifyAccountScreenState extends State<VerifyAccountScreen> {
   final List<FocusNode> focusNodes = List<FocusNode>.generate(6, (index) {
     return FocusNode();
   });
@@ -70,8 +71,9 @@ class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
     FocusScope.of(context).unfocus();
     String _codeConfirm = "";
     for (var item in textControllers) {
-      _codeConfirm += item.text;
+      if (item.text.isNotEmpty) _codeConfirm += item.text;
     }
+
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -85,6 +87,13 @@ class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
             methodCallWhenPressOk: () {
               Navigator.of(context).pop();
             },
+            customNavigatorString: "EMAIL_CONFIRMED",
+            customNavigator: () => Future.delayed(
+              Duration(milliseconds: 700),
+              () => Navigator.of(context).pushNamedAndRemoveUntil(
+                  Routes.routeName[RouteNamesEnum.Home],
+                  (Route<dynamic> route) => false),
+            ),
           );
         });
   }
@@ -92,7 +101,7 @@ class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
   _numberTextField(int index) => SizedBox(
         width: 30,
         height: 60,
-        child: TextField(
+        child: TextFormField(
           focusNode: focusNodes[index],
           autofocus: index == 0 ? true : false,
           controller: textControllers[index],
@@ -188,18 +197,7 @@ class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
                       : const SizedBox(width: 20),
                 ),
               ),
-              const SizedBox(height: 50),
-              AuthButton(
-                  onPressed: _trySubmit,
-                  textButton: "Send Code",
-                  isNotElevatedButtonIcon: true),
-              const SizedBox(height: 10),
-              AuthButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  textButton: "Cancel",
-                  isNotElevatedButtonIcon: true)
+              const SizedBox(height: 180),
             ],
           );
         },

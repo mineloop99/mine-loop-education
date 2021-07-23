@@ -15,7 +15,7 @@ import '../../auth/providers/account-provider.dart' show AccountProvider;
 import '../../grpc/authentication/authenticationpb/authentication.pbgrpc.dart';
 import '../../helpers/device-helper.dart' as deviceHelper;
 
-const ip = "10.0.2.2";
+const ip = '10.0.2.2'; //"10.0.2.2";
 const port = 50010;
 
 class AuthenticationClientProvider with ChangeNotifier {
@@ -38,10 +38,6 @@ class AuthenticationAPI {
     Navigator.of(context).restorablePushNamedAndRemoveUntil(
         Routes.routeName[RouteNamesEnum.Login],
         (Route<dynamic> route) => false);
-
-    // Navigator.of(context).pushNamedAndRemoveUntil(
-    // Routes.routeName[RouteNamesEnum.Login],
-    // (Route<dynamic> route) => false)
   }
 
   static AuthenticationAPI instance = AuthenticationAPI();
@@ -60,34 +56,6 @@ class AuthenticationAPI {
     );
     _client = AuthenticationClient(channel);
   }
-
-  // Future<String> testing() async {
-  //   if (_client == null) clientAuthInit();
-  //   try {
-  //     final sharedPrefs = await SharedPreferences.getInstance();
-  //     if (!sharedPrefs.containsKey('userData')) {
-  //       return "nothing to read";
-  //     }
-  //     final extractedUserData = json.decode(sharedPrefs.getString('userData'))
-  //         as Map<String, dynamic>;
-  //     if (extractedUserData.isEmpty) return "Can't see any Data in local!";
-  //     print("metadata: $extractedUserData");
-  //     final respone = await _client.testing(
-  //       TestingRequest(),
-  //       options: CallOptions(
-  //           timeout: _clientTimeOut,
-  //           metadata: {'token': extractedUserData['token']}),
-  //     );
-  //     if (respone == null) return "Can not retreiving data from server!";
-
-  //     return "OK";
-  //   } on GrpcError catch (err) {
-  //     print("Code: \"${err.codeName}\" & Message: ${err.message}");
-  //     return err.message;
-  //   } catch (err) {
-  //     return err.message;
-  //   }
-  // }
 
   Future<String> callLogin(String email, String password,
       bool checkedRememberMe, BuildContext context) async {
@@ -125,9 +93,7 @@ class AuthenticationAPI {
       Provider.of<AccountProvider>(context, listen: false).setLogged(true);
       return "OK";
     } on GrpcError catch (err) {
-      print("Code: \"${err.codeName}\" & Message: ${err.message}");
-      return err.message;
-    } catch (err) {
+      if (err.message == "NEED_VERIFY") return email;
       return err.message;
     }
   }
@@ -154,60 +120,83 @@ class AuthenticationAPI {
     }
   }
 
-  Future<String> tryAutoLogin() async {
+  Future<String> tryAutoLogin([String token = ""]) async {
     if (_client == null) clientAuthInit();
-    try {
-      ///Check File UserData
-      final sharedPrefs = await SharedPreferences.getInstance();
-      if (!sharedPrefs.containsKey('userData')) {
-        return "Cannot Find Any Data";
+
+    final deviceUniqueId = await deviceHelper.getDeviceInfor();
+    final sharedPrefs = await SharedPreferences.getInstance();
+    var respone;
+    //// Request if login call with local storage token and else with token
+    if (token.isEmpty)
+      try {
+        ///Check File UserData
+        if (!sharedPrefs.containsKey('userData')) {
+          return "Cannot Find Any Data";
+        }
+        //Get file user data
+        final extractedUserData = json.decode(sharedPrefs.getString('userData'))
+            as Map<String, dynamic>;
+        final expiryDate = DateTime.parse(extractedUserData['expiry_date']);
+        print(
+          "\nMy token local: " +
+              extractedUserData['token'] +
+              '\n' +
+              expiryDate.toString(),
+        );
+        //Check date expired
+
+        if (expiryDate.isBefore(DateTime.now())) {
+          return "Time Expired! Please Login Again.";
+        }
+        if (extractedUserData['token'] == null) {
+          return '';
+        }
+
+        /// AutoLogin Server Request
+        respone = await _client.autoLogin(
+          AutoLoginRequest()..deviceUniqueId = deviceUniqueId,
+          options: CallOptions(
+              timeout: _clientTimeOut,
+              metadata: {'token': extractedUserData['token']}),
+        );
+      } on GrpcError catch (err) {
+        print("Code: \"${err.codeName}\" & Message: ${err.message}");
+        return err.message;
       }
-
-      //Get file user data
-      final extractedUserData = json.decode(sharedPrefs.getString('userData'))
-          as Map<String, dynamic>;
-      final expiryDate = DateTime.parse(extractedUserData['expiry_date']);
-      print(
-        "\nMy token local: " +
-            extractedUserData['token'] +
-            '\n' +
-            expiryDate.toString(),
-      );
-      //Check date expired
-
-      if (expiryDate.isBefore(DateTime.now())) {
-        return "Time Expired! Please Login Again.";
+    else {
+      try {
+        respone = await _client.autoLogin(
+          AutoLoginRequest()..deviceUniqueId = deviceUniqueId,
+          options:
+              CallOptions(timeout: _clientTimeOut, metadata: {'token': token}),
+        );
+        final userData = json.encode({
+          'token': respone.token,
+          'expiry_date': DateTime.now()
+              .add(Duration(seconds: respone.expiryTimeSeconds))
+              .toIso8601String(),
+        });
+        sharedPrefs.setString('userData', userData);
+        AccountProvider.instance.setToken(respone.token,
+            DateTime.now().add(Duration(seconds: respone.expiryTimeSeconds)));
+      } on GrpcError catch (err) {
+        print("Code: \"${err.codeName}\" & Message: ${err.message}");
+        return err.message;
       }
-      if (extractedUserData['token'] == null) {
-        return '';
-      }
-      final deviceUniqueId = await deviceHelper.getDeviceInfor();
-
-      /// AutoLogin Server Request
-      final respone = await _client.autoLogin(
-        AutoLoginRequest()..deviceUniqueId = deviceUniqueId,
-        options: CallOptions(
-            timeout: _clientTimeOut,
-            metadata: {'token': extractedUserData['token']}),
-      ); // Store token and Expiry date Again
-
-      final userData = json.encode({
-        'token': respone.token,
-        'expiry_date': DateTime.now()
-            .add(Duration(seconds: respone.expiryTimeSeconds))
-            .toIso8601String(),
-      });
-      sharedPrefs.setString('userData', userData);
-      AccountProvider.instance.setToken(respone.token,
-          DateTime.now().add(Duration(seconds: respone.expiryTimeSeconds)));
-
-      return "OK";
-    } on GrpcError catch (err) {
-      print("Code: \"${err.codeName}\" & Message: ${err.message}");
-      return err.message;
-    } catch (err) {
-      return err.message;
     }
+    // Store token and Expiry date Again
+
+    final userData = json.encode({
+      'token': respone.token,
+      'expiry_date': DateTime.now()
+          .add(Duration(seconds: respone.expiryTimeSeconds))
+          .toIso8601String(),
+    });
+    sharedPrefs.setString('userData', userData);
+    AccountProvider.instance.setToken(respone.token,
+        DateTime.now().add(Duration(seconds: respone.expiryTimeSeconds)));
+
+    return "OK";
   }
 
   //////////////////////////LOGOUT///////////////////////////
@@ -253,13 +242,16 @@ class AuthenticationAPI {
   Future<String> sendEmailVerificationCodeRequest(
       String email, int code) async {
     if (_client == null) clientAuthInit();
+    final deviceId = await deviceHelper.getDeviceInfor();
     try {
-      await _client.emailVerificationCode(
+      final respone = await _client.emailVerificationCode(
         EmailVerificationCodeRequest()
           ..code = code
-          ..email = email,
+          ..email = email
+          ..deviceUniqueId = deviceId,
       );
-      return "Email confirmed";
+      tryAutoLogin(respone.token);
+      return "EMAIL_CONFIRMED";
     } on GrpcError catch (err) {
       print("Code: \"${err.codeName}\" & Message: ${err.message}");
       return err.message;

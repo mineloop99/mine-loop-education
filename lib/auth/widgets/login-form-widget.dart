@@ -199,6 +199,8 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
               isLoginMethod: true,
             );
           });
+      Provider.of<AuthenticationClientProvider>(context, listen: false)
+          .setEmail(_emailController.text);
     }
   }
 

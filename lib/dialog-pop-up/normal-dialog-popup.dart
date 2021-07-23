@@ -8,9 +8,13 @@ class Constants {
 class NormalDialogPopup extends StatefulWidget {
   final Future<dynamic> methodCall;
   final Function methodCallWhenPressOk;
+  final String customNavigatorString;
+  final Function customNavigator;
   const NormalDialogPopup({
     @required this.methodCall,
     @required this.methodCallWhenPressOk,
+    this.customNavigator,
+    this.customNavigatorString,
   });
 
   @override
@@ -102,7 +106,7 @@ class _NormalDialogPopupState extends State<NormalDialogPopup> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
+    return FutureBuilder<String>(
         future: widget.methodCall,
         builder: (ctx, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -110,6 +114,8 @@ class _NormalDialogPopupState extends State<NormalDialogPopup> {
           } else if (snapshot.hasData) {
             if (snapshot.data == "OK") {
               Navigator.of(context).pop();
+            } else if (snapshot.data == widget.customNavigatorString) {
+              widget.customNavigator();
             } else {
               return _dialog(
                 context,

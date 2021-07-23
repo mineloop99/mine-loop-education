@@ -658,6 +658,7 @@ class EmailVerificationCodeRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'EmailVerificationCodeRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'authentication'), createEmptyInstance: create)
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'email')
     ..a<$core.int>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'code', $pb.PbFieldType.O3)
+    ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'deviceUniqueId')
     ..hasRequiredFields = false
   ;
 
@@ -665,6 +666,7 @@ class EmailVerificationCodeRequest extends $pb.GeneratedMessage {
   factory EmailVerificationCodeRequest({
     $core.String? email,
     $core.int? code,
+    $core.String? deviceUniqueId,
   }) {
     final _result = create();
     if (email != null) {
@@ -672,6 +674,9 @@ class EmailVerificationCodeRequest extends $pb.GeneratedMessage {
     }
     if (code != null) {
       _result.code = code;
+    }
+    if (deviceUniqueId != null) {
+      _result.deviceUniqueId = deviceUniqueId;
     }
     return _result;
   }
@@ -713,21 +718,35 @@ class EmailVerificationCodeRequest extends $pb.GeneratedMessage {
   $core.bool hasCode() => $_has(1);
   @$pb.TagNumber(2)
   void clearCode() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get deviceUniqueId => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set deviceUniqueId($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasDeviceUniqueId() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearDeviceUniqueId() => clearField(3);
 }
 
 class EmailVerificationCodeRespone extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'EmailVerificationCodeRespone', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'authentication'), createEmptyInstance: create)
     ..aOB(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'verifyStatus')
+    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'token')
     ..hasRequiredFields = false
   ;
 
   EmailVerificationCodeRespone._() : super();
   factory EmailVerificationCodeRespone({
     $core.bool? verifyStatus,
+    $core.String? token,
   }) {
     final _result = create();
     if (verifyStatus != null) {
       _result.verifyStatus = verifyStatus;
+    }
+    if (token != null) {
+      _result.token = token;
     }
     return _result;
   }
@@ -760,5 +779,14 @@ class EmailVerificationCodeRespone extends $pb.GeneratedMessage {
   $core.bool hasVerifyStatus() => $_has(0);
   @$pb.TagNumber(1)
   void clearVerifyStatus() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get token => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set token($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasToken() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearToken() => clearField(2);
 }
 

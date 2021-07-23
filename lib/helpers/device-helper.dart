@@ -14,9 +14,9 @@ Future<String> getDeviceInfor() async {
   const deviceData = 'deviceData';
   try {
     final sharedPrefs = await SharedPreferences.getInstance();
-    String value = ""; //generateRandomString(6);
+    String value = "";
     if (!sharedPrefs.containsKey(deviceData)) {
-      value = generateRandomString(6);
+      value = generateRandomString(20);
       sharedPrefs.setString(
           deviceData,
           json.encode(

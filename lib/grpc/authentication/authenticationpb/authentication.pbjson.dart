@@ -141,18 +141,20 @@ const EmailVerificationCodeRequest$json = const {
   '2': const [
     const {'1': 'email', '3': 1, '4': 1, '5': 9, '10': 'email'},
     const {'1': 'code', '3': 2, '4': 1, '5': 5, '10': 'code'},
+    const {'1': 'device_unique_id', '3': 3, '4': 1, '5': 9, '10': 'deviceUniqueId'},
   ],
 };
 
 /// Descriptor for `EmailVerificationCodeRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List emailVerificationCodeRequestDescriptor = $convert.base64Decode('ChxFbWFpbFZlcmlmaWNhdGlvbkNvZGVSZXF1ZXN0EhQKBWVtYWlsGAEgASgJUgVlbWFpbBISCgRjb2RlGAIgASgFUgRjb2Rl');
+final $typed_data.Uint8List emailVerificationCodeRequestDescriptor = $convert.base64Decode('ChxFbWFpbFZlcmlmaWNhdGlvbkNvZGVSZXF1ZXN0EhQKBWVtYWlsGAEgASgJUgVlbWFpbBISCgRjb2RlGAIgASgFUgRjb2RlEigKEGRldmljZV91bmlxdWVfaWQYAyABKAlSDmRldmljZVVuaXF1ZUlk');
 @$core.Deprecated('Use emailVerificationCodeResponeDescriptor instead')
 const EmailVerificationCodeRespone$json = const {
   '1': 'EmailVerificationCodeRespone',
   '2': const [
     const {'1': 'verify_status', '3': 1, '4': 1, '5': 8, '10': 'verifyStatus'},
+    const {'1': 'token', '3': 2, '4': 1, '5': 9, '10': 'token'},
   ],
 };
 
 /// Descriptor for `EmailVerificationCodeRespone`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List emailVerificationCodeResponeDescriptor = $convert.base64Decode('ChxFbWFpbFZlcmlmaWNhdGlvbkNvZGVSZXNwb25lEiMKDXZlcmlmeV9zdGF0dXMYASABKAhSDHZlcmlmeVN0YXR1cw==');
+final $typed_data.Uint8List emailVerificationCodeResponeDescriptor = $convert.base64Decode('ChxFbWFpbFZlcmlmaWNhdGlvbkNvZGVSZXNwb25lEiMKDXZlcmlmeV9zdGF0dXMYASABKAhSDHZlcmlmeVN0YXR1cxIUCgV0b2tlbhgCIAEoCVIFdG9rZW4=');
