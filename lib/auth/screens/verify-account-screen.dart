@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:mine_loop_education/models/routes.dart';
 import 'package:provider/provider.dart';
 import '../../dialog-pop-up/normal-dialog-popup.dart';
-import '../../auth/widgets/auth-button.dart';
 import '../../grpc/authentication/client.dart';
 
 class VerifyAccountScreen extends StatefulWidget {
+  final Function navigatorFunction;
+  const VerifyAccountScreen({@required this.navigatorFunction});
   _VerifyAccountScreenState createState() => _VerifyAccountScreenState();
 }
 
@@ -90,9 +90,7 @@ class _VerifyAccountScreenState extends State<VerifyAccountScreen> {
             customNavigatorString: "EMAIL_CONFIRMED",
             customNavigator: () => Future.delayed(
               Duration(milliseconds: 700),
-              () => Navigator.of(context).pushNamedAndRemoveUntil(
-                  Routes.routeName[RouteNamesEnum.Home],
-                  (Route<dynamic> route) => false),
+              widget.navigatorFunction,
             ),
           );
         });
@@ -158,10 +156,15 @@ class _VerifyAccountScreenState extends State<VerifyAccountScreen> {
       appBar: AppBar(
         title: const Text('Yuu'),
         actions: [
-          TextButton(
-            child: const Text('Resend Code'),
-            onPressed: _canResend ? _tryResendCode : null,
-          )
+          _canResend
+              ? TextButton(
+                  child: const Text('Resend Code'),
+                  onPressed: _tryResendCode,
+                )
+              : TextButton(
+                  child: const Text('Email Sent'),
+                  onPressed: null,
+                )
         ],
       ),
       body: FutureBuilder(

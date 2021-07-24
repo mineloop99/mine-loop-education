@@ -31,15 +31,6 @@ class AuthenticationClientProvider with ChangeNotifier {
 }
 
 class AuthenticationAPI {
-  void tryLogout(BuildContext context) async {
-    print("Logout revoke");
-    callLogout();
-    Provider.of<AccountProvider>(context, listen: false).setLogged(false);
-    Navigator.of(context).restorablePushNamedAndRemoveUntil(
-        Routes.routeName[RouteNamesEnum.Login],
-        (Route<dynamic> route) => false);
-  }
-
   static AuthenticationAPI instance = AuthenticationAPI();
   AuthenticationClient _client;
 
@@ -57,6 +48,16 @@ class AuthenticationAPI {
     _client = AuthenticationClient(channel);
   }
 
+  void tryLogout(BuildContext context) async {
+    print("Logout revoke");
+    callLogout();
+    Provider.of<AccountProvider>(context, listen: false).setLogged(false);
+    Navigator.of(context).restorablePushNamedAndRemoveUntil(
+        Routes.routeName[RouteNamesEnum.Login],
+        (Route<dynamic> route) => false);
+  }
+
+//////////////////////////Login///////////////////////////
   Future<String> callLogin(String email, String password,
       bool checkedRememberMe, BuildContext context) async {
     if (_client == null) clientAuthInit();
@@ -98,6 +99,7 @@ class AuthenticationAPI {
     }
   }
 
+//////////////////////////Create Account///////////////////////////
   Future<String> createAccount(String email, String password) async {
     if (_client == null) clientAuthInit();
     try {
@@ -120,6 +122,7 @@ class AuthenticationAPI {
     }
   }
 
+  //////////////////////////Auto Login///////////////////////////
   Future<String> tryAutoLogin([String token = ""]) async {
     if (_client == null) clientAuthInit();
 
@@ -223,6 +226,7 @@ class AuthenticationAPI {
     return "Not authorize";
   }
 
+//////////////////////////Send Email Verification///////////////////////////
   Future<String> sendEmailVerificationRequest(String email) async {
     if (_client == null) clientAuthInit();
     try {
@@ -230,7 +234,7 @@ class AuthenticationAPI {
         EmailVerificationRequest()..email = email,
         options: CallOptions(timeout: _clientTimeOut),
       );
-      return "Email has been sent";
+      return "OK";
     } on GrpcError catch (err) {
       print("Code: \"${err.codeName}\" & Message: ${err.message}");
       return err.message;
@@ -239,6 +243,7 @@ class AuthenticationAPI {
     }
   }
 
+//////////////////////////Send code Email Verification///////////////////////////
   Future<String> sendEmailVerificationCodeRequest(
       String email, int code) async {
     if (_client == null) clientAuthInit();
@@ -252,6 +257,24 @@ class AuthenticationAPI {
       );
       tryAutoLogin(respone.token);
       return "EMAIL_CONFIRMED";
+    } on GrpcError catch (err) {
+      print("Code: \"${err.codeName}\" & Message: ${err.message}");
+      return err.message;
+    } catch (err) {
+      return "Something not right!";
+    }
+  }
+
+//////////////////////////Login///////////////////////////
+  Future<String> callForgotPassword(String email) async {
+    clientAuthInit();
+    try {
+      await _client.forgotPassword(
+        ForgotPasswordResquest()..email = email,
+        options: CallOptions(timeout: _clientTimeOut),
+      );
+
+      return "OK";
     } on GrpcError catch (err) {
       print("Code: \"${err.codeName}\" & Message: ${err.message}");
       return err.message;

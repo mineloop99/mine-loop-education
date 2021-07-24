@@ -790,3 +790,79 @@ class EmailVerificationCodeRespone extends $pb.GeneratedMessage {
   void clearToken() => clearField(2);
 }
 
+class ForgotPasswordResquest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ForgotPasswordResquest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'authentication'), createEmptyInstance: create)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'email')
+    ..hasRequiredFields = false
+  ;
+
+  ForgotPasswordResquest._() : super();
+  factory ForgotPasswordResquest({
+    $core.String? email,
+  }) {
+    final _result = create();
+    if (email != null) {
+      _result.email = email;
+    }
+    return _result;
+  }
+  factory ForgotPasswordResquest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ForgotPasswordResquest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ForgotPasswordResquest clone() => ForgotPasswordResquest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ForgotPasswordResquest copyWith(void Function(ForgotPasswordResquest) updates) => super.copyWith((message) => updates(message as ForgotPasswordResquest)) as ForgotPasswordResquest; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static ForgotPasswordResquest create() => ForgotPasswordResquest._();
+  ForgotPasswordResquest createEmptyInstance() => create();
+  static $pb.PbList<ForgotPasswordResquest> createRepeated() => $pb.PbList<ForgotPasswordResquest>();
+  @$core.pragma('dart2js:noInline')
+  static ForgotPasswordResquest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ForgotPasswordResquest>(create);
+  static ForgotPasswordResquest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get email => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set email($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasEmail() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearEmail() => clearField(1);
+}
+
+class ForgotPasswordRespone extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ForgotPasswordRespone', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'authentication'), createEmptyInstance: create)
+    ..hasRequiredFields = false
+  ;
+
+  ForgotPasswordRespone._() : super();
+  factory ForgotPasswordRespone() => create();
+  factory ForgotPasswordRespone.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ForgotPasswordRespone.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ForgotPasswordRespone clone() => ForgotPasswordRespone()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ForgotPasswordRespone copyWith(void Function(ForgotPasswordRespone) updates) => super.copyWith((message) => updates(message as ForgotPasswordRespone)) as ForgotPasswordRespone; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static ForgotPasswordRespone create() => ForgotPasswordRespone._();
+  ForgotPasswordRespone createEmptyInstance() => create();
+  static $pb.PbList<ForgotPasswordRespone> createRepeated() => $pb.PbList<ForgotPasswordRespone>();
+  @$core.pragma('dart2js:noInline')
+  static ForgotPasswordRespone getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ForgotPasswordRespone>(create);
+  static ForgotPasswordRespone? _defaultInstance;
+}
+

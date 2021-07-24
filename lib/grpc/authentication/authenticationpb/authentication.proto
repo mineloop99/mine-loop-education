@@ -21,6 +21,7 @@ service Authentication {
 
     rpc EmailVerificationCode (EmailVerificationCodeRequest) returns (EmailVerificationCodeRespone);
 
+    rpc ForgotPassword (ForgotPasswordResquest) returns (ForgotPasswordRespone);
 }
 
 
@@ -87,4 +88,11 @@ message EmailVerificationCodeRequest {
 message EmailVerificationCodeRespone {
     bool verify_status = 1;
     string token = 2;
+}
+
+message ForgotPasswordResquest {
+    string email =1;
+}
+message ForgotPasswordRespone {
+    
 }

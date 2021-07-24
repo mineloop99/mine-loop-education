@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:mine_loop_education/auth/providers/account-provider.dart';
+import 'package:mine_loop_education/auth/screens/forgot-password-screen.dart';
+
 import 'package:provider/provider.dart';
 
 import 'auth-button.dart';
 import '../../grpc/authentication/client.dart';
 import '../../dialog-pop-up/authentication-screen-dialog.dart';
+import '../../dialog-pop-up/edit-dialog-pop-up.dart';
+import '../../auth/screens/verify-account-screen.dart';
+import '../../models/routes.dart';
 
 enum LoginMethods {
   MineLoop,
@@ -81,6 +85,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget>
           return true;
         },
       );
+
   @override
   void dispose() {
     _animationFadedController.dispose();
@@ -203,6 +208,38 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
           .setEmail(_emailController.text);
     }
   }
+
+  _showChangePasswordDialog() => showDialog(
+        context: context,
+        builder: (contex) {
+          FocusScope.of(context).unfocus();
+          return EditDialogPopUp(
+            title: "Forgot Password",
+            trueDescription: "Provide email to conitnue...",
+            falseDescription: "Email Not Exist...",
+            hint: "example@domain.com",
+            navigationWhenOk: () => ///// Navigated to Login page
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) => VerifyAccountScreen(
+                          navigatorFunction: () =>
+                              Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute(
+                                    builder: (ctx) => ForgotPasswordScreen(
+                                        navigator: () => Future.delayed(
+                                            Duration(milliseconds: 500),
+                                            () => Navigator.of(ctx)
+                                                .pushNamedAndRemoveUntil(
+                                                    Routes.routeName[
+                                                        RouteNamesEnum.Login],
+                                                    (Route<dynamic> route) =>
+                                                        false))),
+                                  ),
+                                  (Route<dynamic> route) => false),
+                        ))),
+            methodWhenPressCancel: () => Navigator.of(context).pop(),
+          );
+        },
+      );
 
   void _createAccountButtonHighlight() {
     if (!_isUsernameControllerEmpty && !_isPasswordControllerEmpty)
@@ -449,7 +486,7 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
                     ],
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: _showChangePasswordDialog,
                     child: const Text('Forgot Password?'),
                   ),
                 ],

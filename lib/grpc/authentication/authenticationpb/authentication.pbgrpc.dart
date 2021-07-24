@@ -52,6 +52,12 @@ class AuthenticationClient extends $grpc.Client {
       ($0.EmailVerificationCodeRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) =>
           $0.EmailVerificationCodeRespone.fromBuffer(value));
+  static final _$forgotPassword =
+      $grpc.ClientMethod<$0.ForgotPasswordResquest, $0.ForgotPasswordRespone>(
+          '/authentication.Authentication/ForgotPassword',
+          ($0.ForgotPasswordResquest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) =>
+              $0.ForgotPasswordRespone.fromBuffer(value));
 
   AuthenticationClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -95,6 +101,12 @@ class AuthenticationClient extends $grpc.Client {
       $0.EmailVerificationCodeRequest request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$emailVerificationCode, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.ForgotPasswordRespone> forgotPassword(
+      $0.ForgotPasswordResquest request,
+      {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$forgotPassword, request, options: options);
   }
 }
 
@@ -157,6 +169,15 @@ abstract class AuthenticationServiceBase extends $grpc.Service {
         ($core.List<$core.int> value) =>
             $0.EmailVerificationCodeRequest.fromBuffer(value),
         ($0.EmailVerificationCodeRespone value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.ForgotPasswordResquest,
+            $0.ForgotPasswordRespone>(
+        'ForgotPassword',
+        forgotPassword_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $0.ForgotPasswordResquest.fromBuffer(value),
+        ($0.ForgotPasswordRespone value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.TestingRespone> testing_Pre(
@@ -197,6 +218,12 @@ abstract class AuthenticationServiceBase extends $grpc.Service {
     return emailVerificationCode(call, await request);
   }
 
+  $async.Future<$0.ForgotPasswordRespone> forgotPassword_Pre(
+      $grpc.ServiceCall call,
+      $async.Future<$0.ForgotPasswordResquest> request) async {
+    return forgotPassword(call, await request);
+  }
+
   $async.Future<$0.TestingRespone> testing(
       $grpc.ServiceCall call, $0.TestingRequest request);
   $async.Future<$0.LoginRespone> login(
@@ -211,4 +238,6 @@ abstract class AuthenticationServiceBase extends $grpc.Service {
       $grpc.ServiceCall call, $0.EmailVerificationRequest request);
   $async.Future<$0.EmailVerificationCodeRespone> emailVerificationCode(
       $grpc.ServiceCall call, $0.EmailVerificationCodeRequest request);
+  $async.Future<$0.ForgotPasswordRespone> forgotPassword(
+      $grpc.ServiceCall call, $0.ForgotPasswordResquest request);
 }

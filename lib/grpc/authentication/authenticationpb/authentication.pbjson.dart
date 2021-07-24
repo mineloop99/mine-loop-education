@@ -158,3 +158,20 @@ const EmailVerificationCodeRespone$json = const {
 
 /// Descriptor for `EmailVerificationCodeRespone`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List emailVerificationCodeResponeDescriptor = $convert.base64Decode('ChxFbWFpbFZlcmlmaWNhdGlvbkNvZGVSZXNwb25lEiMKDXZlcmlmeV9zdGF0dXMYASABKAhSDHZlcmlmeVN0YXR1cxIUCgV0b2tlbhgCIAEoCVIFdG9rZW4=');
+@$core.Deprecated('Use forgotPasswordResquestDescriptor instead')
+const ForgotPasswordResquest$json = const {
+  '1': 'ForgotPasswordResquest',
+  '2': const [
+    const {'1': 'email', '3': 1, '4': 1, '5': 9, '10': 'email'},
+  ],
+};
+
+/// Descriptor for `ForgotPasswordResquest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List forgotPasswordResquestDescriptor = $convert.base64Decode('ChZGb3Jnb3RQYXNzd29yZFJlc3F1ZXN0EhQKBWVtYWlsGAEgASgJUgVlbWFpbA==');
+@$core.Deprecated('Use forgotPasswordResponeDescriptor instead')
+const ForgotPasswordRespone$json = const {
+  '1': 'ForgotPasswordRespone',
+};
+
+/// Descriptor for `ForgotPasswordRespone`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List forgotPasswordResponeDescriptor = $convert.base64Decode('ChVGb3Jnb3RQYXNzd29yZFJlc3BvbmU=');

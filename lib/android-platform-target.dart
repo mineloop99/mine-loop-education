@@ -14,6 +14,8 @@ import './auth/screens/login-screen.dart';
 import './home/screens/home-screen.dart';
 import 'auth/providers/account-provider.dart';
 import 'auth/screens/verify-account-screen.dart';
+import 'package:mine_loop_education/auth/screens/forgot-password-screen.dart';
+import './dialog-pop-up/edit-dialog-pop-up.dart';
 import 'models/routes.dart';
 import './home/screens/splash_screen.dart';
 
@@ -64,6 +66,8 @@ class _AndroidPlatformTargetState extends State<AndroidPlatformTarget> {
         bannerTheme: MaterialBannerTheme.of(context).copyWith(
           backgroundColor: Colors.white,
         ),
+        primaryTextTheme:
+            TextTheme(caption: TextStyle(fontWeight: FontWeight.w300)),
 
         ///Format Text
         textTheme: TextTheme(
