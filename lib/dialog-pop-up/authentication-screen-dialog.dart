@@ -86,7 +86,15 @@ class _AuthenticationScreenDialogState
                           if (errorPop) return null;
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (ctx) => VerifyAccountScreen(),
+                              builder: (ctx) => VerifyAccountScreen(
+                                  navigatorFunction: () => Future.delayed(
+                                      Duration(milliseconds: 500),
+                                      () => Navigator.of(ctx)
+                                          .pushNamedAndRemoveUntil(
+                                              Routes.routeName[
+                                                  RouteNamesEnum.Home],
+                                              (Route<dynamic> route) =>
+                                                  false))),
                             ),
                           );
                         },
@@ -128,11 +136,9 @@ class _AuthenticationScreenDialogState
               // Navigator to Home if Login method succeed.//
               if (widget.isLoginMethod) {
                 Future.delayed(Duration(seconds: 1), () {
-                  Future.delayed(
-                      Duration(milliseconds: 700),
-                      () => Navigator.of(context).pushNamedAndRemoveUntil(
-                          Routes.routeName[RouteNamesEnum.Home],
-                          (Route<dynamic> route) => false));
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      Routes.routeName[RouteNamesEnum.Home],
+                      (Route<dynamic> route) => false);
                 });
               } else {
                 return _dialog(context,

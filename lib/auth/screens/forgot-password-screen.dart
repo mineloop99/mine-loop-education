@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import '../widgets/forgot-password-widget.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
+  final Function navigator;
+  const ForgotPasswordScreen({this.navigator});
   @override
   _ForgotPasswordScreenState createState() => _ForgotPasswordScreenState();
 }
@@ -10,7 +13,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   Widget build(BuildContext context) {
     final _deviceSize = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(),
       body: Container(
         height: _deviceSize.height,
         decoration: BoxDecoration(
@@ -27,7 +29,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           //color: Color.fromRGBO(240, 248, 255, 1),
         ),
         child: Center(
-          child: Text("JHELLO"),
+          child: ForgotPasswordWidget(),
         ),
       ),
     );
