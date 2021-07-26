@@ -230,10 +230,13 @@ class AuthenticationAPI {
   Future<String> sendEmailVerificationRequest(String email) async {
     if (_client == null) clientAuthInit();
     try {
-      await _client.emailVerification(
-        EmailVerificationRequest()..email = email,
-        options: CallOptions(timeout: _clientTimeOut),
-      );
+      if (email.isNotEmpty)
+        await _client.emailVerification(
+          EmailVerificationRequest()..email = email,
+          options: CallOptions(timeout: _clientTimeOut),
+        );
+      else
+        return "Send Nothing";
       return "OK";
     } on GrpcError catch (err) {
       print("Code: \"${err.codeName}\" & Message: ${err.message}");
@@ -245,7 +248,7 @@ class AuthenticationAPI {
 
 //////////////////////////Send code Email Verification///////////////////////////
   Future<String> sendEmailVerificationCodeRequest(
-      String email, int code) async {
+      String email, int code, bool isChangePassword) async {
     if (_client == null) clientAuthInit();
     final deviceId = await deviceHelper.getDeviceInfor();
     try {
@@ -255,7 +258,12 @@ class AuthenticationAPI {
           ..email = email
           ..deviceUniqueId = deviceId,
       );
-      tryAutoLogin(respone.token);
+      ///// If  Verify Try Auto Login Else Change Password //////
+      if (!isChangePassword)
+        tryAutoLogin(respone.token);
+      else
+        AccountProvider.instance
+            .setToken(respone.token, DateTime.now().add(Duration(minutes: 10)));
       return "EMAIL_CONFIRMED";
     } on GrpcError catch (err) {
       print("Code: \"${err.codeName}\" & Message: ${err.message}");
@@ -273,8 +281,28 @@ class AuthenticationAPI {
         ForgotPasswordResquest()..email = email,
         options: CallOptions(timeout: _clientTimeOut),
       );
-
       return "OK";
+    } on GrpcError catch (err) {
+      print("Code: \"${err.codeName}\" & Message: ${err.message}");
+      return err.message;
+    } catch (err) {
+      return "Something not right!";
+    }
+  }
+
+//////////////////////////Change Password//////////////////////
+  Future<String> changePassword(String password) async {
+    clientAuthInit();
+    try {
+      final respone = await _client.changePassword(
+        ChangePasswordResquest()..password = _hashFunction(password),
+        options: CallOptions(timeout: _clientTimeOut, metadata: {
+          'token': AccountProvider.instance.authInformation.token
+        }),
+      );
+      print("Message: ${_hashFunction(password)}");
+
+      return "PASSWORD_HAS_BEEN_CHANGED";
     } on GrpcError catch (err) {
       print("Code: \"${err.codeName}\" & Message: ${err.message}");
       return err.message;

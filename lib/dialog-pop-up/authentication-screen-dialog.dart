@@ -87,14 +87,15 @@ class _AuthenticationScreenDialogState
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (ctx) => VerifyAccountScreen(
-                                  navigatorFunction: () => Future.delayed(
-                                      Duration(milliseconds: 500),
-                                      () => Navigator.of(ctx)
-                                          .pushNamedAndRemoveUntil(
-                                              Routes.routeName[
-                                                  RouteNamesEnum.Home],
-                                              (Route<dynamic> route) =>
-                                                  false))),
+                                navigatorFunction: () => Future.delayed(
+                                    Duration(milliseconds: 500),
+                                    () => Navigator.of(ctx)
+                                        .pushNamedAndRemoveUntil(
+                                            Routes
+                                                .routeName[RouteNamesEnum.Home],
+                                            (Route<dynamic> route) => false)),
+                                isChangePassword: false,
+                              ),
                             ),
                           );
                         },

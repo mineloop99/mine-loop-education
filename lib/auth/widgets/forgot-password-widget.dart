@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:mine_loop_education/grpc/authentication/authenticationpb/authentication.pb.dart';
+import 'package:mine_loop_education/dialog-pop-up/normal-dialog-popup.dart';
 import 'package:provider/provider.dart';
 import '../../grpc/authentication/client.dart';
 import 'auth-button.dart';
 
 class ForgotPasswordWidget extends StatefulWidget {
+  final Function navigator;
+  const ForgotPasswordWidget(this.navigator);
   @override
   _ForgotPasswordWidgetState createState() => _ForgotPasswordWidgetState();
 }
@@ -46,15 +48,19 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
     setState(() {});
     if (isValid) {
       _formKey.currentState.save();
-      // showDialog(
-      //     context: context,
-      //     barrierDismissible: false,
-      //     builder: (_) {
-      //       return AuthenticationScreenDialog(
-      //         methodCall: (){},
-      //         isLoginMethod: false,
-      //       );
-      //     });
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (_) {
+            return NormalDialogPopup(
+              methodCall: AuthenticationAPI.instance
+                  .changePassword(_passwordController.text),
+              methodCallWhenPressOk: () => Navigator.of(context).pop(),
+              customNavigator: widget.navigator,
+              customNavigatorString: "PASSWORD_HAS_BEEN_CHANGED",
+              twoTextButton: false,
+            );
+          });
       Provider.of<AuthenticationClientProvider>(context, listen: false)
           .setEmail(_passwordController.text);
     }

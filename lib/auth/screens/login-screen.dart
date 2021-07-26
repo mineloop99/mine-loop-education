@@ -22,6 +22,13 @@ class _LoginScreenState extends State<LoginScreen> {
     'createAccount': 2,
     'termsAndConditions': 1,
   };
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<LoginFormWidgetProvider>(context, listen: false)
+        .isTapExpandedContainerForm = false;
+  }
+
   void _launchUrl() async => await launch('https://flutter.dev');
 
   Widget build(BuildContext context) {

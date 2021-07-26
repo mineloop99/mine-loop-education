@@ -839,11 +839,20 @@ class ForgotPasswordResquest extends $pb.GeneratedMessage {
 
 class ForgotPasswordRespone extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ForgotPasswordRespone', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'authentication'), createEmptyInstance: create)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'token')
     ..hasRequiredFields = false
   ;
 
   ForgotPasswordRespone._() : super();
-  factory ForgotPasswordRespone() => create();
+  factory ForgotPasswordRespone({
+    $core.String? token,
+  }) {
+    final _result = create();
+    if (token != null) {
+      _result.token = token;
+    }
+    return _result;
+  }
   factory ForgotPasswordRespone.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory ForgotPasswordRespone.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   @$core.Deprecated(
@@ -864,5 +873,90 @@ class ForgotPasswordRespone extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static ForgotPasswordRespone getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ForgotPasswordRespone>(create);
   static ForgotPasswordRespone? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get token => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set token($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasToken() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearToken() => clearField(1);
+}
+
+class ChangePasswordResquest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ChangePasswordResquest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'authentication'), createEmptyInstance: create)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'password')
+    ..hasRequiredFields = false
+  ;
+
+  ChangePasswordResquest._() : super();
+  factory ChangePasswordResquest({
+    $core.String? password,
+  }) {
+    final _result = create();
+    if (password != null) {
+      _result.password = password;
+    }
+    return _result;
+  }
+  factory ChangePasswordResquest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ChangePasswordResquest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ChangePasswordResquest clone() => ChangePasswordResquest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ChangePasswordResquest copyWith(void Function(ChangePasswordResquest) updates) => super.copyWith((message) => updates(message as ChangePasswordResquest)) as ChangePasswordResquest; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static ChangePasswordResquest create() => ChangePasswordResquest._();
+  ChangePasswordResquest createEmptyInstance() => create();
+  static $pb.PbList<ChangePasswordResquest> createRepeated() => $pb.PbList<ChangePasswordResquest>();
+  @$core.pragma('dart2js:noInline')
+  static ChangePasswordResquest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ChangePasswordResquest>(create);
+  static ChangePasswordResquest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get password => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set password($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasPassword() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearPassword() => clearField(1);
+}
+
+class ChangePasswordRespone extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ChangePasswordRespone', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'authentication'), createEmptyInstance: create)
+    ..hasRequiredFields = false
+  ;
+
+  ChangePasswordRespone._() : super();
+  factory ChangePasswordRespone() => create();
+  factory ChangePasswordRespone.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ChangePasswordRespone.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ChangePasswordRespone clone() => ChangePasswordRespone()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ChangePasswordRespone copyWith(void Function(ChangePasswordRespone) updates) => super.copyWith((message) => updates(message as ChangePasswordRespone)) as ChangePasswordRespone; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static ChangePasswordRespone create() => ChangePasswordRespone._();
+  ChangePasswordRespone createEmptyInstance() => create();
+  static $pb.PbList<ChangePasswordRespone> createRepeated() => $pb.PbList<ChangePasswordRespone>();
+  @$core.pragma('dart2js:noInline')
+  static ChangePasswordRespone getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ChangePasswordRespone>(create);
+  static ChangePasswordRespone? _defaultInstance;
 }
 

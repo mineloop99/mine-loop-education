@@ -10,11 +10,13 @@ class NormalDialogPopup extends StatefulWidget {
   final Function methodCallWhenPressOk;
   final String customNavigatorString;
   final Function customNavigator;
+  final bool twoTextButton;
   const NormalDialogPopup({
     @required this.methodCall,
     @required this.methodCallWhenPressOk,
     this.customNavigator,
     this.customNavigatorString,
+    this.twoTextButton = true,
   });
 
   @override
@@ -77,6 +79,7 @@ class _NormalDialogPopupState extends State<NormalDialogPopup> {
                     child: TextButton(
                       onPressed: () {
                         widget.methodCallWhenPressOk();
+                        widget.customNavigator();
                       },
                       child: const Text(
                         "OK",
@@ -115,7 +118,10 @@ class _NormalDialogPopupState extends State<NormalDialogPopup> {
             if (snapshot.data == "OK") {
               Navigator.of(context).pop();
             } else if (snapshot.data == widget.customNavigatorString) {
-              widget.customNavigator();
+              return _dialog(context,
+                  errorPop: false,
+                  title: "SUCCEED!",
+                  description: snapshot.data);
             } else {
               return _dialog(
                 context,

@@ -8,7 +8,9 @@ import '../../grpc/authentication/client.dart';
 
 class VerifyAccountScreen extends StatefulWidget {
   final Function navigatorFunction;
-  const VerifyAccountScreen({@required this.navigatorFunction});
+  final bool isChangePassword;
+  const VerifyAccountScreen(
+      {@required this.navigatorFunction, @required this.isChangePassword});
   _VerifyAccountScreenState createState() => _VerifyAccountScreenState();
 }
 
@@ -22,13 +24,16 @@ class _VerifyAccountScreenState extends State<VerifyAccountScreen> {
   });
 
   static const maxSeconds = 60;
+  String _email = '';
   int _seconds = maxSeconds;
   Timer timer;
 
   bool _canResend = false;
 
+  bool _firstTimeFuture = true;
+
   AuthenticationClientProvider _authenticationClientProvider;
-  Future<void> _myFuture;
+  Future<String> _myFuture;
 
   void _setTimer() {
     timer = Timer.periodic(Duration(seconds: 1), (_) {
@@ -45,7 +50,6 @@ class _VerifyAccountScreenState extends State<VerifyAccountScreen> {
     });
   }
 
-  bool _firstTimeFuture = true;
   void _tryResendCode() {
     setState(() {
       _seconds = maxSeconds;
@@ -83,6 +87,7 @@ class _VerifyAccountScreenState extends State<VerifyAccountScreen> {
                 AuthenticationAPI.instance.sendEmailVerificationCodeRequest(
               _authenticationClientProvider.accountEmail,
               int.parse(_codeConfirm),
+              widget.isChangePassword,
             ),
             methodCallWhenPressOk: () {
               Navigator.of(context).pop();
@@ -130,12 +135,11 @@ class _VerifyAccountScreenState extends State<VerifyAccountScreen> {
     for (var e in focusNodes) {
       e.addListener(() {});
     }
+    _setTimer();
     _authenticationClientProvider =
         Provider.of<AuthenticationClientProvider>(context, listen: false);
-    _myFuture = AuthenticationAPI.instance.sendEmailVerificationRequest(
-      _authenticationClientProvider.accountEmail,
-    );
-    _setTimer();
+    _myFuture = AuthenticationAPI.instance.sendEmailVerificationRequest(_email);
+    _email = _authenticationClientProvider.accountEmail;
   }
 
   @override
@@ -152,6 +156,9 @@ class _VerifyAccountScreenState extends State<VerifyAccountScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (!_firstTimeFuture) {
+      _myFuture = null;
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text('Yuu'),
@@ -170,11 +177,8 @@ class _VerifyAccountScreenState extends State<VerifyAccountScreen> {
       body: FutureBuilder(
         future: _myFuture,
         builder: (_, snapShot) {
-          if (_firstTimeFuture) {
-            _firstTimeFuture = false;
-            _myFuture = Future.delayed(Duration.zero);
-          }
-          if (snapShot.connectionState == ConnectionState.waiting)
+          _firstTimeFuture = false;
+          if (!snapShot.hasData)
             return Center(child: const CircularProgressIndicator());
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,

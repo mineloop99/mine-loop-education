@@ -78,14 +78,6 @@ class _LoginFormWidgetState extends State<LoginFormWidget>
     super.initState();
   }
 
-  Future<bool> fetchLoginForm() => Future.delayed(
-        Duration(milliseconds: 700),
-        () {
-          LoginFormWidget();
-          return true;
-        },
-      );
-
   @override
   void dispose() {
     _animationFadedController.dispose();
@@ -216,7 +208,7 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
           return EditDialogPopUp(
             title: "Forgot Password",
             trueDescription: "Provide email to conitnue...",
-            falseDescription: "Email Not Exist...",
+            falseDescription: "Please check Email or Network again...",
             hint: "example@domain.com",
             navigationWhenOk: () => ///// Navigated to Login page
                 Navigator.of(context).push(MaterialPageRoute(
@@ -235,6 +227,7 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
                                                         false))),
                                   ),
                                   (Route<dynamic> route) => false),
+                          isChangePassword: true,
                         ))),
             methodWhenPressCancel: () => Navigator.of(context).pop(),
           );

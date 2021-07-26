@@ -29,7 +29,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           //color: Color.fromRGBO(240, 248, 255, 1),
         ),
         child: Center(
-          child: ForgotPasswordWidget(),
+          child: ForgotPasswordWidget(widget.navigator),
         ),
       ),
     );
