@@ -4,8 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc.dart';
 import 'package:mine_loop_education/auth/models/account.dart';
-import 'package:mine_loop_education/auth/widgets/login-form-widget.dart';
-import 'package:mine_loop_education/dialog-pop-up/normal-dialog-popup.dart';
 import 'package:mine_loop_education/models/routes.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,7 +13,8 @@ import '../../auth/providers/account-provider.dart' show AccountProvider;
 import '../../grpc/authentication/authenticationpb/authentication.pbgrpc.dart';
 import '../../helpers/device-helper.dart' as deviceHelper;
 
-const ip = '10.0.2.2'; //"10.0.2.2";
+//const ip = '13.75.66.33'; //"10.0.2.2";
+const ip = "10.0.2.2";
 const port = 50010;
 
 class AuthenticationClientProvider with ChangeNotifier {
