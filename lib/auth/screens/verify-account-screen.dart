@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
@@ -30,10 +30,17 @@ class _VerifyAccountScreenState extends State<VerifyAccountScreen> {
 
   bool _canResend = false;
 
-  bool _firstTimeFuture = true;
-
   AuthenticationClientProvider _authenticationClientProvider;
-  Future<String> _myFuture;
+
+  AsyncMemoizer _asyncMemoizer;
+
+  _sendEmailFuture() async {
+    return this._asyncMemoizer.runOnce(() async {
+      final respone =
+          await AuthenticationAPI.instance.sendEmailVerificationRequest(_email);
+      return respone;
+    });
+  }
 
   void _setTimer() {
     timer = Timer.periodic(Duration(seconds: 1), (_) {
@@ -132,13 +139,14 @@ class _VerifyAccountScreenState extends State<VerifyAccountScreen> {
   @override
   void initState() {
     super.initState();
+
     for (var e in focusNodes) {
       e.addListener(() {});
     }
     _setTimer();
     _authenticationClientProvider =
         Provider.of<AuthenticationClientProvider>(context, listen: false);
-    _myFuture = AuthenticationAPI.instance.sendEmailVerificationRequest(_email);
+    _asyncMemoizer = AsyncMemoizer();
     _email = _authenticationClientProvider.accountEmail;
   }
 
@@ -156,9 +164,6 @@ class _VerifyAccountScreenState extends State<VerifyAccountScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (!_firstTimeFuture) {
-      _myFuture = null;
-    }
     return Scaffold(
       appBar: AppBar(
         title: const Text('Yuu'),
@@ -175,9 +180,8 @@ class _VerifyAccountScreenState extends State<VerifyAccountScreen> {
         ],
       ),
       body: FutureBuilder(
-        future: _myFuture,
+        future: _sendEmailFuture(),
         builder: (_, snapShot) {
-          _firstTimeFuture = false;
           if (!snapShot.hasData)
             return Center(child: const CircularProgressIndicator());
           return Column(

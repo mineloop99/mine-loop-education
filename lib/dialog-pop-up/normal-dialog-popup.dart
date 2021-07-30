@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:async/async.dart';
 
 class Constants {
   static const double padding = 20;
@@ -27,12 +28,13 @@ class NormalDialogPopup extends StatefulWidget {
 }
 
 class _NormalDialogPopupState extends State<NormalDialogPopup> {
-  Future<String> _fetchData() async {
-    await widget.methodCall;
-    return "OK";
+  AsyncMemoizer<String> _asyncMemoizer;
+  Future<String> _futureWatting() async {
+    return this._asyncMemoizer.runOnce(() async {
+      final respone = await widget.methodCall;
+      return respone;
+    });
   }
-
-  Future _futureWaiting;
 
   _dialog(BuildContext context,
           {bool errorPop, String title, String description}) =>
@@ -119,7 +121,7 @@ class _NormalDialogPopupState extends State<NormalDialogPopup> {
 
   @override
   void initState() {
-    _futureWaiting = _fetchData();
+    _asyncMemoizer = AsyncMemoizer();
 
     super.initState();
   }
@@ -127,7 +129,7 @@ class _NormalDialogPopupState extends State<NormalDialogPopup> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<String>(
-        future: _futureWaiting,
+        future: _futureWatting(),
         builder: (ctx, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
