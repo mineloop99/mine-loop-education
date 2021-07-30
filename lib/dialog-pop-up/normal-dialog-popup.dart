@@ -11,19 +11,29 @@ class NormalDialogPopup extends StatefulWidget {
   final String customNavigatorString;
   final Function customNavigator;
   final bool twoTextButton;
-  const NormalDialogPopup({
-    @required this.methodCall,
-    @required this.methodCallWhenPressOk,
-    this.customNavigator,
-    this.customNavigatorString,
-    this.twoTextButton = true,
-  });
+  final String showSnackBarMessage;
+  final BuildContext contextSnackBarMessage;
+  const NormalDialogPopup(
+      {@required this.methodCall,
+      @required this.methodCallWhenPressOk,
+      this.customNavigator,
+      this.customNavigatorString,
+      this.twoTextButton = true,
+      this.showSnackBarMessage = "",
+      this.contextSnackBarMessage});
 
   @override
   _NormalDialogPopupState createState() => _NormalDialogPopupState();
 }
 
 class _NormalDialogPopupState extends State<NormalDialogPopup> {
+  Future<String> _fetchData() async {
+    await widget.methodCall;
+    return "OK";
+  }
+
+  Future _futureWaiting;
+
   _dialog(BuildContext context,
           {bool errorPop, String title, String description}) =>
       Dialog(
@@ -108,15 +118,31 @@ class _NormalDialogPopupState extends State<NormalDialogPopup> {
       );
 
   @override
+  void initState() {
+    _futureWaiting = _fetchData();
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder<String>(
-        future: widget.methodCall,
+        future: _futureWaiting,
         builder: (ctx, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasData) {
             if (snapshot.data == "OK") {
               Navigator.of(context).pop();
+              if (widget.showSnackBarMessage.isNotEmpty) {
+                Future.delayed(
+                    Duration(milliseconds: 500),
+                    () =>
+                        ScaffoldMessenger.maybeOf(widget.contextSnackBarMessage)
+                            .showSnackBar(SnackBar(
+                          content: Text(widget.showSnackBarMessage),
+                        )));
+              }
             } else if (snapshot.data == widget.customNavigatorString) {
               return _dialog(context,
                   errorPop: false,

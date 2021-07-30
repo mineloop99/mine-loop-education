@@ -7,6 +7,7 @@ import 'auth/widgets/login-form-widget.dart';
 import './home/providers/home-provider.dart';
 import './auth/providers/account-provider.dart';
 import './error-screen.dart';
+import './home/providers/my-account-provider.dart';
 
 void main() {
   ErrorWidget.builder = (FlutterErrorDetails details) => ErrorScreen();
@@ -34,6 +35,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => AuthenticationClientProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => MyAccountProvider(),
         )
       ],
       child: AndroidPlatformTarget(),

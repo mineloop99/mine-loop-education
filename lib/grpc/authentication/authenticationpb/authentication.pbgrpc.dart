@@ -13,59 +13,65 @@ import 'package:grpc/service_api.dart' as $grpc;
 import 'authentication.pb.dart' as $0;
 export 'authentication.pb.dart';
 
-class AuthenticationClient extends $grpc.Client {
+class AuthenticationServicesClient extends $grpc.Client {
   static final _$testing =
       $grpc.ClientMethod<$0.TestingRequest, $0.TestingRespone>(
-          '/authentication.Authentication/Testing',
+          '/authentication.AuthenticationServices/Testing',
           ($0.TestingRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) => $0.TestingRespone.fromBuffer(value));
   static final _$login = $grpc.ClientMethod<$0.LoginRequest, $0.LoginRespone>(
-      '/authentication.Authentication/Login',
+      '/authentication.AuthenticationServices/Login',
       ($0.LoginRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.LoginRespone.fromBuffer(value));
   static final _$autoLogin =
       $grpc.ClientMethod<$0.AutoLoginRequest, $0.AutoLoginRespone>(
-          '/authentication.Authentication/AutoLogin',
+          '/authentication.AuthenticationServices/AutoLogin',
           ($0.AutoLoginRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
               $0.AutoLoginRespone.fromBuffer(value));
   static final _$logout =
       $grpc.ClientMethod<$0.LogoutRequest, $0.LougoutRespone>(
-          '/authentication.Authentication/Logout',
+          '/authentication.AuthenticationServices/Logout',
           ($0.LogoutRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) => $0.LougoutRespone.fromBuffer(value));
   static final _$createAccount =
       $grpc.ClientMethod<$0.CreateAccountRequest, $0.CreateAccountRespone>(
-          '/authentication.Authentication/CreateAccount',
+          '/authentication.AuthenticationServices/CreateAccount',
           ($0.CreateAccountRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
               $0.CreateAccountRespone.fromBuffer(value));
   static final _$emailVerification = $grpc.ClientMethod<
           $0.EmailVerificationRequest, $0.EmailVerificationRespone>(
-      '/authentication.Authentication/EmailVerification',
+      '/authentication.AuthenticationServices/EmailVerification',
       ($0.EmailVerificationRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) =>
           $0.EmailVerificationRespone.fromBuffer(value));
   static final _$emailVerificationCode = $grpc.ClientMethod<
           $0.EmailVerificationCodeRequest, $0.EmailVerificationCodeRespone>(
-      '/authentication.Authentication/EmailVerificationCode',
+      '/authentication.AuthenticationServices/EmailVerificationCode',
       ($0.EmailVerificationCodeRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) =>
           $0.EmailVerificationCodeRespone.fromBuffer(value));
   static final _$forgotPassword =
       $grpc.ClientMethod<$0.ForgotPasswordResquest, $0.ForgotPasswordRespone>(
-          '/authentication.Authentication/ForgotPassword',
+          '/authentication.AuthenticationServices/ForgotPassword',
           ($0.ForgotPasswordResquest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
               $0.ForgotPasswordRespone.fromBuffer(value));
   static final _$changePassword =
       $grpc.ClientMethod<$0.ChangePasswordResquest, $0.ChangePasswordRespone>(
-          '/authentication.Authentication/ChangePassword',
+          '/authentication.AuthenticationServices/ChangePassword',
           ($0.ChangePasswordResquest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
               $0.ChangePasswordRespone.fromBuffer(value));
+  static final _$authorization =
+      $grpc.ClientMethod<$0.AuthorizationRequest, $0.AuthorizationRespone>(
+          '/authentication.AuthenticationServices/Authorization',
+          ($0.AuthorizationRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) =>
+              $0.AuthorizationRespone.fromBuffer(value));
 
-  AuthenticationClient($grpc.ClientChannel channel,
+  AuthenticationServicesClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
       $core.Iterable<$grpc.ClientInterceptor>? interceptors})
       : super(channel, options: options, interceptors: interceptors);
@@ -120,12 +126,18 @@ class AuthenticationClient extends $grpc.Client {
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$changePassword, request, options: options);
   }
+
+  $grpc.ResponseFuture<$0.AuthorizationRespone> authorization(
+      $0.AuthorizationRequest request,
+      {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$authorization, request, options: options);
+  }
 }
 
-abstract class AuthenticationServiceBase extends $grpc.Service {
-  $core.String get $name => 'authentication.Authentication';
+abstract class AuthenticationServicesServiceBase extends $grpc.Service {
+  $core.String get $name => 'authentication.AuthenticationServices';
 
-  AuthenticationServiceBase() {
+  AuthenticationServicesServiceBase() {
     $addMethod($grpc.ServiceMethod<$0.TestingRequest, $0.TestingRespone>(
         'Testing',
         testing_Pre,
@@ -199,6 +211,15 @@ abstract class AuthenticationServiceBase extends $grpc.Service {
         ($core.List<$core.int> value) =>
             $0.ChangePasswordResquest.fromBuffer(value),
         ($0.ChangePasswordRespone value) => value.writeToBuffer()));
+    $addMethod(
+        $grpc.ServiceMethod<$0.AuthorizationRequest, $0.AuthorizationRespone>(
+            'Authorization',
+            authorization_Pre,
+            false,
+            false,
+            ($core.List<$core.int> value) =>
+                $0.AuthorizationRequest.fromBuffer(value),
+            ($0.AuthorizationRespone value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.TestingRespone> testing_Pre(
@@ -251,6 +272,12 @@ abstract class AuthenticationServiceBase extends $grpc.Service {
     return changePassword(call, await request);
   }
 
+  $async.Future<$0.AuthorizationRespone> authorization_Pre(
+      $grpc.ServiceCall call,
+      $async.Future<$0.AuthorizationRequest> request) async {
+    return authorization(call, await request);
+  }
+
   $async.Future<$0.TestingRespone> testing(
       $grpc.ServiceCall call, $0.TestingRequest request);
   $async.Future<$0.LoginRespone> login(
@@ -269,4 +296,6 @@ abstract class AuthenticationServiceBase extends $grpc.Service {
       $grpc.ServiceCall call, $0.ForgotPasswordResquest request);
   $async.Future<$0.ChangePasswordRespone> changePassword(
       $grpc.ServiceCall call, $0.ChangePasswordResquest request);
+  $async.Future<$0.AuthorizationRespone> authorization(
+      $grpc.ServiceCall call, $0.AuthorizationRequest request);
 }

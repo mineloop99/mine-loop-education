@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc.dart';
-import 'package:mine_loop_education/auth/models/account.dart';
+import 'package:mine_loop_education/models/account.dart';
 import 'package:mine_loop_education/models/routes.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,7 +13,7 @@ import '../../auth/providers/account-provider.dart' show AccountProvider;
 import '../../grpc/authentication/authenticationpb/authentication.pbgrpc.dart';
 import '../../helpers/device-helper.dart' as deviceHelper;
 
-const ip = '13.75.66.33'; //"10.0.2.2";
+const ip = 'mineloop99.eastasia.cloudapp.azure.com'; //"10.0.2.2";
 const ipLocal = "10.0.2.2";
 const isLocal = true;
 const port = 50010;
@@ -32,7 +32,7 @@ class AuthenticationClientProvider with ChangeNotifier {
 
 class AuthenticationAPI {
   static AuthenticationAPI instance = AuthenticationAPI();
-  AuthenticationClient _client;
+  AuthenticationServicesClient _client;
 
   final Duration _clientTimeOut = Duration(seconds: 5);
 
@@ -45,7 +45,7 @@ class AuthenticationAPI {
         idleTimeout: Duration(seconds: 10),
       ),
     );
-    _client = AuthenticationClient(channel);
+    _client = AuthenticationServicesClient(channel);
   }
 
   void tryLogout(BuildContext context) async {
@@ -66,7 +66,7 @@ class AuthenticationAPI {
       final deviceUniqueId = await deviceHelper.getDeviceInfor();
       final respone = await _client.login(
         LoginRequest()
-          ..accountInformation = AccountInformation(
+          ..accountAuthorization = AccountAuthorization(
             userEmail: email,
             password: _hashFunction(password),
           )
@@ -106,7 +106,7 @@ class AuthenticationAPI {
       //Call Create Account Request
       final respone = await _client.createAccount(
         CreateAccountRequest()
-          ..accountInformation = AccountInformation(
+          ..accountAuthorization = AccountAuthorization(
             userEmail: email,
             password: _hashFunction(password),
           ),

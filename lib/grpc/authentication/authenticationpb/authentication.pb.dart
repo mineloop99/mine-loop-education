@@ -67,15 +67,15 @@ class TestingRespone extends $pb.GeneratedMessage {
   static TestingRespone? _defaultInstance;
 }
 
-class AccountInformation extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'AccountInformation', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'authentication'), createEmptyInstance: create)
+class AccountAuthorization extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'AccountAuthorization', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'authentication'), createEmptyInstance: create)
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userEmail')
     ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'password')
     ..hasRequiredFields = false
   ;
 
-  AccountInformation._() : super();
-  factory AccountInformation({
+  AccountAuthorization._() : super();
+  factory AccountAuthorization({
     $core.String? userEmail,
     $core.String? password,
   }) {
@@ -88,26 +88,26 @@ class AccountInformation extends $pb.GeneratedMessage {
     }
     return _result;
   }
-  factory AccountInformation.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory AccountInformation.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory AccountAuthorization.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory AccountAuthorization.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  AccountInformation clone() => AccountInformation()..mergeFromMessage(this);
+  AccountAuthorization clone() => AccountAuthorization()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  AccountInformation copyWith(void Function(AccountInformation) updates) => super.copyWith((message) => updates(message as AccountInformation)) as AccountInformation; // ignore: deprecated_member_use
+  AccountAuthorization copyWith(void Function(AccountAuthorization) updates) => super.copyWith((message) => updates(message as AccountAuthorization)) as AccountAuthorization; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
-  static AccountInformation create() => AccountInformation._();
-  AccountInformation createEmptyInstance() => create();
-  static $pb.PbList<AccountInformation> createRepeated() => $pb.PbList<AccountInformation>();
+  static AccountAuthorization create() => AccountAuthorization._();
+  AccountAuthorization createEmptyInstance() => create();
+  static $pb.PbList<AccountAuthorization> createRepeated() => $pb.PbList<AccountAuthorization>();
   @$core.pragma('dart2js:noInline')
-  static AccountInformation getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AccountInformation>(create);
-  static AccountInformation? _defaultInstance;
+  static AccountAuthorization getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AccountAuthorization>(create);
+  static AccountAuthorization? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get userEmail => $_getSZ(0);
@@ -238,19 +238,19 @@ class AutoLoginRespone extends $pb.GeneratedMessage {
 
 class LoginRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'LoginRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'authentication'), createEmptyInstance: create)
-    ..aOM<AccountInformation>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'accountInformation', subBuilder: AccountInformation.create)
+    ..aOM<AccountAuthorization>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'accountAuthorization', subBuilder: AccountAuthorization.create)
     ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'deviceUniqueId')
     ..hasRequiredFields = false
   ;
 
   LoginRequest._() : super();
   factory LoginRequest({
-    AccountInformation? accountInformation,
+    AccountAuthorization? accountAuthorization,
     $core.String? deviceUniqueId,
   }) {
     final _result = create();
-    if (accountInformation != null) {
-      _result.accountInformation = accountInformation;
+    if (accountAuthorization != null) {
+      _result.accountAuthorization = accountAuthorization;
     }
     if (deviceUniqueId != null) {
       _result.deviceUniqueId = deviceUniqueId;
@@ -279,15 +279,15 @@ class LoginRequest extends $pb.GeneratedMessage {
   static LoginRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
-  AccountInformation get accountInformation => $_getN(0);
+  AccountAuthorization get accountAuthorization => $_getN(0);
   @$pb.TagNumber(1)
-  set accountInformation(AccountInformation v) { setField(1, v); }
+  set accountAuthorization(AccountAuthorization v) { setField(1, v); }
   @$pb.TagNumber(1)
-  $core.bool hasAccountInformation() => $_has(0);
+  $core.bool hasAccountAuthorization() => $_has(0);
   @$pb.TagNumber(1)
-  void clearAccountInformation() => clearField(1);
+  void clearAccountAuthorization() => clearField(1);
   @$pb.TagNumber(1)
-  AccountInformation ensureAccountInformation() => $_ensure(0);
+  AccountAuthorization ensureAccountAuthorization() => $_ensure(0);
 
   @$pb.TagNumber(2)
   $core.String get deviceUniqueId => $_getSZ(1);
@@ -484,17 +484,17 @@ class LougoutRespone extends $pb.GeneratedMessage {
 
 class CreateAccountRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'CreateAccountRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'authentication'), createEmptyInstance: create)
-    ..aOM<AccountInformation>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'accountInformation', subBuilder: AccountInformation.create)
+    ..aOM<AccountAuthorization>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'accountAuthorization', subBuilder: AccountAuthorization.create)
     ..hasRequiredFields = false
   ;
 
   CreateAccountRequest._() : super();
   factory CreateAccountRequest({
-    AccountInformation? accountInformation,
+    AccountAuthorization? accountAuthorization,
   }) {
     final _result = create();
-    if (accountInformation != null) {
-      _result.accountInformation = accountInformation;
+    if (accountAuthorization != null) {
+      _result.accountAuthorization = accountAuthorization;
     }
     return _result;
   }
@@ -520,15 +520,15 @@ class CreateAccountRequest extends $pb.GeneratedMessage {
   static CreateAccountRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
-  AccountInformation get accountInformation => $_getN(0);
+  AccountAuthorization get accountAuthorization => $_getN(0);
   @$pb.TagNumber(1)
-  set accountInformation(AccountInformation v) { setField(1, v); }
+  set accountAuthorization(AccountAuthorization v) { setField(1, v); }
   @$pb.TagNumber(1)
-  $core.bool hasAccountInformation() => $_has(0);
+  $core.bool hasAccountAuthorization() => $_has(0);
   @$pb.TagNumber(1)
-  void clearAccountInformation() => clearField(1);
+  void clearAccountAuthorization() => clearField(1);
   @$pb.TagNumber(1)
-  AccountInformation ensureAccountInformation() => $_ensure(0);
+  AccountAuthorization ensureAccountAuthorization() => $_ensure(0);
 }
 
 class CreateAccountRespone extends $pb.GeneratedMessage {
@@ -958,5 +958,127 @@ class ChangePasswordRespone extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static ChangePasswordRespone getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ChangePasswordRespone>(create);
   static ChangePasswordRespone? _defaultInstance;
+}
+
+class AuthorizationRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'AuthorizationRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'authentication'), createEmptyInstance: create)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'token')
+    ..hasRequiredFields = false
+  ;
+
+  AuthorizationRequest._() : super();
+  factory AuthorizationRequest({
+    $core.String? token,
+  }) {
+    final _result = create();
+    if (token != null) {
+      _result.token = token;
+    }
+    return _result;
+  }
+  factory AuthorizationRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory AuthorizationRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  AuthorizationRequest clone() => AuthorizationRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  AuthorizationRequest copyWith(void Function(AuthorizationRequest) updates) => super.copyWith((message) => updates(message as AuthorizationRequest)) as AuthorizationRequest; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static AuthorizationRequest create() => AuthorizationRequest._();
+  AuthorizationRequest createEmptyInstance() => create();
+  static $pb.PbList<AuthorizationRequest> createRepeated() => $pb.PbList<AuthorizationRequest>();
+  @$core.pragma('dart2js:noInline')
+  static AuthorizationRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AuthorizationRequest>(create);
+  static AuthorizationRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get token => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set token($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasToken() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearToken() => clearField(1);
+}
+
+class AuthorizationRespone extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'AuthorizationRespone', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'authentication'), createEmptyInstance: create)
+    ..aOB(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'isAuthorized')
+    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userEmail')
+    ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'objectId', protoName: 'objectId')
+    ..hasRequiredFields = false
+  ;
+
+  AuthorizationRespone._() : super();
+  factory AuthorizationRespone({
+    $core.bool? isAuthorized,
+    $core.String? userEmail,
+    $core.String? objectId,
+  }) {
+    final _result = create();
+    if (isAuthorized != null) {
+      _result.isAuthorized = isAuthorized;
+    }
+    if (userEmail != null) {
+      _result.userEmail = userEmail;
+    }
+    if (objectId != null) {
+      _result.objectId = objectId;
+    }
+    return _result;
+  }
+  factory AuthorizationRespone.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory AuthorizationRespone.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  AuthorizationRespone clone() => AuthorizationRespone()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  AuthorizationRespone copyWith(void Function(AuthorizationRespone) updates) => super.copyWith((message) => updates(message as AuthorizationRespone)) as AuthorizationRespone; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static AuthorizationRespone create() => AuthorizationRespone._();
+  AuthorizationRespone createEmptyInstance() => create();
+  static $pb.PbList<AuthorizationRespone> createRepeated() => $pb.PbList<AuthorizationRespone>();
+  @$core.pragma('dart2js:noInline')
+  static AuthorizationRespone getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AuthorizationRespone>(create);
+  static AuthorizationRespone? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.bool get isAuthorized => $_getBF(0);
+  @$pb.TagNumber(1)
+  set isAuthorized($core.bool v) { $_setBool(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasIsAuthorized() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearIsAuthorized() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get userEmail => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set userEmail($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasUserEmail() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearUserEmail() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get objectId => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set objectId($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasObjectId() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearObjectId() => clearField(3);
 }
 

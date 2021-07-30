@@ -22,17 +22,17 @@ const TestingRespone$json = const {
 
 /// Descriptor for `TestingRespone`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List testingResponeDescriptor = $convert.base64Decode('Cg5UZXN0aW5nUmVzcG9uZQ==');
-@$core.Deprecated('Use accountInformationDescriptor instead')
-const AccountInformation$json = const {
-  '1': 'AccountInformation',
+@$core.Deprecated('Use accountAuthorizationDescriptor instead')
+const AccountAuthorization$json = const {
+  '1': 'AccountAuthorization',
   '2': const [
     const {'1': 'user_email', '3': 1, '4': 1, '5': 9, '10': 'userEmail'},
     const {'1': 'password', '3': 2, '4': 1, '5': 9, '10': 'password'},
   ],
 };
 
-/// Descriptor for `AccountInformation`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List accountInformationDescriptor = $convert.base64Decode('ChJBY2NvdW50SW5mb3JtYXRpb24SHQoKdXNlcl9lbWFpbBgBIAEoCVIJdXNlckVtYWlsEhoKCHBhc3N3b3JkGAIgASgJUghwYXNzd29yZA==');
+/// Descriptor for `AccountAuthorization`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List accountAuthorizationDescriptor = $convert.base64Decode('ChRBY2NvdW50QXV0aG9yaXphdGlvbhIdCgp1c2VyX2VtYWlsGAEgASgJUgl1c2VyRW1haWwSGgoIcGFzc3dvcmQYAiABKAlSCHBhc3N3b3Jk');
 @$core.Deprecated('Use autoLoginRequestDescriptor instead')
 const AutoLoginRequest$json = const {
   '1': 'AutoLoginRequest',
@@ -58,13 +58,13 @@ final $typed_data.Uint8List autoLoginResponeDescriptor = $convert.base64Decode('
 const LoginRequest$json = const {
   '1': 'LoginRequest',
   '2': const [
-    const {'1': 'account_information', '3': 1, '4': 1, '5': 11, '6': '.authentication.AccountInformation', '10': 'accountInformation'},
+    const {'1': 'account_authorization', '3': 1, '4': 1, '5': 11, '6': '.authentication.AccountAuthorization', '10': 'accountAuthorization'},
     const {'1': 'device_unique_id', '3': 2, '4': 1, '5': 9, '10': 'deviceUniqueId'},
   ],
 };
 
 /// Descriptor for `LoginRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List loginRequestDescriptor = $convert.base64Decode('CgxMb2dpblJlcXVlc3QSUwoTYWNjb3VudF9pbmZvcm1hdGlvbhgBIAEoCzIiLmF1dGhlbnRpY2F0aW9uLkFjY291bnRJbmZvcm1hdGlvblISYWNjb3VudEluZm9ybWF0aW9uEigKEGRldmljZV91bmlxdWVfaWQYAiABKAlSDmRldmljZVVuaXF1ZUlk');
+final $typed_data.Uint8List loginRequestDescriptor = $convert.base64Decode('CgxMb2dpblJlcXVlc3QSWQoVYWNjb3VudF9hdXRob3JpemF0aW9uGAEgASgLMiQuYXV0aGVudGljYXRpb24uQWNjb3VudEF1dGhvcml6YXRpb25SFGFjY291bnRBdXRob3JpemF0aW9uEigKEGRldmljZV91bmlxdWVfaWQYAiABKAlSDmRldmljZVVuaXF1ZUlk');
 @$core.Deprecated('Use loginResponeDescriptor instead')
 const LoginRespone$json = const {
   '1': 'LoginRespone',
@@ -102,12 +102,12 @@ final $typed_data.Uint8List lougoutResponeDescriptor = $convert.base64Decode('Cg
 const CreateAccountRequest$json = const {
   '1': 'CreateAccountRequest',
   '2': const [
-    const {'1': 'account_information', '3': 1, '4': 1, '5': 11, '6': '.authentication.AccountInformation', '10': 'accountInformation'},
+    const {'1': 'account_authorization', '3': 1, '4': 1, '5': 11, '6': '.authentication.AccountAuthorization', '10': 'accountAuthorization'},
   ],
 };
 
 /// Descriptor for `CreateAccountRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List createAccountRequestDescriptor = $convert.base64Decode('ChRDcmVhdGVBY2NvdW50UmVxdWVzdBJTChNhY2NvdW50X2luZm9ybWF0aW9uGAEgASgLMiIuYXV0aGVudGljYXRpb24uQWNjb3VudEluZm9ybWF0aW9uUhJhY2NvdW50SW5mb3JtYXRpb24=');
+final $typed_data.Uint8List createAccountRequestDescriptor = $convert.base64Decode('ChRDcmVhdGVBY2NvdW50UmVxdWVzdBJZChVhY2NvdW50X2F1dGhvcml6YXRpb24YASABKAsyJC5hdXRoZW50aWNhdGlvbi5BY2NvdW50QXV0aG9yaXphdGlvblIUYWNjb3VudEF1dGhvcml6YXRpb24=');
 @$core.Deprecated('Use createAccountResponeDescriptor instead')
 const CreateAccountRespone$json = const {
   '1': 'CreateAccountRespone',
@@ -195,3 +195,25 @@ const ChangePasswordRespone$json = const {
 
 /// Descriptor for `ChangePasswordRespone`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List changePasswordResponeDescriptor = $convert.base64Decode('ChVDaGFuZ2VQYXNzd29yZFJlc3BvbmU=');
+@$core.Deprecated('Use authorizationRequestDescriptor instead')
+const AuthorizationRequest$json = const {
+  '1': 'AuthorizationRequest',
+  '2': const [
+    const {'1': 'token', '3': 1, '4': 1, '5': 9, '10': 'token'},
+  ],
+};
+
+/// Descriptor for `AuthorizationRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List authorizationRequestDescriptor = $convert.base64Decode('ChRBdXRob3JpemF0aW9uUmVxdWVzdBIUCgV0b2tlbhgBIAEoCVIFdG9rZW4=');
+@$core.Deprecated('Use authorizationResponeDescriptor instead')
+const AuthorizationRespone$json = const {
+  '1': 'AuthorizationRespone',
+  '2': const [
+    const {'1': 'is_authorized', '3': 1, '4': 1, '5': 8, '10': 'isAuthorized'},
+    const {'1': 'user_email', '3': 2, '4': 1, '5': 9, '10': 'userEmail'},
+    const {'1': 'objectId', '3': 3, '4': 1, '5': 9, '10': 'objectId'},
+  ],
+};
+
+/// Descriptor for `AuthorizationRespone`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List authorizationResponeDescriptor = $convert.base64Decode('ChRBdXRob3JpemF0aW9uUmVzcG9uZRIjCg1pc19hdXRob3JpemVkGAEgASgIUgxpc0F1dGhvcml6ZWQSHQoKdXNlcl9lbWFpbBgCIAEoCVIJdXNlckVtYWlsEhoKCG9iamVjdElkGAMgASgJUghvYmplY3RJZA==');

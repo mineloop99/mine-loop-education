@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import '../models/account.dart';
+import '../../models/account.dart';
 
 class AccountProvider with ChangeNotifier {
   AuthInformation _authInformation;

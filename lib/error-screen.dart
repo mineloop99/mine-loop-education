@@ -11,11 +11,20 @@ class _ErrorScreenState extends State<ErrorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Yuu'),
-      ),
       body: Center(
-        child: Text("Something Went Wrong"),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Something Went Wrong"),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Back'))
+            ],
+          ),
+        ),
       ),
     );
   }

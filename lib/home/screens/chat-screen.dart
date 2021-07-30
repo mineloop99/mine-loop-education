@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import '../../grpc/account-information/account-information-client.dart';
 import '../../grpc/authentication/client.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -25,7 +25,13 @@ class _ChatScreenState extends State<ChatScreen> {
       body: Center(
         child: IconButton(
           icon: Icon(Icons.add),
-          onPressed: () {},
+          onPressed: () {
+            AccountInformationAPI.instance.callEditAccountInformation(
+                userBirthday: DateTime.now(),
+                userPhoneNumber: "21492194",
+                userSex: "213215412",
+                username: "1235135412");
+          },
         ),
       ),
     );
