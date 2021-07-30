@@ -13,8 +13,9 @@ import '../../auth/providers/account-provider.dart' show AccountProvider;
 import '../../grpc/authentication/authenticationpb/authentication.pbgrpc.dart';
 import '../../helpers/device-helper.dart' as deviceHelper;
 
-//const ip = '13.75.66.33'; //"10.0.2.2";
-const ip = "10.0.2.2";
+const ip = '13.75.66.33'; //"10.0.2.2";
+const ipLocal = "10.0.2.2";
+const isLocal = true;
 const port = 50010;
 
 class AuthenticationClientProvider with ChangeNotifier {
@@ -37,7 +38,7 @@ class AuthenticationAPI {
 
   void clientAuthInit() {
     final channel = ClientChannel(
-      ip,
+      isLocal ? ipLocal : ip,
       port: port,
       options: ChannelOptions(
         credentials: ChannelCredentials.insecure(),
