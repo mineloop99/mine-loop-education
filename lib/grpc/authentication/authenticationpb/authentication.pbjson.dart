@@ -195,6 +195,24 @@ const ChangePasswordRespone$json = const {
 
 /// Descriptor for `ChangePasswordRespone`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List changePasswordResponeDescriptor = $convert.base64Decode('ChVDaGFuZ2VQYXNzd29yZFJlc3BvbmU=');
+@$core.Deprecated('Use changePasswordWithOldPasswordRequestDescriptor instead')
+const ChangePasswordWithOldPasswordRequest$json = const {
+  '1': 'ChangePasswordWithOldPasswordRequest',
+  '2': const [
+    const {'1': 'old_password', '3': 1, '4': 1, '5': 9, '10': 'oldPassword'},
+    const {'1': 'new_password', '3': 2, '4': 1, '5': 9, '10': 'newPassword'},
+  ],
+};
+
+/// Descriptor for `ChangePasswordWithOldPasswordRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List changePasswordWithOldPasswordRequestDescriptor = $convert.base64Decode('CiRDaGFuZ2VQYXNzd29yZFdpdGhPbGRQYXNzd29yZFJlcXVlc3QSIQoMb2xkX3Bhc3N3b3JkGAEgASgJUgtvbGRQYXNzd29yZBIhCgxuZXdfcGFzc3dvcmQYAiABKAlSC25ld1Bhc3N3b3Jk');
+@$core.Deprecated('Use changePasswordWithOldPasswordResponeDescriptor instead')
+const ChangePasswordWithOldPasswordRespone$json = const {
+  '1': 'ChangePasswordWithOldPasswordRespone',
+};
+
+/// Descriptor for `ChangePasswordWithOldPasswordRespone`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List changePasswordWithOldPasswordResponeDescriptor = $convert.base64Decode('CiRDaGFuZ2VQYXNzd29yZFdpdGhPbGRQYXNzd29yZFJlc3BvbmU=');
 @$core.Deprecated('Use authorizationRequestDescriptor instead')
 const AuthorizationRequest$json = const {
   '1': 'AuthorizationRequest',

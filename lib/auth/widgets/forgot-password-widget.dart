@@ -54,7 +54,7 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
           builder: (_) {
             return NormalDialogPopup(
               methodCall: AuthenticationAPI.instance
-                  .changePassword(_passwordController.text),
+                  .callChangePassword(_passwordController.text),
               methodCallWhenPressOk: () => Navigator.of(context).pop(),
               customNavigator: widget.navigator,
               customNavigatorString: "PASSWORD_HAS_BEEN_CHANGED",

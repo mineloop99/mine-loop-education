@@ -95,7 +95,7 @@ class AuthenticationAPI {
       return "OK";
     } on GrpcError catch (err) {
       if (err.message == "NEED_VERIFY") return email;
-      return err.message;
+      return "SOMETHING_WENT_WRONG";
     }
   }
 
@@ -116,9 +116,7 @@ class AuthenticationAPI {
       return "OK";
     } on GrpcError catch (err) {
       print("Code: \"${err.codeName}\" & Message: ${err.message}");
-      return err.message;
-    } catch (err) {
-      return err.message;
+      return "SOMETHING_WENT_WRONG";
     }
   }
 
@@ -164,7 +162,7 @@ class AuthenticationAPI {
         );
       } on GrpcError catch (err) {
         print("Code: \"${err.codeName}\" & Message: ${err.message}");
-        return err.message;
+        return "SOMETHING_WENT_WRONG";
       }
     else {
       try {
@@ -184,7 +182,7 @@ class AuthenticationAPI {
             DateTime.now().add(Duration(seconds: respone.expiryTimeSeconds)));
       } on GrpcError catch (err) {
         print("Code: \"${err.codeName}\" & Message: ${err.message}");
-        return err.message;
+        return "SOMETHING_WENT_WRONG";
       }
     }
     // Store token and Expiry date Again
@@ -240,9 +238,7 @@ class AuthenticationAPI {
       return "OK";
     } on GrpcError catch (err) {
       print("Code: \"${err.codeName}\" & Message: ${err.message}");
-      return err.message;
-    } catch (err) {
-      return "Something not right!";
+      return "SOMETHING_WENT_WRONG";
     }
   }
 
@@ -267,9 +263,7 @@ class AuthenticationAPI {
       return "EMAIL_CONFIRMED";
     } on GrpcError catch (err) {
       print("Code: \"${err.codeName}\" & Message: ${err.message}");
-      return err.message;
-    } catch (err) {
-      return "Something not right!";
+      return "SOMETHING_WENT_WRONG";
     }
   }
 
@@ -284,17 +278,15 @@ class AuthenticationAPI {
       return "OK";
     } on GrpcError catch (err) {
       print("Code: \"${err.codeName}\" & Message: ${err.message}");
-      return err.message;
-    } catch (err) {
-      return "Something not right!";
+      return "SOMETHING_WENT_WRONG";
     }
   }
 
 //////////////////////////Change Password//////////////////////
-  Future<String> changePassword(String password) async {
+  Future<String> callChangePassword(String password) async {
     clientAuthInit();
     try {
-      final respone = await _client.changePassword(
+      await _client.changePassword(
         ChangePasswordResquest()..password = _hashFunction(password),
         options: CallOptions(timeout: _clientTimeOut, metadata: {
           'token': AccountProvider.instance.authInformation.token
@@ -302,12 +294,29 @@ class AuthenticationAPI {
       );
       print("Message: ${_hashFunction(password)}");
 
-      return "PASSWORD_HAS_BEEN_CHANGED";
+      return "PASSWORD_CHANGED";
     } on GrpcError catch (err) {
       print("Code: \"${err.codeName}\" & Message: ${err.message}");
-      return err.message;
-    } catch (err) {
-      return "Something not right!";
+      return "SOMETHING_WENT_WRONG";
+    }
+  }
+
+  Future<String> callChangePasswordWithOldPassword(
+      String oldPassword, String newPassword) async {
+    clientAuthInit();
+    try {
+      await _client.changePasswordWithOldPassword(
+        ChangePasswordWithOldPasswordRequest()
+          ..oldPassword = _hashFunction(oldPassword)
+          ..newPassword = _hashFunction(newPassword),
+        options: CallOptions(timeout: _clientTimeOut, metadata: {
+          'token': AccountProvider.instance.authInformation.token
+        }),
+      );
+      return "PASSWORD_CHANGED";
+    } on GrpcError catch (err) {
+      print("Code: \"${err.codeName}\" & Message: ${err.message}");
+      return "SOMETHING_WENT_WRONG";
     }
   }
 

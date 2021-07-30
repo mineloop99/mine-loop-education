@@ -960,6 +960,96 @@ class ChangePasswordRespone extends $pb.GeneratedMessage {
   static ChangePasswordRespone? _defaultInstance;
 }
 
+class ChangePasswordWithOldPasswordRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ChangePasswordWithOldPasswordRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'authentication'), createEmptyInstance: create)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'oldPassword')
+    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'newPassword')
+    ..hasRequiredFields = false
+  ;
+
+  ChangePasswordWithOldPasswordRequest._() : super();
+  factory ChangePasswordWithOldPasswordRequest({
+    $core.String? oldPassword,
+    $core.String? newPassword,
+  }) {
+    final _result = create();
+    if (oldPassword != null) {
+      _result.oldPassword = oldPassword;
+    }
+    if (newPassword != null) {
+      _result.newPassword = newPassword;
+    }
+    return _result;
+  }
+  factory ChangePasswordWithOldPasswordRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ChangePasswordWithOldPasswordRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ChangePasswordWithOldPasswordRequest clone() => ChangePasswordWithOldPasswordRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ChangePasswordWithOldPasswordRequest copyWith(void Function(ChangePasswordWithOldPasswordRequest) updates) => super.copyWith((message) => updates(message as ChangePasswordWithOldPasswordRequest)) as ChangePasswordWithOldPasswordRequest; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static ChangePasswordWithOldPasswordRequest create() => ChangePasswordWithOldPasswordRequest._();
+  ChangePasswordWithOldPasswordRequest createEmptyInstance() => create();
+  static $pb.PbList<ChangePasswordWithOldPasswordRequest> createRepeated() => $pb.PbList<ChangePasswordWithOldPasswordRequest>();
+  @$core.pragma('dart2js:noInline')
+  static ChangePasswordWithOldPasswordRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ChangePasswordWithOldPasswordRequest>(create);
+  static ChangePasswordWithOldPasswordRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get oldPassword => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set oldPassword($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasOldPassword() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearOldPassword() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get newPassword => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set newPassword($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasNewPassword() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearNewPassword() => clearField(2);
+}
+
+class ChangePasswordWithOldPasswordRespone extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ChangePasswordWithOldPasswordRespone', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'authentication'), createEmptyInstance: create)
+    ..hasRequiredFields = false
+  ;
+
+  ChangePasswordWithOldPasswordRespone._() : super();
+  factory ChangePasswordWithOldPasswordRespone() => create();
+  factory ChangePasswordWithOldPasswordRespone.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ChangePasswordWithOldPasswordRespone.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ChangePasswordWithOldPasswordRespone clone() => ChangePasswordWithOldPasswordRespone()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ChangePasswordWithOldPasswordRespone copyWith(void Function(ChangePasswordWithOldPasswordRespone) updates) => super.copyWith((message) => updates(message as ChangePasswordWithOldPasswordRespone)) as ChangePasswordWithOldPasswordRespone; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static ChangePasswordWithOldPasswordRespone create() => ChangePasswordWithOldPasswordRespone._();
+  ChangePasswordWithOldPasswordRespone createEmptyInstance() => create();
+  static $pb.PbList<ChangePasswordWithOldPasswordRespone> createRepeated() => $pb.PbList<ChangePasswordWithOldPasswordRespone>();
+  @$core.pragma('dart2js:noInline')
+  static ChangePasswordWithOldPasswordRespone getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ChangePasswordWithOldPasswordRespone>(create);
+  static ChangePasswordWithOldPasswordRespone? _defaultInstance;
+}
+
 class AuthorizationRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'AuthorizationRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'authentication'), createEmptyInstance: create)
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'token')

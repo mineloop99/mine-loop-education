@@ -70,6 +70,13 @@ class AuthenticationServicesClient extends $grpc.Client {
           ($0.AuthorizationRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
               $0.AuthorizationRespone.fromBuffer(value));
+  static final _$changePasswordWithOldPassword = $grpc.ClientMethod<
+          $0.ChangePasswordWithOldPasswordRequest,
+          $0.ChangePasswordWithOldPasswordRespone>(
+      '/authentication.AuthenticationServices/ChangePasswordWithOldPassword',
+      ($0.ChangePasswordWithOldPasswordRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) =>
+          $0.ChangePasswordWithOldPasswordRespone.fromBuffer(value));
 
   AuthenticationServicesClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -131,6 +138,14 @@ class AuthenticationServicesClient extends $grpc.Client {
       $0.AuthorizationRequest request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$authorization, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.ChangePasswordWithOldPasswordRespone>
+      changePasswordWithOldPassword(
+          $0.ChangePasswordWithOldPasswordRequest request,
+          {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$changePasswordWithOldPassword, request,
+        options: options);
   }
 }
 
@@ -220,6 +235,16 @@ abstract class AuthenticationServicesServiceBase extends $grpc.Service {
             ($core.List<$core.int> value) =>
                 $0.AuthorizationRequest.fromBuffer(value),
             ($0.AuthorizationRespone value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.ChangePasswordWithOldPasswordRequest,
+            $0.ChangePasswordWithOldPasswordRespone>(
+        'ChangePasswordWithOldPassword',
+        changePasswordWithOldPassword_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $0.ChangePasswordWithOldPasswordRequest.fromBuffer(value),
+        ($0.ChangePasswordWithOldPasswordRespone value) =>
+            value.writeToBuffer()));
   }
 
   $async.Future<$0.TestingRespone> testing_Pre(
@@ -278,6 +303,14 @@ abstract class AuthenticationServicesServiceBase extends $grpc.Service {
     return authorization(call, await request);
   }
 
+  $async.Future<$0.ChangePasswordWithOldPasswordRespone>
+      changePasswordWithOldPassword_Pre(
+          $grpc.ServiceCall call,
+          $async.Future<$0.ChangePasswordWithOldPasswordRequest>
+              request) async {
+    return changePasswordWithOldPassword(call, await request);
+  }
+
   $async.Future<$0.TestingRespone> testing(
       $grpc.ServiceCall call, $0.TestingRequest request);
   $async.Future<$0.LoginRespone> login(
@@ -298,4 +331,7 @@ abstract class AuthenticationServicesServiceBase extends $grpc.Service {
       $grpc.ServiceCall call, $0.ChangePasswordResquest request);
   $async.Future<$0.AuthorizationRespone> authorization(
       $grpc.ServiceCall call, $0.AuthorizationRequest request);
+  $async.Future<$0.ChangePasswordWithOldPasswordRespone>
+      changePasswordWithOldPassword($grpc.ServiceCall call,
+          $0.ChangePasswordWithOldPasswordRequest request);
 }

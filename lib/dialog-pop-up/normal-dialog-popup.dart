@@ -91,7 +91,8 @@ class _NormalDialogPopupState extends State<NormalDialogPopup> {
                     child: TextButton(
                       onPressed: () {
                         widget.methodCallWhenPressOk();
-                        widget.customNavigator();
+                        if (title.contains("SUCCEED!"))
+                          widget.customNavigator();
                       },
                       child: const Text(
                         "OK",
@@ -154,7 +155,7 @@ class _NormalDialogPopupState extends State<NormalDialogPopup> {
               return _dialog(
                 context,
                 errorPop: true,
-                title: "An error Occured!",
+                title: "AN_ERROR_OCCURED!",
                 description: snapshot.data,
               );
             }
