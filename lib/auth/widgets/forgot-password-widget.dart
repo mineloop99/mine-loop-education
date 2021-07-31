@@ -1,45 +1,42 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:mine_loop_education/dialog-pop-up/normal-dialog-popup.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
-
-import '../../dialog-pop-up/authentication-screen-dialog.dart';
 import '../../grpc/authentication/client.dart';
-import './auth-button.dart';
+import 'auth-button.dart';
 
-class CreateAccountForm extends StatefulWidget {
-  const CreateAccountForm({Key key}) : super(key: key);
-
+class ForgotPasswordWidget extends StatefulWidget {
+  final Function navigator;
+  const ForgotPasswordWidget(this.navigator);
   @override
-  _CreateAccountFormState createState() => _CreateAccountFormState();
+  _ForgotPasswordWidgetState createState() => _ForgotPasswordWidgetState();
 }
 
-class _CreateAccountFormState extends State<CreateAccountForm> {
+class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
   final _formKey = GlobalKey<FormState>();
 
-  TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
-  bool _obscureText;
-  final _usernameFocusNode = FocusNode();
-  final _passwordFocusNode = FocusNode();
-  bool _isUsernameControllerEmpty;
+  TextEditingController _confirmPasswordController = TextEditingController();
+  bool _obscurePassword;
+  bool _obscureConfirmPassword;
+  final _passwordFocusnode = FocusNode();
+  final _confirmPasswordFocusnode = FocusNode();
   bool _isPasswordControllerEmpty;
-
-  bool _agreeTermsUses = false;
+  bool _isConfirmPasswordControllerEmpty;
 
   bool _canSignUp = false;
 
   @override
   void initState() {
-    _emailController.text = '';
     _passwordController.text = '';
-    _obscureText = true;
-    _isUsernameControllerEmpty = true;
+    _confirmPasswordController.text = '';
+    _obscurePassword = true;
+    _obscureConfirmPassword = true;
     _isPasswordControllerEmpty = true;
-    _usernameFocusNode.addListener(() {
+    _isConfirmPasswordControllerEmpty = true;
+    _passwordFocusnode.addListener(() {
       setState(() {});
     });
-    _passwordFocusNode.addListener(() {
+    _confirmPasswordFocusnode.addListener(() {
       setState(() {});
     });
     super.initState();
@@ -55,24 +52,22 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
           context: context,
           barrierDismissible: false,
           builder: (_) {
-            return AuthenticationScreenDialog(
-              methodCall: AuthenticationAPI.instance.createAccount(
-                _emailController.text,
-                _passwordController.text,
-              ),
-              isLoginMethod: false,
+            return NormalDialogPopup(
+              methodCall: AuthenticationAPI.instance
+                  .callChangePassword(_passwordController.text),
+              methodCallWhenPressOk: () => Navigator.of(context).pop(),
+              customNavigator: widget.navigator,
+              customNavigatorString: "PASSWORD_HAS_BEEN_CHANGED",
+              twoTextButton: false,
             );
           });
-      //Set email provider
       Provider.of<AuthenticationClientProvider>(context, listen: false)
-          .setEmail(_emailController.text);
+          .setEmail(_passwordController.text);
     }
   }
 
   void _createAccountButtonHighlight() {
-    if (!_isUsernameControllerEmpty &&
-        !_isPasswordControllerEmpty &&
-        _agreeTermsUses)
+    if (!_isPasswordControllerEmpty && !_isConfirmPasswordControllerEmpty)
       setState(() {
         _canSignUp = true;
       });
@@ -83,18 +78,11 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
   }
 
   @override
-  void didChangeDependencies() {
-    if (_passwordController.text.isEmpty) _isUsernameControllerEmpty = true;
-    if (_emailController.text.isEmpty) _isPasswordControllerEmpty = true;
-    super.didChangeDependencies();
-  }
-
-  @override
   void dispose() {
-    _emailController.dispose();
     _passwordController.dispose();
-    _usernameFocusNode.dispose();
-    _passwordFocusNode.dispose();
+    _confirmPasswordController.dispose();
+    _passwordFocusnode.dispose();
+    _confirmPasswordFocusnode.dispose();
     super.dispose();
   }
 
@@ -121,13 +109,22 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
                 ),
               ),
             ),
-            SizedBox(
-              height: 50,
-            ),
             Form(
               key: _formKey,
               child: Column(
                 children: [
+                  ////// Tooltips/////
+                  Container(
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.all(20),
+                    child: const Text(
+                      'Please provide your new password to continue...',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
                   //////Email Field//////
                   Container(
                     alignment: Alignment.topCenter,
@@ -144,96 +141,7 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
                           borderRadius: BorderRadius.circular(15),
                         ),
                         child: ListTile(
-                          leading: CircleAvatar(
-                            radius: 15.0,
-                            child: Icon(
-                              Icons.account_circle_sharp,
-                            ),
-                            backgroundColor: Colors.white,
-                            foregroundColor: Colors.blue,
-                          ),
-                          title: Text(
-                            'Email',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          subtitle: Container(
-                            height: 60,
-                            child: TextFormField(
-                              keyboardType: TextInputType.emailAddress,
-                              controller: _emailController,
-                              focusNode: _usernameFocusNode,
-                              validator: (value) {
-                                if (value.isEmpty || !value.contains('@'))
-                                  return 'Please enter a valid email address.';
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                hintText: 'Enter email...',
-                                suffixIcon: _usernameFocusNode.hasFocus
-                                    ? IconButton(
-                                        icon: Icon(
-                                          Icons.clear,
-                                        ),
-                                        onPressed: _isUsernameControllerEmpty
-                                            ? null
-                                            : () {
-                                                _emailController.clear();
-                                                _isUsernameControllerEmpty =
-                                                    true;
-                                                _createAccountButtonHighlight();
-                                              },
-                                        disabledColor: Colors.black54,
-                                      )
-                                    : const SizedBox(),
-                              ),
-                              onChanged: (text) {
-                                if (text == '' || text == null)
-                                  setState(() {
-                                    _isUsernameControllerEmpty = true;
-                                  });
-                                else
-                                  setState(() {
-                                    _isUsernameControllerEmpty = false;
-                                  });
-                                _createAccountButtonHighlight();
-                              },
-                              onFieldSubmitted: (_) {
-                                FocusScope.of(context)
-                                    .requestFocus(_passwordFocusNode);
-                              },
-                            ),
-                          ),
-                          trailing: IconButton(
-                            alignment: Alignment.bottomCenter,
-                            icon: Icon(Icons.lock_open),
-                            color: Colors.transparent,
-                            onPressed: () {},
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  /// Password ////
-                  Container(
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.only(right: 2.0, left: 2.0),
-                    height: _deviceSize.height * 0.12,
-                    child: Card(
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      shadowColor: Colors.black45,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: const Color.fromRGBO(230, 248, 255, 1),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: ListTile(
-                          leading: CircleAvatar(
+                          leading: const CircleAvatar(
                             radius: 15.0,
                             child: Icon(
                               Icons.vpn_key,
@@ -251,8 +159,8 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
                             height: 60,
                             child: TextFormField(
                               controller: _passwordController,
-                              focusNode: _passwordFocusNode,
-                              obscureText: _obscureText,
+                              focusNode: _passwordFocusnode,
+                              obscureText: _obscurePassword,
                               validator: (val) {
                                 if (val.isEmpty)
                                   return 'Please enter a valid password.';
@@ -261,8 +169,8 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
                                 return null;
                               },
                               decoration: InputDecoration(
-                                hintText: 'Enter password...',
-                                suffixIcon: _passwordFocusNode.hasFocus
+                                hintText: 'Enter new password...',
+                                suffixIcon: _passwordFocusnode.hasFocus
                                     ? IconButton(
                                         icon: Icon(Icons.clear),
                                         onPressed: () {
@@ -288,19 +196,120 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
 
                                 _createAccountButtonHighlight();
                               },
+                              onSaved: (_) {
+                                FocusScope.of(context)
+                                    .requestFocus(_confirmPasswordFocusnode);
+                              },
                             ),
                           ),
                           trailing: IconButton(
                             alignment: Alignment.bottomCenter,
-                            icon: _obscureText
+                            icon: _obscurePassword
                                 ? Icon(Icons.lock)
                                 : Icon(Icons.lock_open),
-                            tooltip: _obscureText
+                            tooltip: _obscurePassword
                                 ? 'Show password'
                                 : 'Hide password',
                             onPressed: () {
                               setState(() {
-                                _obscureText = !_obscureText;
+                                _obscurePassword = !_obscurePassword;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  /// Password ////
+                  Container(
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.only(right: 2.0, left: 2.0),
+                    height: _deviceSize.height * 0.12,
+                    child: Card(
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      shadowColor: Colors.black45,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: const Color.fromRGBO(230, 248, 255, 1),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: ListTile(
+                          leading: const CircleAvatar(
+                            radius: 15.0,
+                            child: Icon(
+                              Icons.vpn_key,
+                            ),
+                            backgroundColor: Colors.white,
+                            foregroundColor: Colors.blue,
+                          ),
+                          title: Text(
+                            'Confirm Password',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          subtitle: Container(
+                            height: 60,
+                            child: TextFormField(
+                              controller: _confirmPasswordController,
+                              focusNode: _confirmPasswordFocusnode,
+                              obscureText: _obscureConfirmPassword,
+                              validator: (val) {
+                                if (val.isEmpty)
+                                  return 'Please enter a valid password.';
+                                if (val.length < 6)
+                                  return 'Password at least 6 characters long.';
+                                if (val != _passwordController.text)
+                                  return 'Confirm password won\'t matched';
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                hintText: 'Confirm your password...',
+                                suffixIcon: _confirmPasswordFocusnode.hasFocus
+                                    ? IconButton(
+                                        icon: Icon(Icons.clear),
+                                        onPressed: () {
+                                          _confirmPasswordController.clear();
+                                          _isConfirmPasswordControllerEmpty =
+                                              true;
+                                          _createAccountButtonHighlight();
+                                        },
+                                        color: _isConfirmPasswordControllerEmpty
+                                            ? Colors.black54
+                                            : Colors.blue,
+                                      )
+                                    : const SizedBox(),
+                              ),
+                              onChanged: (text) {
+                                if (text == '' || text == null)
+                                  setState(() {
+                                    _isConfirmPasswordControllerEmpty = true;
+                                  });
+                                else
+                                  setState(() {
+                                    _isConfirmPasswordControllerEmpty = false;
+                                  });
+
+                                _createAccountButtonHighlight();
+                              },
+                            ),
+                          ),
+                          trailing: IconButton(
+                            alignment: Alignment.bottomCenter,
+                            icon: _obscureConfirmPassword
+                                ? Icon(Icons.lock)
+                                : Icon(Icons.lock_open),
+                            tooltip: _obscureConfirmPassword
+                                ? 'Show password'
+                                : 'Hide password',
+                            onPressed: () {
+                              setState(() {
+                                _obscureConfirmPassword =
+                                    !_obscureConfirmPassword;
                               });
                             },
                           ),
@@ -309,61 +318,14 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
                     ),
                   ),
                   const SizedBox(
-                    height: 20,
-                  ),
-
-                  Column(
-                    children: [
-                      Container(
-                        width: _deviceSize.width,
-                        padding: const EdgeInsets.only(left: 20),
-                        child: RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                style: TextStyle(color: Colors.black),
-                                text:
-                                    'By clicking \"I agree\" to indicate that you have read and agree to the ',
-                              ),
-                              TextSpan(
-                                  style: TextStyle(color: Colors.blue),
-                                  text: 'Terms and Conditions',
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () async {
-                                      var url = 'https://flutter.dev/';
-                                      return await launch(url);
-                                    }),
-                              TextSpan(
-                                  style: TextStyle(color: Colors.black),
-                                  text: ' agreement!'),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Checkbox(
-                              value: _agreeTermsUses,
-                              onChanged: (value) {
-                                _agreeTermsUses = value;
-                                _createAccountButtonHighlight();
-                              },
-                            ),
-                            Text('I Agree!')
-                          ],
-                        ),
-                      ),
-                    ],
+                    height: 40,
                   ),
                   Container(
                     alignment: Alignment.center,
                     child: AuthButton(
                       path: null,
                       onPressed: _canSignUp ? _trySubmit : null,
-                      textButton: 'Create Account',
+                      textButton: 'Change Password',
                       isNotElevatedButtonIcon: true,
                     ),
                   ),

@@ -17,7 +17,7 @@ const double marginInsetsRight = 0.38;
 const double iconResizeSpeed = 0.03;
 const double fontSizeResizeSpeed = 0.05;
 double marginEdge;
-double numberTempToCheckDropdownOrNot = 0;
+const double numberTempToCheckDropdownOrNot = 0;
 bool isDropdown;
 
 //AppBar Icon Builder
@@ -71,7 +71,7 @@ class _PageViewBuilderState extends State<PageViewBuilder> {
   Widget build(BuildContext context) {
     return SafeArea(
       top: false,
-      minimum: EdgeInsets.only(top: _minExtent),
+      minimum: const EdgeInsets.only(top: _minExtent),
       child: CustomScrollView(
         slivers: [
           ///// Image and 4 Buttons /////
@@ -92,7 +92,7 @@ class _PageViewBuilderState extends State<PageViewBuilder> {
               (BuildContext context, int index) {
                 return widget.widget;
               },
-              childCount: 20,
+              childCount: 9,
             ),
           ),
         ],
@@ -148,12 +148,12 @@ class BuildDelegate extends SliverPersistentHeaderDelegate {
       _inkWellBuilder(
           4,
           shrinkOffset,
-          Icons.menu_book,
-          'Menu',
+          Icons.event_available,
+          'Events',
           iconColorOpacity,
           textColorOpacity,
           context,
-          Routes.routeName[RouteNamesEnum.Menu]),
+          Routes.routeName[RouteNamesEnum.Events]),
     ];
     return Stack(
       fit: StackFit.expand,
@@ -162,7 +162,16 @@ class BuildDelegate extends SliverPersistentHeaderDelegate {
             ? const SizedBox()
             : Opacity(
                 opacity: colorOpacity,
-                child: BackGroundImageBuilder(),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(
+                        'https://i.pinimg.com/564x/d3/4c/ef/d34cefdd877969788453a9c98f4b4bd5.jpg',
+                      ),
+                    ),
+                  ),
+                ),
               ),
         Container(
           //alignment: Alignment.topCenter,
@@ -179,7 +188,7 @@ class BuildDelegate extends SliverPersistentHeaderDelegate {
                 top: 0,
                 height: maxExtent - minExtent - 10,
                 width: deviceSize.width,
-                child: InkWell(
+                child: const InkWell(
                   child: AbsorbPointer(),
                 ),
               )
@@ -301,20 +310,5 @@ class BuildDelegate2 extends SliverPersistentHeaderDelegate {
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
     return true;
-  }
-}
-
-///Background Image asset
-class BackGroundImageBuilder extends StatelessWidget {
-  const BackGroundImageBuilder({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Image.network(
-      'https://i.pinimg.com/564x/d3/4c/ef/d34cefdd877969788453a9c98f4b4bd5.jpg',
-      fit: BoxFit.cover,
-    );
   }
 }

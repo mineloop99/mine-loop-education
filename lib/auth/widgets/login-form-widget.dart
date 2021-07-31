@@ -1,9 +1,14 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:mine_loop_education/auth/screens/forgot-password-screen.dart';
+
 import 'package:provider/provider.dart';
 
 import 'auth-button.dart';
+import '../../grpc/authentication/client.dart';
+import '../../dialog-pop-up/authentication-screen-dialog.dart';
+import '../../dialog-pop-up/edit-dialog-pop-up.dart';
+import '../../auth/screens/verify-account-screen.dart';
+import '../../models/routes.dart';
 
 enum LoginMethods {
   MineLoop,
@@ -24,7 +29,6 @@ class LoginFormWidgetProvider with ChangeNotifier {
   void chooseLoginMethods() {
     loginMethods = LoginMethods.MineLoop;
     isChosingLogin = false;
-    notifyListeners();
   }
 
   void animationTapCallBack({bool isBackButton = false}) {
@@ -34,8 +38,7 @@ class LoginFormWidgetProvider with ChangeNotifier {
     }
     isTapExpandedContainerForm = !isTapExpandedContainerForm;
     isTapFadeFormLogin = !isTapFadeFormLogin;
-    //   isTapExpandedContainerForm = false;
-    // isTapFadeFormLogin = true;
+
     notifyListeners();
   }
 }
@@ -51,44 +54,40 @@ class _LoginFormWidgetState extends State<LoginFormWidget>
 
   LoginFormWidgetProvider _loginFormWidgetProvider;
 
-  AnimationController _animationFadedFadedController;
+  AnimationController _animationFadedController;
   Animation<double> _animationFaded;
-  int rdTime = new Random().nextInt(1000 - 700);
+
+  bool _firstTimePress = true;
+
   @override
   void initState() {
     signinMineLoopForm = SigninMineLoopForm();
-    _animationFadedFadedController = AnimationController(
+    _animationFadedController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 500),
     );
     _animationFaded = Tween(
       begin: 0.0,
       end: 1.0,
-    ).animate(_animationFadedFadedController);
-    _animationFadedFadedController.forward(from: 0.0);
+    ).animate(_animationFadedController);
     _loginFormWidgetProvider =
         Provider.of<LoginFormWidgetProvider>(context, listen: false);
+    _loginFormWidgetProvider.isChosingLogin = true;
+    _loginFormWidgetProvider.loginMethods = LoginMethods.None;
+    _loginFormWidgetProvider.isTapFadeFormLogin = true;
     super.initState();
   }
 
-  Future<bool> fetchLoginForm() => Future.delayed(
-        Duration(milliseconds: rdTime),
-        () {
-          LoginFormWidget();
-          return true;
-        },
-      );
   @override
   void dispose() {
-    _animationFadedFadedController.dispose();
-
+    _animationFadedController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     if (_loginFormWidgetProvider.isTapFadeFormLogin)
-      _animationFadedFadedController.forward(from: 0.0);
+      _animationFadedController.forward(from: 0.0);
     return _loginFormWidgetProvider.isChosingLogin
         ? FadeTransition(
             opacity: _animationFaded,
@@ -99,11 +98,22 @@ class _LoginFormWidgetState extends State<LoginFormWidget>
                     path: 'assets/images/google_signin_logo.png',
                     textButton: 'Sign in with MineLoop',
                     onPressed: () {
-                      setState(() {
-                        _loginFormWidgetProvider.chooseLoginMethods();
-                        _loginFormWidgetProvider.animationTapCallBack();
-                        _animationFadedFadedController.forward(from: 0.0);
-                      });
+                      if (_firstTimePress) {
+                        _firstTimePress = false;
+                        Future.delayed(Duration(milliseconds: 800), () {
+                          Navigator.of(context).pop(true);
+                        });
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (ctx) {
+                            return Center(child: CircularProgressIndicator());
+                          },
+                        );
+                      }
+                      _loginFormWidgetProvider.chooseLoginMethods();
+                      _loginFormWidgetProvider.animationTapCallBack();
+                      _animationFadedController.forward(from: 0.0);
                     },
                     isNotElevatedButtonIcon: false,
                   ),
@@ -118,18 +128,9 @@ class _LoginFormWidgetState extends State<LoginFormWidget>
             ),
           )
         : _loginFormWidgetProvider.loginMethods == LoginMethods.MineLoop
-            ? FutureBuilder(
-                future: fetchLoginForm(),
-                builder: (context, snapshot) {
-                  return !snapshot.hasData
-                      ? Center(
-                          child: CircularProgressIndicator(),
-                        )
-                      : FadeTransition(
-                          opacity: _animationFaded,
-                          child: SigninMineLoopForm(),
-                        );
-                },
+            ? FadeTransition(
+                opacity: _animationFaded,
+                child: SigninMineLoopForm(),
               )
             : SigninGoogleForm();
   }
@@ -143,7 +144,7 @@ class SigninMineLoopForm extends StatefulWidget {
 class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
   final _formKey = GlobalKey<FormState>();
 
-  TextEditingController _usernameController = new TextEditingController();
+  TextEditingController _emailController = new TextEditingController();
   TextEditingController _passwordController = new TextEditingController();
   bool _obscureText;
   final _usernameFocusNode = FocusNode();
@@ -151,18 +152,18 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
   bool _isUsernameControllerEmpty;
   bool _isPasswordControllerEmpty;
 
-  bool _rememberMeCheckBox;
+  bool _autoLoginCheckBox;
 
-  bool _canSignUp = false;
+  bool _canSignIn = false;
 
   @override
   void initState() {
-    _usernameController.text = '';
+    _emailController.text = '';
     _passwordController.text = '';
     _obscureText = true;
     _isUsernameControllerEmpty = true;
     _isPasswordControllerEmpty = true;
-    _rememberMeCheckBox = false;
+    _autoLoginCheckBox = false;
     _usernameFocusNode.addListener(() {
       setState(() {});
     });
@@ -182,31 +183,79 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
     });
     if (isValid) {
       _formKey.currentState.save();
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (_) {
+            return AuthenticationScreenDialog(
+              methodCall: AuthenticationAPI.instance.callLogin(
+                  _emailController.text,
+                  _passwordController.text,
+                  _autoLoginCheckBox,
+                  context),
+              isLoginMethod: true,
+            );
+          });
+      Provider.of<AuthenticationClientProvider>(context, listen: false)
+          .setEmail(_emailController.text);
     }
   }
+
+  _showChangePasswordDialog() => showDialog(
+        context: context,
+        builder: (contex) {
+          FocusScope.of(context).unfocus();
+          return EditDialogPopUp(
+            title: "Forgot Password",
+            trueDescription: "Provide email to conitnue...",
+            falseDescription: "Please check Email or Network again...",
+            hint: "example@domain.com",
+            navigationWhenOk: () => ///// Navigated to Login page
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) => VerifyAccountScreen(
+                          navigatorFunction: () =>
+                              Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute(
+                                    builder: (ctx) => ForgotPasswordScreen(
+                                        navigator: () => Future.delayed(
+                                            Duration(milliseconds: 500),
+                                            () => Navigator.of(ctx)
+                                                .pushNamedAndRemoveUntil(
+                                                    Routes.routeName[
+                                                        RouteNamesEnum.Login],
+                                                    (Route<dynamic> route) =>
+                                                        false))),
+                                  ),
+                                  (Route<dynamic> route) => false),
+                          isChangePassword: true,
+                        ))),
+            methodWhenPressCancel: () => Navigator.of(context).pop(),
+          );
+        },
+      );
 
   void _createAccountButtonHighlight() {
     if (!_isUsernameControllerEmpty && !_isPasswordControllerEmpty)
       setState(() {
-        _canSignUp = true;
+        _canSignIn = true;
       });
     else
       setState(() {
-        _canSignUp = false;
+        _canSignIn = false;
       });
   }
 
   @override
   void didChangeDependencies() {
     if (_passwordController.text.isEmpty) _isUsernameControllerEmpty = true;
-    if (_usernameController.text.isEmpty) _isPasswordControllerEmpty = true;
+    if (_emailController.text.isEmpty) _isPasswordControllerEmpty = true;
 
     super.didChangeDependencies();
   }
 
   @override
   void dispose() {
-    _usernameController.dispose();
+    _emailController.dispose();
     _passwordController.dispose();
     _usernameFocusNode.dispose();
     _passwordFocusNode.dispose();
@@ -235,13 +284,13 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
               child: Card(
                 elevation: 5,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5.0),
+                  borderRadius: BorderRadius.circular(15.0),
                 ),
                 shadowColor: Colors.black45,
                 child: Container(
                   decoration: BoxDecoration(
                     color: const Color.fromRGBO(230, 248, 255, 1),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(15.0),
                   ),
                   child: ListTile(
                     leading: CircleAvatar(
@@ -252,7 +301,7 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
                       backgroundColor: Colors.white,
                       foregroundColor: Colors.blue,
                     ),
-                    title: Text(
+                    title: const Text(
                       'Email',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -262,7 +311,8 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
                       height: 60,
                       child: TextFormField(
                         keyboardType: TextInputType.emailAddress,
-                        controller: _usernameController,
+                        controller: _emailController,
+                        textInputAction: TextInputAction.next,
                         focusNode: _usernameFocusNode,
                         validator: (value) {
                           if (value.isEmpty || !value.contains('@'))
@@ -279,7 +329,7 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
                                   onPressed: _isUsernameControllerEmpty
                                       ? null
                                       : () {
-                                          _usernameController.clear();
+                                          _emailController.clear();
                                           _isUsernameControllerEmpty = true;
                                           _createAccountButtonHighlight();
                                         },
@@ -305,7 +355,7 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
                       ),
                     ),
                     trailing: IconButton(
-                        icon: Icon(Icons.subdirectory_arrow_left),
+                        icon: const Icon(Icons.subdirectory_arrow_left),
                         tooltip: 'Back to Login methods',
                         onPressed: () {
                           _loginFormWidgetProvider.animationTapCallBack(
@@ -323,16 +373,16 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
               child: Card(
                 elevation: 5,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+                  borderRadius: BorderRadius.circular(15.0),
                 ),
                 shadowColor: Colors.black45,
                 child: Container(
                   decoration: BoxDecoration(
                     color: const Color.fromRGBO(230, 248, 255, 1),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(15.0),
                   ),
                   child: ListTile(
-                    leading: CircleAvatar(
+                    leading: const CircleAvatar(
                       radius: 15.0,
                       child: Icon(
                         Icons.vpn_key,
@@ -340,7 +390,7 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
                       backgroundColor: Colors.white,
                       foregroundColor: Colors.blue,
                     ),
-                    title: Text(
+                    title: const Text(
                       'Password',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -363,7 +413,7 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
                           hintText: 'Enter password...',
                           suffixIcon: _passwordFocusNode.hasFocus
                               ? IconButton(
-                                  icon: Icon(Icons.clear),
+                                  icon: const Icon(Icons.clear),
                                   onPressed: () {
                                     _passwordController.clear();
                                     _isPasswordControllerEmpty = true;
@@ -387,8 +437,8 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
                           _createAccountButtonHighlight();
                         },
                         // onFieldSubmitted: (_) {
-                        //   if (_usernameController.text == '' ||
-                        //       _usernameController.text == null)
+                        //   if (_emailController.text == '' ||
+                        //       _emailController.text == null)
                         //     FocusScope.of(context).requestFocus(_usernameFocusNode);
                         // },
                       ),
@@ -396,8 +446,8 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
                     trailing: IconButton(
                       alignment: Alignment.bottomCenter,
                       icon: _obscureText
-                          ? Icon(Icons.lock)
-                          : Icon(Icons.lock_open),
+                          ? const Icon(Icons.lock)
+                          : const Icon(Icons.lock_open),
                       tooltip: _obscureText ? 'Show password' : 'Hide password',
                       onPressed: () {
                         setState(() {
@@ -418,29 +468,30 @@ class _SigninMineLoopFormState extends State<SigninMineLoopForm> {
                     children: [
                       Checkbox(
                         checkColor: Theme.of(context).iconTheme.color,
-                        value: _rememberMeCheckBox,
+                        value: _autoLoginCheckBox,
                         onChanged: (value) {
                           setState(() {
-                            _rememberMeCheckBox = value;
+                            _autoLoginCheckBox = value;
                           });
                         },
                       ),
-                      Text('Remember me.'),
+                      const Text('Auto Login'),
                     ],
                   ),
                   TextButton(
-                    onPressed: () {},
-                    child: Text('Forgot Password?'),
+                    onPressed: _showChangePasswordDialog,
+                    child: const Text('Forgot Password?'),
                   ),
                 ],
               ),
             ),
+            SizedBox(height: 20),
             ////// Sign in Button ////////
             Container(
               alignment: Alignment.center,
               child: AuthButton(
                 path: null,
-                onPressed: _canSignUp ? _trySubmit : null,
+                onPressed: _canSignIn ? _trySubmit : null,
                 textButton: 'Sign In',
                 isNotElevatedButtonIcon: true,
               ),

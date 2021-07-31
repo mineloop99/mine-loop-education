@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../../dialog-pop-up/normal-dialog-popup.dart';
+import '../../../grpc/authentication/client.dart';
 
 /*
   Need Form Validation
@@ -55,10 +57,29 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     bool _isValid = _formKey.currentState.validate();
     if (_isValid) {
       _formKey.currentState.save();
+      showDialog(
+          context: context,
+          builder: (ctx) => NormalDialogPopup(
+                methodCall: AuthenticationAPI.instance
+                    .callChangePasswordWithOldPassword(
+                  oldPassword.text,
+                  newPassword.text,
+                ),
+                twoTextButton: false,
+                showSnackBarMessage: "PASSWORD_CHANGED",
+                contextSnackBarMessage: context,
+                customNavigatorString: "PASSWORD_CHANGED",
+                customNavigator: () {
+                  Navigator.of(context).pop();
+                },
+                methodCallWhenPressOk: () {
+                  Navigator.of(context).pop();
+                },
+              ));
     }
   }
 
-  final password = TextEditingController();
+  final oldPassword = TextEditingController();
   final newPassword = TextEditingController();
   final confirmNewPassword = TextEditingController();
 
@@ -73,7 +94,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   @override
   void dispose() {
     super.dispose();
-    password.dispose();
+    oldPassword.dispose();
     newPassword.dispose();
     confirmNewPassword.dispose();
     _newPasswordFocusNode.dispose();
@@ -98,11 +119,11 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               Padding(
                 padding: const EdgeInsets.only(bottom: 15, left: 10, right: 10),
                 child: TextFormField(
-                  controller: password,
+                  controller: oldPassword,
                   obscureText: _isHidePassword,
                   keyboardType: TextInputType.text,
                   decoration: buildInputDecoration(
-                    "Password",
+                    "Old Password",
                     _isHidePassword,
                     () {
                       setState(() {
@@ -136,9 +157,13 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     });
                   }),
                   validator: (String value) {
-                    if (value.isEmpty) return 'Please a Enter new Password';
-                    if (value.length < 6)
+                    if (value.isEmpty)
+                      return 'Please a Enter new Password';
+                    else if (value.length < 6)
                       return 'New password must be at least 6 characters long';
+                    else if (value == oldPassword.text)
+                      return 'New password not same as Old Password';
+
                     return null;
                   },
                   onFieldSubmitted: (_) {
@@ -162,7 +187,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   }),
                   validator: (String value) {
                     if (value.isEmpty) return 'Please re-enter new password';
-                    if (password.text != confirmNewPassword.text) {
+                    if (newPassword.text != confirmNewPassword.text) {
                       return "New password does not match";
                     }
                     return null;
@@ -174,7 +199,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 height: 50,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.purple,
+                    primary: Colors.blue,
                     textStyle: TextStyle(
                       color: Colors.white,
                     ),

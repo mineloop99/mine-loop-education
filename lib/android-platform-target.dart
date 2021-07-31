@@ -1,14 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:mine_loop_education/dialog-pop-up/authentication-screen-dialog.dart';
+import 'package:mine_loop_education/grpc/authentication/client.dart';
+import 'package:mine_loop_education/home/providers/home-provider.dart';
 
-import 'package:mine_loop_education/home/screens/menu-screen.dart';
+import 'package:mine_loop_education/home/screens/chat-screen.dart';
+
+import 'package:mine_loop_education/home/screens/events-screen.dart';
 import 'package:mine_loop_education/home/screens/my-account-screen.dart';
 import 'package:mine_loop_education/home/screens/my-account-screens/edit-profile-screen.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import './auth/screens/login-screen.dart';
 import './home/screens/home-screen.dart';
+import 'auth/providers/account-provider.dart';
+import 'auth/screens/verify-account-screen.dart';
+import 'package:mine_loop_education/auth/screens/forgot-password-screen.dart';
+import './dialog-pop-up/edit-dialog-pop-up.dart';
 import 'models/routes.dart';
+import './home/screens/splash_screen.dart';
 
-class AndroidPlatformTarget extends StatelessWidget {
-  const AndroidPlatformTarget({Key key}) : super(key: key);
+class AndroidPlatformTarget extends StatefulWidget {
+  @override
+  _AndroidPlatformTargetState createState() => _AndroidPlatformTargetState();
+}
+
+class _AndroidPlatformTargetState extends State<AndroidPlatformTarget> {
+  final _tryLogin = AuthenticationAPI.instance.tryAutoLogin();
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +34,7 @@ class AndroidPlatformTarget extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.lightBlue,
         backgroundColor: Colors.lightBlue,
-        accentColor: Colors.deepPurple,
+        accentColor: Colors.blue,
         accentColorBrightness: Brightness.dark,
         disabledColor: Colors.black54,
         iconTheme: IconThemeData(
@@ -49,6 +66,8 @@ class AndroidPlatformTarget extends StatelessWidget {
         bannerTheme: MaterialBannerTheme.of(context).copyWith(
           backgroundColor: Colors.white,
         ),
+        primaryTextTheme:
+            TextTheme(caption: TextStyle(fontWeight: FontWeight.w300)),
 
         ///Format Text
         textTheme: TextTheme(
@@ -74,7 +93,19 @@ class AndroidPlatformTarget extends StatelessWidget {
           ),
         ),
       ),
-      home: HomeScreen(),
+      home: Consumer<AccountProvider>(
+        builder: (_, _accountProvider, __) {
+          return FutureBuilder(
+            future: _tryLogin,
+            builder: (_, snapshot) =>
+                snapshot.connectionState == ConnectionState.waiting
+                    ? SplashScreen()
+                    : snapshot.hasData && snapshot.data == "OK"
+                        ? HomeScreen()
+                        : LoginScreen(),
+          );
+        },
+      ),
       routes: Routes.routes,
     );
   }

@@ -4,17 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../widgets/login-form-widget.dart';
 import '../widgets/dropdown-widget.dart';
-import '../widgets/create-form_widget.dart';
-import '../../models/routes.dart';
-
-enum LoginScreenFlexible {
-  notch,
-  logo,
-  welcomeText,
-  loginForm,
-  createAccount,
-  termsAndConditions
-}
+import '../widgets/create-form-widget.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login';
@@ -25,89 +15,81 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  var flexibleNumber = Map<LoginScreenFlexible, int>();
-  void _launchUrl() async => await launch('https://flutter.dev');
-
+  final flexibleNumber = {
+    'notch': 1,
+    'logo': 2,
+    'welcomeText': 1,
+    'createAccount': 2,
+    'termsAndConditions': 1,
+  };
   @override
   void initState() {
-    flexibleNumber[LoginScreenFlexible.notch] = 1;
-    flexibleNumber[LoginScreenFlexible.logo] = 2;
-    flexibleNumber[LoginScreenFlexible.welcomeText] = 1;
-    flexibleNumber[LoginScreenFlexible.loginForm] = 5;
-    flexibleNumber[LoginScreenFlexible.createAccount] = 1;
-    flexibleNumber[LoginScreenFlexible.termsAndConditions] = 1;
-
     super.initState();
+    Provider.of<LoginFormWidgetProvider>(context, listen: false)
+        .isTapExpandedContainerForm = false;
   }
 
-  @override
+  void _launchUrl() async => await launch('https://flutter.dev');
+
   Widget build(BuildContext context) {
+    @override
     final deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                stops: [0.0, 0.2, 0.9],
-                colors: [
-                  const Color(0xFFc2e9fb),
-                  const Color(0xFFa3bded),
-                  const Color(0xFFc2e9fb),
-                ],
-              ),
-              //color: Color.fromRGBO(240, 248, 255, 1),
-            ),
-            child: Align(
-              alignment: Alignment.topRight,
-              child: Container(
-                height: deviceSize.height * 0.6,
-                width: deviceSize.width * 0.35,
-                padding:
-                    EdgeInsets.only(top: 50, right: deviceSize.width * 0.03),
-              ),
+          Align(
+            alignment: Alignment.topRight,
+            child: Container(
+              height: deviceSize.height * 0.6,
+              width: deviceSize.width * 0.35,
+              padding: EdgeInsets.only(top: 50, right: deviceSize.width * 0.03),
             ),
           ),
           SingleChildScrollView(
             child: Container(
               height: deviceSize.height,
               width: deviceSize.width,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  stops: [0.0, 0.2, 0.9],
+                  colors: [
+                    const Color(0xFFc2e9fb),
+                    const Color(0xFFa3bded),
+                    const Color(0xFFc2e9fb),
+                  ],
+                ),
+                //color: Color.fromRGBO(240, 248, 255, 1),
+              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   ///////Headers/////
                   Flexible(
-                    flex: flexibleNumber[LoginScreenFlexible.logo] +
-                        flexibleNumber[LoginScreenFlexible.welcomeText] +
-                        flexibleNumber[LoginScreenFlexible.notch],
+                    flex: flexibleNumber['logo'] +
+                        flexibleNumber['welcomeText'] +
+                        flexibleNumber['notch'],
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         ////Notch/////
                         Expanded(
-                          flex: flexibleNumber[LoginScreenFlexible.notch],
-                          child: IconButton(
-                            icon: Icon(Icons.dangerous),
-                            color: Colors.red,
-                            onPressed: () {
-                              Navigator.of(context).pushReplacementNamed(
-                                  Routes.routeName[RouteNamesEnum.Home]);
-                            },
-                          ),
-                        ),
+                            flex: flexibleNumber['notch'],
+                            child: const SizedBox()),
                         /////Logo/////
                         Flexible(
-                          flex: flexibleNumber[LoginScreenFlexible.logo],
+                          flex: flexibleNumber['logo'],
                           child: Container(
                             alignment: Alignment.bottomCenter,
-                            child: ClipRRect(
+                            width: 200,
+                            decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
-                              child: Image.network(
-                                'https://i.pinimg.com/564x/11/f8/f0/11f8f0a243fc9214d2a9879fbae4a27d.jpg',
+                              image: DecorationImage(
+                                image: const NetworkImage(
+                                    'https://i.pinimg.com/originals/73/ed/e2/73ede2610b35468be26a77f04092535c.png'),
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -115,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         /////Welcome Sign/////
                         Flexible(
-                          flex: flexibleNumber[LoginScreenFlexible.welcomeText],
+                          flex: flexibleNumber['welcomeText'],
                           child: Container(
                             alignment: Alignment.centerLeft,
                             padding: const EdgeInsets.only(left: 15.0),
@@ -127,57 +109,46 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                         ),
-                        /////Signin Text/////
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20.0, vertical: 5),
-                          child: Text(
-                            'sign in to continue.',
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
                       ],
                     ),
                   ),
                   //////Login Form//////
-                  Flexible(
-                      flex: flexibleNumber[LoginScreenFlexible.loginForm],
-                      child: Consumer<LoginFormWidgetProvider>(
-                        builder: (ctx, _loginFormWidgetProvider, _) =>
-                            AnimatedContainer(
-                          duration: _loginFormWidgetProvider
-                              .containerExpandAnimationDuration,
-                          height: _loginFormWidgetProvider
-                                  .isTapExpandedContainerForm
-                              ? 300
+                  Consumer<LoginFormWidgetProvider>(
+                    builder: (ctx, _loginFormWidgetProvider, _) =>
+                        AnimatedContainer(
+                      alignment: Alignment.bottomCenter,
+                      duration: _loginFormWidgetProvider
+                          .containerExpandAnimationDuration,
+                      height:
+                          _loginFormWidgetProvider.isTapExpandedContainerForm
+                              ? 350
                               : 100,
-                          curve: Curves.decelerate,
-                          child: LoginFormWidget(),
-                        ),
-                      )),
-                  Flexible(
-                    flex: flexibleNumber[LoginScreenFlexible.createAccount] +
-                        flexibleNumber[LoginScreenFlexible.createAccount],
+                      curve: Curves.linearToEaseOut,
+                      child: LoginFormWidget(),
+                    ),
+                  ),
+
+                  /// Form Register
+                  Expanded(
+                    flex: flexibleNumber['createAccount'] +
+                        flexibleNumber['createAccount'],
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const SizedBox(
                           height: 3,
                         ),
-                        Text('Don\'t have an account yet?'),
+                        const Text('Don\'t have an account yet?'),
                         Expanded(
-                            flex: flexibleNumber[
-                                    LoginScreenFlexible.createAccount] +
-                                flexibleNumber[
-                                    LoginScreenFlexible.createAccount],
+                            flex: flexibleNumber['createAccount'] +
+                                flexibleNumber['createAccount'],
                             child: CreateFromWidget()),
                       ],
                     ),
                   ),
                   DropDownWidget(),
                   InkWell(
-                    child: new Text('Terms and Conditions'),
+                    child: const Text('Terms and Conditions'),
                     onTap: _launchUrl,
                   ),
                   const SizedBox(

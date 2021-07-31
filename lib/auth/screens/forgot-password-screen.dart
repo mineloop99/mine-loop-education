@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import '../widgets/forgot-password-widget.dart';
 
-import '../widgets/create-account-form.dart';
-
-class CreateAccountScreen extends StatefulWidget {
-  static const routeName = '/create-account';
-
+class ForgotPasswordScreen extends StatefulWidget {
+  final Function navigator;
+  const ForgotPasswordScreen({this.navigator});
   @override
-  _CreateAccountScreenState createState() => _CreateAccountScreenState();
+  _ForgotPasswordScreenState createState() => _ForgotPasswordScreenState();
 }
 
-class _CreateAccountScreenState extends State<CreateAccountScreen> {
+class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     final _deviceSize = MediaQuery.of(context).size;
@@ -29,7 +28,9 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
           ),
           //color: Color.fromRGBO(240, 248, 255, 1),
         ),
-        child: CreateAccountForm(),
+        child: Center(
+          child: ForgotPasswordWidget(widget.navigator),
+        ),
       ),
     );
   }

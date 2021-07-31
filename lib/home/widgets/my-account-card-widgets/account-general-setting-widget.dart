@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:mine_loop_education/models/routes.dart';
+
+import 'package:provider/provider.dart';
 
 import './general-setting-button.dart';
 import '../../screens/my-account-screens/notifications-setting-screen.dart';
 import '../../screens/my-account-screens/language-setting-screen.dart';
 import '../../screens/my-account-screens/help-support-screen.dart';
+import '../../../auth/providers/account-provider.dart';
+import '../../../auth/widgets/login-form-widget.dart';
+import '../../../grpc/authentication/client.dart';
+import 'package:mine_loop_education/dialog-pop-up/normal-dialog-popup.dart';
 
 class AccountGeneralSettingWidget extends StatefulWidget {
   @override
@@ -56,7 +63,7 @@ class _AccountGeneralSettingWidgetState
         title: "Log Out",
         subTitle: "Return to Login Screen",
         imageLeading: Icon(Icons.logout, size: 30),
-        onTap: () {},
+        onTap: () => AuthenticationAPI.instance.tryLogout(context),
       ),
     ];
     return SingleChildScrollView(

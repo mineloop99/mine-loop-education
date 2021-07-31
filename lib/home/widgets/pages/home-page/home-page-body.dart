@@ -12,7 +12,7 @@ class _HomePageState extends State<HomePage> {
     color: Colors.black12,
     height: 100,
     child: Center(
-      child: Text('1', textScaleFactor: 5),
+      child: const Text('1', textScaleFactor: 5),
     ),
   );
   @override

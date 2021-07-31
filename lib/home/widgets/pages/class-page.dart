@@ -12,7 +12,7 @@ class _ClassPageState extends State<ClassPage> {
     color: Colors.black12,
     height: 100,
     child: Center(
-      child: Text('2', textScaleFactor: 5),
+      child: const Text('2', textScaleFactor: 5),
     ),
   );
   @override

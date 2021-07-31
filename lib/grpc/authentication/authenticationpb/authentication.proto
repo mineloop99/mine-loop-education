@@ -1,0 +1,130 @@
+syntax = "proto3";
+package authentication;
+
+option go_package = "/authenticationpb";
+
+
+service AuthenticationServices {
+
+    // for test purpose only
+    rpc Testing (TestingRequest) returns (TestingRespone);
+
+    rpc Login (LoginRequest) returns (LoginRespone);
+
+    rpc AutoLogin (AutoLoginRequest) returns (AutoLoginRespone);
+
+    rpc Logout (LogoutRequest) returns (LougoutRespone);
+
+    rpc CreateAccount (CreateAccountRequest) returns (CreateAccountRespone);
+
+    rpc EmailVerification (EmailVerificationRequest) returns (EmailVerificationRespone);
+
+    rpc EmailVerificationCode (EmailVerificationCodeRequest) returns (EmailVerificationCodeRespone);
+
+    /// Send request Only ////
+    rpc ForgotPassword (ForgotPasswordResquest) returns (ForgotPasswordRespone);
+    
+    /// Change With Forgot Password Button ///
+    rpc ChangePassword (ChangePasswordResquest) returns (ChangePasswordRespone);
+
+    rpc Authorization (AuthorizationRequest) returns (AuthorizationRespone);
+
+    rpc ChangePasswordWithOldPassword (ChangePasswordWithOldPasswordRequest) returns (ChangePasswordWithOldPasswordRespone);
+}
+
+
+message TestingRequest {
+}
+message TestingRespone {
+}
+
+
+message AccountAuthorization {
+    string user_email = 1;
+    string password = 2;
+}
+
+
+message AutoLoginRequest {
+    string device_unique_id = 1;
+}
+message AutoLoginRespone {
+    string token = 1;
+    int32 expiry_time_seconds = 2;
+}
+
+
+message LoginRequest {
+    AccountAuthorization account_authorization = 1;
+    string device_unique_id = 2;
+}
+message LoginRespone {
+    string token = 1;
+    int32 expiry_time_seconds = 2;
+}
+
+
+message LogoutRequest {
+    string user_email = 1;
+    string device_unique_id = 2;
+}
+message LougoutRespone {
+    string user_email = 1;
+    string device_unique_id = 2;
+}
+
+
+message CreateAccountRequest {
+    AccountAuthorization account_authorization = 1;
+}
+message CreateAccountRespone {
+    bool create_status = 1;
+}
+
+
+message EmailVerificationRequest {
+    string email = 1;
+}
+message EmailVerificationRespone {}
+
+
+message EmailVerificationCodeRequest {
+    string email = 1;
+    int32 code = 2;
+    string device_unique_id = 3;
+}
+message EmailVerificationCodeRespone {
+    bool verify_status = 1;
+    string token = 2;
+}
+
+
+message ForgotPasswordResquest {
+    string email = 1;
+}
+message ForgotPasswordRespone {
+    string token = 1;
+}
+
+
+message ChangePasswordResquest {
+    string password = 1;
+}
+message ChangePasswordRespone {
+}
+
+message ChangePasswordWithOldPasswordRequest {
+    string old_password = 1;
+    string new_password = 2;
+}
+message ChangePasswordWithOldPasswordRespone {
+}
+
+message AuthorizationRequest {
+    string token = 1;
+}
+message AuthorizationRespone {
+    bool is_authorized = 1;
+    string user_email = 2;
+    string objectId = 3;
+}
