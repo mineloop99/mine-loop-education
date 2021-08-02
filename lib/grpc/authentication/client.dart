@@ -13,7 +13,7 @@ import '../../auth/providers/account-provider.dart' show AccountProvider;
 import '../../grpc/authentication/authenticationpb/authentication.pbgrpc.dart';
 import '../../helpers/device-helper.dart' as deviceHelper;
 
-const ip = 'mineloop99.eastasia.cloudapp.azure.com'; //"10.0.2.2";
+const ip = '172.17.0.2'; //"10.0.2.2";
 const ipLocal = "10.0.2.2";
 const isLocal = true;
 const port = 50010;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../grpc/account-information/account-information-client.dart';
+import 'package:mine_loop_education/home/screens/chat-screen/chat-body-screen.dart';
 import '../../grpc/authentication/client.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -19,20 +19,9 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Yuu'),
-      ),
-      body: Center(
-        child: IconButton(
-          icon: Icon(Icons.add),
-          onPressed: () {
-            AccountInformationAPI.instance.callEditAccountInformation(
-                userBirthday: DateTime.now(),
-                userPhoneNumber: "21492194",
-                userSex: "213215412",
-                username: "1235135412");
-          },
-        ),
+      body: ChatBodyScreen(),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [],
       ),
     );
   }
