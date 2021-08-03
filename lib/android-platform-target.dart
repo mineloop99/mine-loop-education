@@ -3,7 +3,7 @@ import 'package:mine_loop_education/dialog-pop-up/authentication-screen-dialog.d
 import 'package:mine_loop_education/grpc/authentication/client.dart';
 import 'package:mine_loop_education/home/providers/home-provider.dart';
 
-import 'package:mine_loop_education/home/screens/chat-screen.dart';
+import 'package:mine_loop_education/home/screens/chat-screen/chat-main-screen.dart';
 
 import 'package:mine_loop_education/home/screens/events-screen.dart';
 import 'package:mine_loop_education/home/screens/my-account-screen.dart';
@@ -93,19 +93,20 @@ class _AndroidPlatformTargetState extends State<AndroidPlatformTarget> {
           ),
         ),
       ),
-      home: Consumer<AccountProvider>(
-        builder: (_, _accountProvider, __) {
-          return FutureBuilder(
-            future: _tryLogin,
-            builder: (_, snapshot) =>
-                snapshot.connectionState == ConnectionState.waiting
-                    ? SplashScreen()
-                    : snapshot.hasData && snapshot.data == "OK"
-                        ? HomeScreen()
-                        : LoginScreen(),
-          );
-        },
-      ),
+      // home: Consumer<AccountProvider>(
+      //   builder: (_, _accountProvider, __) {
+      //     return FutureBuilder(
+      //       future: _tryLogin,
+      //       builder: (_, snapshot) =>
+      //           snapshot.connectionState == ConnectionState.waiting
+      //               ? SplashScreen()
+      //               : snapshot.hasData && snapshot.data == "OK"
+      //                   ? HomeScreen()
+      //                   : LoginScreen(),
+      //     );
+      //   },
+      // ),
+      home: ChatMainScreen(),
       routes: Routes.routes,
     );
   }

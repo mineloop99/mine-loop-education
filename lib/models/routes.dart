@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../home/screens/home-screen.dart';
-import '../home/screens/chat-screen.dart';
+import '../home/screens/chat-screen/chat-main-screen.dart';
 import '../home/screens/my-account-screen.dart';
 import '../home/screens/search-screen.dart';
 import '../home/screens/events-screen.dart';
@@ -24,7 +24,7 @@ class Routes {
   static Map<RouteNamesEnum, String> get routeName => {
         //// Routes From Home Folder ////
         RouteNamesEnum.Home: HomeScreen.routeName,
-        RouteNamesEnum.Chat: ChatScreen.routeName,
+        RouteNamesEnum.Chat: ChatMainScreen.routeName,
         RouteNamesEnum.MyAccount: MyAccountScreen.routeName,
         RouteNamesEnum.Search: SearchScreen.routeName,
         RouteNamesEnum.Events: EventsScreen.routeName,
@@ -35,7 +35,7 @@ class Routes {
       };
   static Map<String, WidgetBuilder> get routes => {
         HomeScreen.routeName: (context) => HomeScreen(),
-        ChatScreen.routeName: (context) => ChatScreen(),
+        ChatMainScreen.routeName: (context) => ChatMainScreen(),
         MyAccountScreen.routeName: (context) => MyAccountScreen(),
         SearchScreen.routeName: (context) => SearchScreen(),
         EventsScreen.routeName: (context) => EventsScreen(),
