@@ -1,20 +1,31 @@
 import 'package:flutter/material.dart';
 
-class ChatWidget extends StatefulWidget {
-  final String name;
-  const ChatWidget({this.name = "name"});
+class BottomNavigationBarWidget extends StatefulWidget {
+  final String label;
+  final IconData iconData;
+  const BottomNavigationBarWidget(
+      {this.label = "name", this.iconData = Icons.home});
   @override
-  _ChatWidgetState createState() => _ChatWidgetState();
+  _BottomNavigationBarWidgetState createState() =>
+      _BottomNavigationBarWidgetState();
 }
 
-class _ChatWidgetState extends State<ChatWidget> {
+class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
+  int selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: CircleAvatar(
-        child: Icon(Icons.help_outline),
-      ),
-      title: Text(widget.name),
+    return BottomNavigationBar(
+      currentIndex: selectedIndex,
+      onTap: (value) {
+        setState(() {
+          selectedIndex = value;
+        });
+      },
+      items: [
+        BottomNavigationBarItem(label: 'Hello', icon: Icon(Icons.edit)),
+        BottomNavigationBarItem(label: 'Hello', icon: Icon(Icons.home))
+      ],
     );
   }
 }
