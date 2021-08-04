@@ -18,23 +18,17 @@ class ChatMainCardWidget extends StatefulWidget {
 class _ChatMainCardWidgetState extends State<ChatMainCardWidget> {
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 3.0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+    return ListTile(
+      leading: CircleAvatar(
+        child: const Icon(Icons.person),
       ),
-      child: ListTile(
-        leading: CircleAvatar(
-          child: const Icon(Icons.person),
+      title: Text(
+        widget.friendName,
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
         ),
-        title: Text(
-          widget.friendName,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        subtitle: Text(widget.message),
       ),
+      subtitle: Text(widget.message),
     );
   }
 }

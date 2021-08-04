@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../widgets/chat-widgets/chat-main-body-widget.dart';
-import '../../widgets/chat-widgets/bottom-navigation-bar-widget.dart';
 
 class ChatWithFriendScreen extends StatefulWidget {
   final String friendName;

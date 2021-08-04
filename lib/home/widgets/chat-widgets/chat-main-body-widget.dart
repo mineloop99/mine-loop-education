@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mine_loop_education/home/screens/chat-screen/chat-with-friend-screen.dart';
 import 'package:mine_loop_education/home/widgets/chat-widgets/chat-main-card-widget.dart';
@@ -8,6 +9,7 @@ class ChatMainBodyWidget extends StatefulWidget {
 }
 
 class _ChatMainBodyWidgetState extends State<ChatMainBodyWidget> {
+  int _currentMax = 10;
   var _listChat = [
     ChatMainCardWidget(
       friendName: "new",
@@ -101,6 +103,38 @@ class _ChatMainBodyWidgetState extends State<ChatMainBodyWidget> {
     ),
   ];
 
+  ScrollController _scrollController;
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        _loadMoreList();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
+  }
+
+  void _loadMoreList() {
+    for (int i = _currentMax; i < _currentMax + 10; i++) {
+      _listChat.add(ChatMainCardWidget(
+        friendName: "wqeq",
+        message: "ASDASD",
+        circleAvatarUri: "nothing",
+        id: "128134$i",
+      ));
+    }
+    _currentMax = _currentMax + 10;
+    setState(() {});
+  }
+
   void _onFavorite(int index) {
     final deletedItem = _listChat.removeAt(index);
     setState(() {
@@ -175,58 +209,73 @@ class _ChatMainBodyWidgetState extends State<ChatMainBodyWidget> {
   Widget build(BuildContext context) {
     return StreamBuilder(
       builder: (_, snapshot) => ListView.builder(
-        itemCount: _listChat.length,
-        itemBuilder: (ctx, index) => Dismissible(
-          key: ValueKey(_listChat[index].id),
-          secondaryBackground: Container(
-            color: Colors.red,
-            child: Padding(
-              padding: const EdgeInsets.all(15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+        controller: _scrollController,
+        itemExtent: 100,
+        cacheExtent: 20,
+        itemCount: _listChat.length + 1,
+        itemBuilder: (ctx, index) => index == _listChat.length
+            ? CupertinoActivityIndicator()
+            : Column(
                 children: [
-                  Icon(Icons.delete, color: Colors.white),
-                  Text('Move to trash', style: TextStyle(color: Colors.white)),
+                  Dismissible(
+                    key: ValueKey(_listChat[index].id),
+                    background: Container(
+                      color: Colors.blue,
+                      child: Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: Row(
+                          children: [
+                            Icon(Icons.favorite, color: Colors.white),
+                            Text('Move to favorites',
+                                style: TextStyle(color: Colors.white)),
+                          ],
+                        ),
+                      ),
+                    ),
+                    secondaryBackground: Container(
+                      color: Colors.red,
+                      child: Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Icon(Icons.delete, color: Colors.white),
+                            Text('Move to trash',
+                                style: TextStyle(color: Colors.white)),
+                          ],
+                        ),
+                      ),
+                    ),
+                    child: InkWell(
+                      onTap: () => _onTap(_listChat[index].friendName),
+                      child: _listChat[index],
+                    ),
+                    confirmDismiss: (direction) async {
+                      return await showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return direction == DismissDirection.startToEnd
+                              ? _alertBox(ctx,
+                                  title: "Favorite Confirmation",
+                                  content:
+                                      "Are you sure you want to Favorite this chat?",
+                                  isDelete: false)
+                              : _alertBox(ctx,
+                                  title: "Delete Confirmation",
+                                  content:
+                                      "Are you sure you want to delete this chat?",
+                                  isDelete: true);
+                        },
+                      );
+                    },
+                    onDismissed: (direction) =>
+                        direction == DismissDirection.startToEnd
+                            ? _onFavorite(index)
+                            : _onDelete(index),
+                  ),
+                  Divider(),
                 ],
               ),
-            ),
-          ),
-          confirmDismiss: (direction) async {
-            return await showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return direction == DismissDirection.startToEnd
-                    ? _alertBox(ctx,
-                        title: "Favorite Confirmation",
-                        content: "Are you sure you want to Favorite this chat?",
-                        isDelete: false)
-                    : _alertBox(ctx,
-                        title: "Delete Confirmation",
-                        content: "Are you sure you want to delete this chat?",
-                        isDelete: true);
-              },
-            );
-          },
-          background: Container(
-            color: Colors.blue,
-            child: Padding(
-              padding: const EdgeInsets.all(15),
-              child: Row(
-                children: [
-                  Icon(Icons.favorite, color: Colors.white),
-                  Text('Move to favorites',
-                      style: TextStyle(color: Colors.white)),
-                ],
-              ),
-            ),
-          ),
-          onDismissed: (direction) => direction == DismissDirection.startToEnd
-              ? _onFavorite(index)
-              : _onDelete(index),
-          child: InkWell(
-              onTap: () => _onTap(_listChat[index].friendName),
-              child: _listChat[index]),
-        ),
       ),
     );
   }
